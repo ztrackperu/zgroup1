@@ -1,3 +1,12 @@
+function alertas(msg, icono) {
+    Swal.fire({
+        position: 'top-end',
+        icon: icono,
+        title: msg,
+        showConfirmButton: false,
+        timer: 3000
+    })
+}
 
 
 $(document).ready(function () {
@@ -28,7 +37,7 @@ $(document).ready(function () {
 
 function registrarRespuesta() {
     
-    const url = base_url + "AdminPage/registrar";
+    const url = base_url + "AdminPage/validarCorreo";
     const frm = document.getElementById("frmRegistrar");
     const http = new XMLHttpRequest();
     http.open("POST", url, true);
@@ -36,8 +45,9 @@ function registrarRespuesta() {
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
                 const res = JSON.parse(this.responseText);
+                console.log(res);
                 frm.reset();
-                alertas(res.icono);
+                alertas(res.msg, res.icono);
         }
     }
 }

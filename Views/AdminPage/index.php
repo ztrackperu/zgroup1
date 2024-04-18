@@ -54,11 +54,11 @@
                                 <label for="correo">Correo</label>
                                 <input type="hidden" id="id" name="id">
                                 <input type="hidden" id="correo_admin" value="zgroupsistemas@gmail.com">
-                                <input type="email" class="form-control" id="correo" name="correo" required>
+                                <input type="email" class="form-control" id="email" name="email" required>
                             </div>
                             <div class="form-group">
                                 <label for="password">Contraseña</label>
-                                <input type="password" class="form-control" id="password" name="password" required>
+                                <input type="password" class="form-control" id="pass_email" name="pass_email" required>
                             </div>
                         </form>
                     </div>

@@ -35,10 +35,37 @@ class AdminPage extends Controller
         echo json_encode($res);
         die();
     }
+    public function validarCorreo()
+    {
+        $id = $_SESSION['id_usuario'];
+        $email = strClean($_POST['email']);
+        $pass_email = strClean($_POST['pass_email']);
+        //echo $id." , ".$email." , ".$pass_email;
+        if (empty($email) || empty($pass_email)) {
+            $msg = array('msg' => 'Ingrese correctamente su email o pass', 'icono' => 'warning');
+        }
+        else{
+            // enviar correo 
+        $testCorreo = envio_correo($email ,$pass_email,$pass_email);
+        if($testCorreo){
+            $msg = array('msg' => 'ENVIO', 'icono' => 'warning');
+
+        }else{
+            $msg = array('msg' => 'ERROR', 'icono' => 'warning');
+
+
+        }
+
+
+        }
+        echo json_encode($msg, JSON_UNESCAPED_UNICODE);
+        die(); 
+
+    }
 
     public function registrar()
     {
-        $id = strClean($_POST['id']);
+        $id = $_SESSION['id_usuario'];
         $correo_usuario = strClean($_POST['correo']);
         $clave_correo = strClean($_POST['password']);
         $email_existente = strClean($_POST['correo_admin']);
