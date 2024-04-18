@@ -26,7 +26,7 @@ class Usuarios extends Controller{
             header("location: " . base_url);
         }
         $data = $this->model->getUsuarios();
-        for ($i=0; $i < count($data); $i++) { 
+        for ($i=0; $i < count($data); $i++) {  
             if ($data[$i]['estado'] == 1) {
                 if ($data[$i]['id'] != 1) {
                     $data[$i]['estado'] = '<span class="badge badge-success">Activo</span>';
