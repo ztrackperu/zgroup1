@@ -7,13 +7,14 @@
 
 <script>
     const base_url = "<?php echo base_url; ?>";
+    console.log(base_url);
 </script>
 <?php
 if (!empty($_GET['url'])) {
 
     $script = $_GET['url'] . '.js';
     //echo $script;
-    if (file_exists('assets/js/' . $script)) {
+    if (file_exists('Assets/js/' . $script)) {
         echo '<script src="'. base_url . 'Assets/js/' . $script .'"></script>';
     }else{
         echo '<script src="'. base_url . 'Assets/js/funciones.js"></script>';
