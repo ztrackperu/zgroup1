@@ -52,4 +52,5 @@ CREATE TABLE `detalle_permisos` (
 --
 -- Dumping data for table `detalle_permisos`
 --
+ALTER TABLE permisos ADD estado int(2) DEFAULT 1;
 

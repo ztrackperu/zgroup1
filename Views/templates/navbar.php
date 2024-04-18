@@ -27,9 +27,14 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#!">Inicio</a>
           </li>  
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href=" <?php echo base_url; ?>Usuarios">Usuarios</a>
-          </li>  
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="usuarioDropdown" role="button" data-bs-toggle="dropdown" aria-current="page">Usuarios</a>
+            <ul class="dropdown-menu border-0 shadow bsb-zoomIn" aria-labelledby="usuarioDropdown">
+              <li><a class="nav-link active" aria-current="page" href=" <?php echo base_url; ?>Usuarios">Usuarios</a></li>
+              <li><a class="nav-link active" aria-current="page "href=" <?php echo base_url; ?>Permisos">Permisos</a></li>
+            </ul>
+          </li>
+   
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href= id="conceptoDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Concepto</a>
             <ul class="dropdown-menu border-0 shadow bsb-zoomIn" aria-labelledby="conceptoDropdown">
