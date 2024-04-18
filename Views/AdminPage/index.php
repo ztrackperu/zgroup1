@@ -1,24 +1,26 @@
 <?php include "Views/templates/navbar.php"; ?>
 <?php include "Views/templates/sidebar.php"; ?>
-<div class="app-title">
+<div>
     <div>
-        <h1><i class="fa fa-dashboard"></i> Datos de la Empresa</h1>
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-12">
-        <div class="tile">
-            <div class="tile-body">
-                <p>Aqui va la base principal</p>
+        <div>
+            <div >
+                <div>
+                    <h1><i class="fa fa-dashboard"></i> Datos de la Empresa</h1>
+                </div>
             </div>
-        </div>
-    </div>
-</div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="tile">
+                        <div class="tile-body">
+                            <p>Aqui va la base principal</p>
+                            <a href="<?php echo base_url; ?>Usuarios/salir">cerrar session</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-<a href="<?php echo base_url; ?>Usuarios/salir">cerrar session</a>
 
-           <!-- Success Alert -->
-           
+           <!-- Success Alert -->        
            <div class="alert alert-success alert-dismissible fade show">
                 <strong>Success!</strong> Your message has been sent successfully.
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>

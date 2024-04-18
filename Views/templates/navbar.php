@@ -69,7 +69,7 @@
                 <li>
                     <hr class="dropdown-divider">
                 </li>
-                <li><a class="dropdown-item" href="#!">Cerrar sesión</a></li>
+                <li><a class="dropdown-item" href="<?php echo base_url; ?>Usuarios/salir">Cerrar sesión</a></li>
             </ul>
             </li>
         </ul>
@@ -77,5 +77,4 @@
     </div>
   </div>
 </nav>
-<p></p>
-<div">
+
