@@ -1,4 +1,4 @@
-<?php include "Views/Templates/navbar.php"; ?>
+<?php include "Views/templates/navbar.php"; ?>
 <div class="app-title">
     <div>
         <h1><i class="fa fa-dashboard"></i> Usuarios</h1>
@@ -90,4 +90,4 @@
         </div>
     </div>
 </div>
-<?php include "Views/Templates/footer.php"; ?>
+<?php include "Views/templates/footer.php"; ?>
