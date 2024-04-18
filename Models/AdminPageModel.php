@@ -22,4 +22,39 @@ class AdminPageModel extends Query{
         }
         return $tiene;
     }
+
+    public function validarCamposCorreoYClave($id_user) {
+        $sql = "SELECT * FROM usuarios WHERE id = $id_user AND (email = '' OR pass_email = '')";
+        $res = $this->select($sql);
+        if ($res != null) {
+            return true; //  // El usuario tiene los campos correo_usuario y clave_correo vacios
+        }else {
+        return false; // El usuario tiene los campos correo_usuario o clave_correo llenos
+        }
+    }
+
+    public function insertarRespuesta($id, $correo_usuario, $clave_correo, $usuario_activo)
+    {
+        $query = "UPDATE INTO usuarios(email, pass_email) VALUES (?,?)";
+        $datos = array($id, $correo_usuario, $clave_correo, $usuario_activo);
+        $data = $this->save($query, $datos);
+        if ($data == 1) {
+            $res = "ok";
+            $nuevo_estado = 0;
+            $estado_anterior = 1; // Reemplaza 'nuevo_estado' con el valor deseado del nuevo estado
+            $query_actualizar_estado = "UPDATE formulario SET estado = ? WHERE id = ?";
+            $datos_actualizar_estado = array($nuevo_estado, $id); // Reemplaza 'alguna_condicion' con la condición adecuada para actualizar el estado en la otra tabla
+            $data_actualizar_estado = $this->save($query_actualizar_estado, $datos_actualizar_estado);
+
+            if ($data_actualizar_estado != 1) {
+                // Hubo un error al actualizar el estado en la otra tabla
+                $res = "error al actualizar estado en otra_tabla";
+            }
+        } else {
+            $res = "error";
+        }
+
+        return $res;
+    }
+
 }

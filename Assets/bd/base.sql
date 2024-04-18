@@ -54,3 +54,6 @@ CREATE TABLE `detalle_permisos` (
 --
 ALTER TABLE permisos ADD estado int(2) DEFAULT 1;
 
+-- SE AÑADIÓ
+ALTER TABLE usuarios ADD email varchar(250) NOT NULL;
+ALTER TABLE usuarios ADD pass_email varchar(250) NOT NULL;

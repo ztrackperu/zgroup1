@@ -1,4 +1,12 @@
 <?php
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'Libraries/PHPMailer/src/Exception.php';
+require 'Libraries/PHPMailer/src/PHPMailer.php';
+require 'Libraries/PHPMailer/src/SMTP.php';
+
 class AdminPage extends Controller
 {
     public function __construct()
@@ -14,14 +22,59 @@ class AdminPage extends Controller
 		$id_user = $_SESSION['id_usuario'];
         $perm = $this->model->verificarPermisos($id_user, "AdminPage");
         if (!$perm && $id_user != 1) {
-            //cunado no eres usuario 1 y verifica que no tienes permiso
-            //te manada a la vista NO TIENES PERMISO
             $this->views->getView($this, "permisos");
             exit;
         }
-        //$data = $this->model->selectConfiguracion();
-        // SI ES USUARIO 1 O tiene permiso se va a index de AdminPage
         $this->views->getView($this, "index");
+    }
+
+    public function validarCamposCorreoYClave()
+    {
+        $id_user = $_SESSION['id_usuario'];
+        $res = $this->model->validarCamposCorreoYClave($id_user);
+        echo json_encode($res);
+        die();
+    }
+
+    public function registrar()
+    {
+        $id = strClean($_POST['id']);
+        $correo_usuario = strClean($_POST['correo']);
+        $clave_correo = strClean($_POST['password']);
+        $email_existente = strClean($_POST['correo_admin']);
+        $usuario_activo = $_SESSION['id_usuario'];
+
+        if (empty($correo_usuario) || empty($clave_correo)) {
+            $msg = array('msg' => 'Ingrese todos sus datos', 'icono' => 'warning');
+        } else {
+            $data = $this->model->insertarRespuesta($id, $correo_usuario,$usuario_activo);
+
+            if ($data == "ok") {
+                $evento = "RESPONDIDO";
+                $id_consulta = $this->model->IdRespuesta($correo_usuario);
+                $id = $id_consulta['id'];
+                $data2 = $this->model->h_respuesta($id, $id, $correo_usuario,$usuario_activo, $evento);
+                $msg = array('msg' => 'Respuesta enviada', 'icono' => 'success');
+                
+                $mail = new PHPMailer(true);
+                $mail->isSMTP();
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+                $mail->Username = $correo_usuario; // Reemplaza con tu dirección de correo electrónico de Gmail
+                $mail->Password = $clave_correo; // Reemplaza con tu contraseña de Gmail
+                $mail->SMTPSecure = 'ssl';
+                $mail->Port = 465;
+
+                // Configuración del correo electrónico
+                $mail->setFrom('zgroupsistemas@gmail.com', 'ZTRACK');
+                $mail->addAddress($email_existente); // Reemplaza con la dirección de correo electrónico del destinatario
+                $mail->send();
+            } else {
+                $msg = array('msg' => 'Error al registrar', 'icono' => 'error');
+            }
+        }
+        echo json_encode($msg, JSON_UNESCAPED_UNICODE);
+        die();
     }
 
 }
