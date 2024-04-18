@@ -1,5 +1,5 @@
-<?php include "Views/Templates/navbar.php"; ?>
-<?php include "Views/Templates/sidebar.php"; ?>
+<?php include "Views/templates/navbar.php"; ?>
+<?php include "Views/templates/sidebar.php"; ?>
 <div class="app-title">
     <div>
         <h1><i class="fa fa-dashboard"></i> Datos de la Empresa</h1>
@@ -16,7 +16,6 @@
 </div>
 
 <a href="<?php echo base_url; ?>Usuarios/salir">cerrar session</a>
-
 
            <!-- Success Alert -->
            
@@ -37,4 +36,4 @@
         </div>
     </div>
 </div>
-<?php include "Views/Templates/footer.php"; ?>
+<?php include "Views/templates/footer.php"; ?>
