@@ -59,6 +59,13 @@
             </ul>
           </li>
           <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#!" id="almacenDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Almacen</a>
+            <ul class="dropdown-menu border-0 shadow bsb-zoomIn" aria-labelledby="almacenDropdown">
+              <li><a class="dropdown-item" href="<?php echo base_url; ?>Movimientos">Movimientos</a></li>
+              <li><a class="dropdown-item" href="<?php echo base_url; ?>Stock">Stock</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#!" id="analisisDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Análisis</a>
             <ul class="dropdown-menu border-0 shadow bsb-zoomIn" aria-labelledby="analisisDropdown">
               <li><a class="dropdown-item" href="#!">O.T.</a></li>
