@@ -47,7 +47,7 @@
             <a class="nav-link dropdown-toggle" href="#!" id="otDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">O.T.</a>
             <ul class="dropdown-menu border-0 shadow bsb-zoomIn" aria-labelledby="otDropdown">
               <li><a class="dropdown-item" href="#!">Listar</a></li>
-              <li><a class="dropdown-item" href="#!">Crear</a></li>
+              <li><a class="dropdown-item" href="<?php echo base_url; ?>Otrabajo/crear">Crear</a></li>
               <li><a class="dropdown-item" href="#!">Modificar</a></li>
             </ul>
           </li>
@@ -73,7 +73,7 @@
                 <li><a class="dropdown-item" href="#!">Perfil</a></li>
                 <li>
                     <hr class="dropdown-divider">
-                </li>
+                </li> 
                 <li><a class="dropdown-item" href="<?php echo base_url; ?>Usuarios/salir">Cerrar sesión</a></li>
             </ul>
             </li>

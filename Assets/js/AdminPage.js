@@ -45,11 +45,12 @@ function registrarRespuesta() {
     http.send(new FormData(frm));
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-                console.log(this.responseText);
-
                 const res = JSON.parse(this.responseText);
+                if(res.icono=="success"){
+                    $("#emailModal").modal("hide");
+                }
                 console.log(res);
-                frm.reset();
+                frmRegistrar.reset();
                 alertas(res.msg, res.icono);
         }
     }

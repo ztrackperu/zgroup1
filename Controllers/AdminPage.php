@@ -41,22 +41,24 @@ class AdminPage extends Controller
             // enviar correo 
         $testCorreo = envio_correo($email ,$pass_email,"ztrack@zgroup.com.pe");
         if($testCorreo=="ok"){
-            $msg = array('msg' => 'ENVIO', 'icono' => 'warning');
+            //vamos a guardar los datos 
+            $res = $this->model->actualizarcorreo($email ,$pass_email,$id);
+            if($res=="ok"){
+                $msg = array('msg' => 'Correo Validado', 'icono' => 'success');
+
+            }else{
+                $msg = array('msg' => 'respuesta inseperada', 'icono' => 'warning');
+            }
 
         }else{
-            $msg = array('msg' => 'ERROR', 'icono' => 'warning');
+            $msg = array('msg' => 'Error al validar correo', 'icono' => 'warning');
         }
         }
-        //echo json_encode($msg, JSON_UNESCAPED_UNICODE);
-        $this->mensajecorreo($msg);
+        echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die(); 
 
     }
-    public function mensajecorreo($dato){
-        echo json_encode($dato, JSON_UNESCAPED_UNICODE);
-        die(); 
 
-    }
 
     public function registrar()
     {

@@ -27,15 +27,28 @@ class AdminPageModel extends Query{
         //$sql = "SELECT * FROM usuarios WHERE id = $id_user AND (email = '' OR pass_email = '')";
         $sql = "SELECT * FROM usuarios WHERE id = $id_user";
         $res = $this->select($sql);
-        if (!$res['email'] ||!$res['pass_null']) {
+        if (!$res['email'] ||!$res['pass_email']) {
             return true; //  // El usuario tiene los campos correo_usuario y clave_correo vacios
         }else {
         return false; // El usuario tiene los campos correo_usuario o clave_correo llenos
         }
     }
-
+    public function actualizarcorreo($email ,$pass_email,$id){
+        $query = "UPDATE usuarios SET email = ? ,pass_email = ?WHERE id = ?";
+        $datos= array($email ,$pass_email,$id); 
+        $data = $this->save($query, $datos);
+        if ($data) {
+            $res = "ok";
+        }else{
+            $res="fail";
+        }
+        return $res;
+    }
     public function insertarRespuesta($id, $correo_usuario, $clave_correo, $usuario_activo)
     {
+        
+
+
         $query = "UPDATE INTO usuarios(email, pass_email) VALUES (?,?)";
         $datos = array($id, $correo_usuario, $clave_correo, $usuario_activo);
         $data = $this->save($query, $datos);
