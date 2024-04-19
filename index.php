@@ -1,4 +1,5 @@
 <?php
+    
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
@@ -46,6 +47,7 @@
     }else{
         header('Location:' . base_url . 'Configuracion/Error');
     }
+    
 
     function envio_correo($remitente,$passRemitente,$destinatario)
     { 

@@ -207,36 +207,31 @@ $(document).ready(function() {
         }); 
     });     
     $('#enviarInput').click(function() {
-        console.log("oli");
-        var nroOrdenInput = $('#nrOrdenInput').val(); 
-        var rucInput = $('#rucInput').val(); 
-        var proveedorInput = $('#proveedorInput').val(); 
-        var trabajoInput = $('#trabajoInput').val();
-        var tecnicoInput = $('#tecnicoInput').val();
-        var tipoDscInput = $('#tipoDscInput').val();
-        var montoUnitarioInput = $('#montoUnitarioInput').val();
-        var cantidadDctoInput = $('#cantDctoInput').val();
-        var igvDscInput = $('#igvDscInput').val();
-        var totalDctoInput = $('#totalDctoInput').val();
-        var montoUntInput = $('#montoUntPactadoInput').val();
-
-        console.log(nroOrdenInput);
-        console.log(rucInput);
-        console.log(proveedorInput);
-        formato = document.getElementById("agregarDetalle");
-        console.log(formato);
-        /*
+        var data = {
+            nroOrdenInput: $('#nrOrdenInput').val(),
+            rucInput: $('#rucInput').val(),
+            proveedorInput: $('#proveedorInput').val(),
+            trabajoInput: $('#trabajoInput').val(),
+            tecnicoInput: $('#tecnicoInput').val(),
+            tipoDscInput: $('#tipoDscInput').val(),
+            montoUnitarioInput: $('#montoUnitarioInput').val(),
+            cantidadDctoInput: $('#cantDctoInput').val(),
+            igvDscInput: $('#igvDscInput').val(),
+            totalDctoInput: $('#totalDctoInput').val(),
+            montoUntInput: $('#montoUntPactadoInput').val()
+        };
+        
+        console.log(data);
         $.ajax({
             url: base_url + "Otrabajo/testCorreo",
             type: 'POST',
-            data: ,
-
+            contentType: "application/json",
+            data: JSON.stringify(data),
             success: function(response) {
                 console.log(response);
             },
-            
         });
-        */
+        
     });
 
 
