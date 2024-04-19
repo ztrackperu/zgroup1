@@ -61,53 +61,7 @@ document.addEventListener("DOMContentLoaded", function(){
             }
         ]
 
-    tblPermisos = $('#tblMovimientos').DataTable({
-        ajax: {
-            url: base_url + "Movimientos/listar",
-            dataSrc: ''
-        },
-        columns: [{
-                'data': 'id'
-            },
-            {
-                'data': 'codigo'
-            },
-            {
-                'data': 'articulo'
-            },
-            {
-                'data': 'partNumber'
-            },
-            {
-                'data': 'serie'
-            },
-            {
-                'data': 'marca'
-            },
-            {
-                'data': 'condicion'
-            },
-            {
-                'data': 'medida'
-            },
-            {
-                'data': 'cantidad'
-            },
 
-            {
-                'data': 'familia'
-            },
-            {
-                'data': 'estado'
-            }
-        ],
-        language,
-        dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>" +
-            "<'row'<'col-sm-12'tr>>" +
-            "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-        buttons,
-        
-    });
 
 })
 
@@ -253,6 +207,7 @@ $(document).ready(function() {
         }); 
     });     
     $('#enviarInput').click(function() {
+        console.log("oli");
         var nroOrdenInput = $('#nrOrdenInput').val(); 
         var rucInput = $('#rucInput').val(); 
         var proveedorInput = $('#proveedorInput').val(); 
@@ -268,28 +223,20 @@ $(document).ready(function() {
         console.log(nroOrdenInput);
         console.log(rucInput);
         console.log(proveedorInput);
+        formato = document.getElementById("agregarDetalle");
+        console.log(formato);
         /*
         $.ajax({
-            url: 'email.php',
+            url: base_url + "Otrabajo/testCorreo",
             type: 'POST',
-            data: {
-                nroOrdenInput: nroOrdenInput,
-                rucInput: rucInput,
-                proveedorInput: proveedorInput,
-                trabajoInput: trabajoInput,
-                tecnicoInput: tecnicoInput,
-                tipoDscInput: tipoDscInput,
-                montoUnitarioInput: montoUnitarioInput,
-                cantidadDctoInput: cantidadDctoInput,
-                igvDscInput: igvDscInput,
-                totalDctoInput: totalDctoInput,
-                montoUntInput: montoUntInput
-            },
+            data: ,
+
             success: function(response) {
                 console.log(response);
             },
             
-        });*/
+        });
+        */
     });
 
 

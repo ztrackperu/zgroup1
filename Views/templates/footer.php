@@ -6,8 +6,8 @@
 <script src="<?php echo base_url; ?>Assets/js/sweetalert2.all.min.js"></script>
 
 <script>
-    const base_url = "<?php echo base_url; ?>";
-    console.log(base_url);
+        const base_url = '<?php echo base_url; ?>';
+       console.log(base_url);
 </script>
 <?php
 if (!empty($_GET['url'])) {

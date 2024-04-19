@@ -11,6 +11,7 @@
 
 <body>
     <div class="container" id="contenido">
+<!--<form  id="form1" name="form1" >-->
         <div class="row">
             <div class="col-6">
                 <h3>Ingrese su N° OT</h3>
@@ -129,7 +130,14 @@
         <tbody>
         </tbody>
         </table>
+<!--</form>-->
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        const base_url = '<?php echo base_url; ?>';
+       console.log(base_url);
+    </script>
+
     <script src="..\assets\js\Otrabajo.js"></script>
 
 </body>

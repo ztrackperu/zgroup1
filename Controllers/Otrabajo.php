@@ -33,6 +33,13 @@ class Otrabajo extends Controller
     {
         $this->views->getView($this, "test");
     }
+    public function testCorreo()
+    {
+        //$this->views->getView($this, "test");
+        $data = ($_POST['data']);
+        echo"olias".var_dump($data) ;
+        //echo "olitas";
+    }
     public function listar()
     {
         $data = $this->model->getMovimientos();
