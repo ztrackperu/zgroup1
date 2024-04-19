@@ -1,12 +1,5 @@
 <?php
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
-require 'Libraries/PHPMailer/src/Exception.php';
-require 'Libraries/PHPMailer/src/PHPMailer.php';
-require 'Libraries/PHPMailer/src/SMTP.php';
-
 class AdminPage extends Controller
 {
     public function __construct()
@@ -46,19 +39,21 @@ class AdminPage extends Controller
         }
         else{
             // enviar correo 
-        $testCorreo = envio_correo($email ,$pass_email,$pass_email);
-        if($testCorreo){
+        $testCorreo = envio_correo($email ,$pass_email,"ztrack@zgroup.com.pe");
+        if($testCorreo=="ok"){
             $msg = array('msg' => 'ENVIO', 'icono' => 'warning');
 
         }else{
             $msg = array('msg' => 'ERROR', 'icono' => 'warning');
-
-
         }
-
-
         }
-        echo json_encode($msg, JSON_UNESCAPED_UNICODE);
+        //echo json_encode($msg, JSON_UNESCAPED_UNICODE);
+        $this->mensajecorreo($msg);
+        die(); 
+
+    }
+    public function mensajecorreo($dato){
+        echo json_encode($dato, JSON_UNESCAPED_UNICODE);
         die(); 
 
     }

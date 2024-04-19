@@ -62,6 +62,8 @@ ALTER TABLE usuarios MODIFY email varchar(250) DEFAULT NULL;
 ALTER TABLE usuarios MODIFY pass_email varchar(250) DEFAULT NULL;
 
 UPDATE usuarios SET email ="ztrack@zgroup.com.pe",pass_email="Proyectoztrack2023!" WHERE id=1;
+
+
 -- devpablito2023@gmail.com
 --cdvphqqkqvjtlkok
 

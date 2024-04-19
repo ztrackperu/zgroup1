@@ -10,7 +10,7 @@ function alertas(msg, icono) {
 
 
 $(document).ready(function () {
-        registrarRespuesta();
+        //registrarRespuesta();
         const url = base_url + "AdminPage/validarCamposCorreoYClave";
         const http = new XMLHttpRequest();
         http.open("GET", url, true);
@@ -18,6 +18,7 @@ $(document).ready(function () {
             if (this.readyState == 4) {
                 if (this.status == 200) {
                     const datos = JSON.parse(this.responseText);
+                    console.log(datos);
                     if(datos === true){
                         $('#emailModal').modal('show'); // Muestra el modal
                     }else{
@@ -44,6 +45,8 @@ function registrarRespuesta() {
     http.send(new FormData(frm));
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
+                console.log(this.responseText);
+
                 const res = JSON.parse(this.responseText);
                 console.log(res);
                 frm.reset();

@@ -24,9 +24,10 @@ class AdminPageModel extends Query{
     }
 
     public function validarCamposCorreoYClave($id_user) {
-        $sql = "SELECT * FROM usuarios WHERE id = $id_user AND (email = '' OR pass_email = '')";
+        //$sql = "SELECT * FROM usuarios WHERE id = $id_user AND (email = '' OR pass_email = '')";
+        $sql = "SELECT * FROM usuarios WHERE id = $id_user";
         $res = $this->select($sql);
-        if ($res != null) {
+        if (!$res['email'] ||!$res['pass_null']) {
             return true; //  // El usuario tiene los campos correo_usuario y clave_correo vacios
         }else {
         return false; // El usuario tiene los campos correo_usuario o clave_correo llenos
