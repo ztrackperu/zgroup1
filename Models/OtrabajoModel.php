@@ -25,7 +25,27 @@ class OtrabajoModel extends Query
     {
         //consulta externa 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "http://161.132.206.104:8000/ListaUnidadMedida");
+        curl_setopt($ch, CURLOPT_URL, urlapi."/ListaUnidadMedida");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    }
+    public function ListaSolicitanteOT()
+    {
+        //consulta externa 
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, urlapi."/ListaSolicitanteOT");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    }
+    public function ListaSupervisadoOT()
+    {
+        //consulta externa 
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, urlapi."/ListaSupervisadoOT");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $res = curl_exec($ch);
         curl_close($ch);   

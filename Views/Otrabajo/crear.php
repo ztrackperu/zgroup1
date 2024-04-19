@@ -1,4 +1,5 @@
 <?php
+$codigoOt =0;
 // valores predeterminados
 $Id_cabpre="";
 $Numeir="";
@@ -194,11 +195,11 @@ if(isset($_REQUEST['op'])){
                         <label class="control-label col-xs-4">Unidad de Medida</label>
                         <div class="col-xs-8">
 							<?php //echo var_dump($data) ;?>
-							<?php $data=json_decode($data) ;?>
+							<?php $ListaUnidadMedida=json_decode($data['ListaUnidadMedida']) ;?>
 
 						   <select name="medida" id="medida" class="select2 form-control">
 									<option value="SELECCIONE">SELECCIONE</option>  
-									<?php foreach($data as $unid):	 ?>                                               
+									<?php foreach($ListaUnidadMedida as $unid):	 ?>                                               
 									<option value="<?php echo $unid->TU_CODI; ?>"> <?php echo $unid->TU_DESC; ?> </option>
 									<?php  endforeach;	 ?>            
 							</select>
@@ -348,10 +349,12 @@ if(isset($_REQUEST['op'])){
 				<div class="form-group">
 					<label  class="col-lg-4 control-label">Solicitado por:</label>
 					<div class="col-lg-8">
+						<?php $ListaSolicitanteOT=json_decode($data['ListaSolicitanteOT']) ;?>
 						<select name="txtSolicitadoPor" id="txtSolicitadoPor" class="select2 form-control" <?php echo $ObjetoDisable?>>
 									<option value="SELECCIONE">SELECCIONE</option>  
-									<?php foreach($this->ordentrabajo->ListaSolicitanteOT() as $modelo):	 ?>                                               
-									<option value="<?php echo $modelo->c_desitm; ?>"  <?php echo $modelo->c_desitm == $codigoOt ? 'selected' : ''; ?>  > <?php echo $modelo->c_desitm; ?> </option>
+									<?php foreach($ListaSolicitanteOT as $modelo):	 ?>                                               
+									<option value="<?php echo $modelo->C_DESITM; ?>"  > <?php echo $modelo->C_DESITM; ?> </option>
+
 									<?php  endforeach;	 ?>            
 								  </select>
 					</div>
@@ -386,10 +389,12 @@ if(isset($_REQUEST['op'])){
 				<div class="form-group">
 				<label  class="col-lg-4 control-label">Supervisado por:</label>
 				<div class="col-lg-8">
+				<?php $ListaSupervisadoOT=json_decode($data['ListaSupervisadoOT']) ;?>
+
 					<select name="txtSupervisadoPor" id="txtSupervisadoPor" class="select2 form-control" <?php echo $ObjetoDisable?>>
 						<option value="SELECCIONE">SELECCIONE</option>  
-						<?php foreach($this->ordentrabajo->ListaSupervisadoOT() as $modelo):	 ?>                                               
-						<option value="<?php echo $modelo->c_desitm; ?>"  <?php echo $modelo->c_desitm == $codigoOt ? 'selected' : ''; ?>  > <?php echo $modelo->c_desitm; ?> </option>
+						<?php foreach($ListaSupervisadoOT as $modelo):	 ?>                                               
+						<option value="<?php echo $modelo->C_DESITM; ?>"  <?php echo $modelo->C_DESITM == $codigoOt ? 'selected' : ''; ?>  > <?php echo $modelo->C_DESITM; ?> </option>
 						<?php  endforeach;	 ?>            
 					</select>
 				</div>

@@ -23,7 +23,9 @@ class Otrabajo extends Controller
     }
     public function crear()
     {
-        $data =  $this->model->ListaUnidadMedida();
+        $data['ListaUnidadMedida'] =  $this->model->ListaUnidadMedida();
+        $data['ListaSolicitanteOT'] =  $this->model->ListaSolicitanteOT();
+        $data['ListaSupervisadoOT'] =  $this->model->ListaSupervisadoOT();
         $this->views->getView($this, "crear",$data);
     }
     public function listar()
