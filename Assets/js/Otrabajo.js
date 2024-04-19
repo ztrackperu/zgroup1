@@ -207,7 +207,12 @@ $(document).ready(function() {
         }); 
     });     
     $('#enviarInput').click(function() {
-        sector1 = document.getElementById('cargarDetalle');
+        var nodo = document.getElementById('cargarDetalle');
+        var nodo1 = nodo.outerHTML;
+        //sector1 = toString(document.getElementById('cargarDetalle').innerHTML);
+        //sector1 = document.getElementById('cargarDetalle');
+
+
 
         var data1 = {
             nroOrdenInput: $('#nrOrdenInput').val(),
@@ -221,18 +226,18 @@ $(document).ready(function() {
             igvDscInput: $('#igvDscInput').val(),
             totalDctoInput: $('#totalDctoInput').val(),
             montoUntInput: $('#montoUntPactadoInput').val(),
-            //sector :sector1
+            sector :nodo1
         };
-        
-        console.log(data1);
+        //console.log(nodo+"sector");
+        var datad =nodo +"comodines";
+        console.log(datad);
+        //console.log(sector1);
         $.ajax({
             url: base_url + "Otrabajo/testCorreo",
             type: 'POST',
-            //dataType:'json',
+            dataType:'json',
             contentType: "application/json",
-            //data: JSON.stringify(data),
-            data : {'datos': JSON.stringify(data1)},
-            //data : data1,
+            data: JSON.stringify(data1),
             success: function(response) {
                 console.log(response);
             },

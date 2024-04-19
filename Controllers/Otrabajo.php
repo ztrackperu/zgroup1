@@ -40,7 +40,7 @@ class Otrabajo extends Controller
         $datosRecibidos = file_get_contents("php://input");
         
         //echo json_decode($datosRecibidos) ;
-        echo $datosRecibidos."ola" ;
+        echo $datosRecibidos ;
 
         
     }
