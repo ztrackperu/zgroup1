@@ -49,6 +49,7 @@
               <li><a class="dropdown-item" href="#!">Listar</a></li>
               <li><a class="dropdown-item" href="<?php echo base_url; ?>Otrabajo/crear">Crear</a></li>
               <li><a class="dropdown-item" href="#!">Modificar</a></li>
+              <li><a class="dropdown-item" href="<?php echo base_url; ?>Otrabajo/test">Test</a></li>
             </ul>
           </li>
           <li class="nav-item dropdown">

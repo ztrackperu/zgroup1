@@ -28,6 +28,11 @@ class Otrabajo extends Controller
         $data['ListaSupervisadoOT'] =  $this->model->ListaSupervisadoOT();
         $this->views->getView($this, "crear",$data);
     }
+
+    public function test()
+    {
+        $this->views->getView($this, "test");
+    }
     public function listar()
     {
         $data = $this->model->getMovimientos();

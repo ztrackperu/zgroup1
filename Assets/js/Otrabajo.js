@@ -10,6 +10,7 @@ function alertas(msg, icono) {
     })
 }
 
+
 document.addEventListener("DOMContentLoaded", function(){
     const language = {
         "decimal": "",
@@ -104,7 +105,194 @@ document.addEventListener("DOMContentLoaded", function(){
         dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>" +
             "<'row'<'col-sm-12'tr>>" +
             "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-        buttons
+        buttons,
+        
     });
 
 })
+
+$(document).ready(function() {    
+    $('#añadir').click(function() {
+        var nroOrden = $('#nrOrdenInput').val(); 
+        var ruc = $('#rucInput').val(); 
+        var proveedor = $('#proveedorInput').val(); 
+        var trabajo = $('#trabajoInput').val();
+        var tecnico = $('#tecnicoInput').val();
+        var tipoDsc = $('#tipoDscInput').val();
+        var montoUnitario = $('#montoUnitarioInput').val();
+        var cantidadDcto = $('#cantDctoInput').val();
+        var igvDsc = $('#igvDscInput').val();
+        var totalDcto = $('#totalDctoInput').val();
+        var montoUnt = $('#montoUntPactadoInput').val();
+
+        var newRow = $('<tr/>').append(
+            $('<td/>').append(
+                $('<input/>').addClass('form-control').val(nroOrden).attr('readonly', true),
+            ),
+            $('<td/>').append(
+                $('<input/>').addClass('form-control').val(ruc).attr('readonly', true),
+            ),
+            $('<td/>').append(
+                $('<input/>').addClass('form-control').val(proveedor),
+            ),
+            $('<td/>').append(
+                $('<input/>').addClass('form-control').val(trabajo),
+            ),
+            $('<td/>').append(
+                $('<input/>').addClass('form-control').val(tecnico),
+            ),
+            $('<td/>').append(
+                $('<input/>').addClass('form-control').val(tipoDsc),
+            ),
+            $('<td/>').append(
+                $('<input/>').addClass('form-control').val(montoUnitario),
+            ),
+            $('<td/>').append(
+                $('<input/>').addClass('form-control').val(cantidadDcto),
+            ),
+            $('<td/>').append(
+                $('<input/>').addClass('form-control').val(igvDsc),
+            ),
+            $('<td/>').append(
+                $('<input/>').addClass('form-control').val(totalDcto),
+            ),
+            $('<td/>').append(
+                $('<input/>').addClass('form-control').val(montoUnt),
+            ),
+            $('<td/>').append(
+                $('<button/>').addClass('btn btn-danger').text('Eliminar').click(function() {
+                $(this).parent().parent().remove();
+                })
+        ));
+        $('#agregarDetalle tbody').append(newRow);
+
+        });
+    $('#busquedaInput').click(function() {
+            var num = $('#busqueda').val();
+            var digitos = 10;
+            num = String(num);
+            var can = num.length;
+            var falta = digitos - can - 1;
+            var respuesta = "1";
+        
+            for(var i = 0; i < falta; i++) {
+                respuesta += "0";
+            }
+            respuesta += num;
+        
+            var url = 'http://161.132.206.104:8000/ot/' + respuesta;
+            //var url = 'http://192.168.1.166:8000/testOT/' + respuesta;
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(response) {
+                    console.log(response);
+                    $('#nrOrdenInput').val(response.c_numot);
+                    $('#trabajoInput').val(response.c_asunto);
+                    response.DetalleOt.forEach(function(detalle) {
+                        $('#rucInput').val(detalle.c_rucprov);
+                        $('#proveedorInput').val(detalle.c_nomprov);
+                        $('#tecnicoInput').val(detalle.c_tecnico);
+                        $('#tipoDscInput').val(detalle.tdoc);
+                        $('#montoUnitarioInput').val(detalle.monto);
+                        $('#cantDctoInput').val(detalle.n_cant);
+                        $('#igvDscInput').val(detalle.n_igvd);
+                        $('#totalDctoInput').val(detalle.n_totd);
+                        $('#montoUntPactadoInput').val(detalle.montop);
+                        var newRow = $('<tr/>').append(
+                            $('<td/>').text(response.c_numot),
+                            $('<td/>').text(detalle.c_rucprov),
+                            $('<td/>').text(detalle.c_nomprov),
+                            $('<td/>').text(response.c_asunto),
+                            $('<td/>').text(detalle.c_tecnico),
+                            $('<td/>').text(detalle.tdoc),
+                            $('<td/>').text(detalle.monto),
+                            $('<td/>').text(detalle.n_cant),
+                            $('<td/>').text(detalle.n_igvd),
+                            $('<td/>').text(detalle.n_totd),
+                            $('<td/>').text(detalle.montop),
+                            $('<td/>').append(
+                                $('<button/>').addClass('btn btn-danger').text('Eliminar').click(function() {
+                                $(this).parent().parent().remove();
+                            }))
+                        );
+                        $('#cargarDetalle tbody').append(newRow);
+                      
+                    });
+                    response.NotaSalida.forEach(function(nota) {
+                        nota.NotaSalidaDetalle.forEach(function(detalleNota){
+                             detalleNota.detaoc.forEach(function(detaoc){
+                                detaoc.moneda.forEach(function(moneda){
+                                var monedaText = moneda.c_codmon === "1" ? "dolares" : "soles";
+                                var calculoPTIGV = ((detaoc.n_preprd*detalleNota.NT_CANT*0.18)+ (detaoc.n_preprd*detalleNota.NT_CANT)).toFixed(2);
+                                var calculoPU = detaoc.n_preprd;
+                                var calculoPT = ((detaoc.n_preprd*detalleNota.NT_CANT)).toFixed(2);
+                                var newRow2 = $('<tr/>').append(
+                                     $('<td/>').text(nota.NT_NDOC),
+                                     $('<td/>').text(detalleNota.NT_CART),
+                                     $('<td/>').text(detaoc.c_desprd),
+                                     $('<td/>').text(monedaText),
+                                     $('<td/>').text(detalleNota.NT_CANT),
+                                     $('<td/>').text(detalleNota.NT_CUND),
+                                     $('<td/>').text(calculoPU),
+                                     $('<td/>').text(calculoPT),
+                                     $('<td/>').text(calculoPTIGV),
+                                     $('<td/>').text(nota.NT_RESPO),
+                                     $('<td/>').text(nota.NT_FDOC),
+                                     $('<td/>').text(nota.c_motivo)
+                                 );
+                                 $('#añadirDetalleInsumo tbody').append(newRow2);
+                                });
+                             });
+                         });
+                     });
+                },
+                error: function(jqXHR,textStatus, errorThrown) {
+                    console.error(jqXHR,textStatus, errorThrown);
+                }
+        }); 
+    });     
+    $('#enviarInput').click(function() {
+        var nroOrdenInput = $('#nrOrdenInput').val(); 
+        var rucInput = $('#rucInput').val(); 
+        var proveedorInput = $('#proveedorInput').val(); 
+        var trabajoInput = $('#trabajoInput').val();
+        var tecnicoInput = $('#tecnicoInput').val();
+        var tipoDscInput = $('#tipoDscInput').val();
+        var montoUnitarioInput = $('#montoUnitarioInput').val();
+        var cantidadDctoInput = $('#cantDctoInput').val();
+        var igvDscInput = $('#igvDscInput').val();
+        var totalDctoInput = $('#totalDctoInput').val();
+        var montoUntInput = $('#montoUntPactadoInput').val();
+
+        console.log(nroOrdenInput);
+        console.log(rucInput);
+        console.log(proveedorInput);
+        /*
+        $.ajax({
+            url: 'email.php',
+            type: 'POST',
+            data: {
+                nroOrdenInput: nroOrdenInput,
+                rucInput: rucInput,
+                proveedorInput: proveedorInput,
+                trabajoInput: trabajoInput,
+                tecnicoInput: tecnicoInput,
+                tipoDscInput: tipoDscInput,
+                montoUnitarioInput: montoUnitarioInput,
+                cantidadDctoInput: cantidadDctoInput,
+                igvDscInput: igvDscInput,
+                totalDctoInput: totalDctoInput,
+                montoUntInput: montoUntInput
+            },
+            success: function(response) {
+                console.log(response);
+            },
+            
+        });*/
+    });
+
+
+});
+
+
