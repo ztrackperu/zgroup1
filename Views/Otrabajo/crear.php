@@ -1,5 +1,6 @@
 <?php
 $codigoOt =0;
+$_REQUEST['udni'] =1000028217;
 // valores predeterminados
 $Id_cabpre="";
 $Numeir="";
@@ -436,11 +437,14 @@ if(isset($_REQUEST['op'])){
 					<label for="ejemplo_email_3" class="col-lg-4 control-label">Usuario</label>
 					<div class="col-lg-8">
 						<?php 
-							$dataUsuario = $this->model->validarUsuario($_GET['udniV']) ; 
+							//$dataUsuario = $this->model->validarUsuario($_GET['udniV']) ; 
 							//echo var_dump($dataUsuario);
 							//$dataUsuario['usuario']." | ".$dataUsuario['udni']  
+							$dataUsuario['usuario'] ="test";
+							$dataUsuario['udni'] ="1000";
+
 						?>
-					  <input type="text" class="form-control" id="txtUsuario" name="txtUsuario" value="<?php echo  $dataUsuario->usuario ." | " .$dataUsuario->udni ; ?>" placeholder="admin1" readOnly>
+					  <input type="text" class="form-control" id="txtUsuario" name="txtUsuario" value="<?php echo $dataUsuario['usuario']." | " .$dataUsuario['udni']; ?>" placeholder="admin1" readOnly>
 					</div>
 				</div>	
 	
@@ -497,24 +501,27 @@ if(isset($_REQUEST['op'])){
 				</div>
 				<div class="form-group">
 					<label  class="col-lg-4 control-label">Trato Pago</label>
-					<div class="col-lg-8">					
+					<div class="col-lg-8">	
+					<?php $ListaFormaPagoM=json_decode($data['ListaFormaPagoM']) ;?>
+				
 						<select name="txtTratoPago" id="txtTratoPago" class="select2 form-control" <?php echo $ObjetoDisable?>>
 							<option value="SELECCIONE">SELECCIONE</option>  
-							<?php foreach($this->model->ListaFormaPagoM() as $concot):	 ?>                                               
-							<option value="<?php echo $concot->c_desitm; ?>"  <?php echo $concot->c_desitm == $ConcOt ? 'selected' : ''; ?>  > <?php echo $concot->c_desitm; ?> </option>
+							<?php foreach($ListaFormaPagoM as $concot):	 ?>                                               
+							<option value="<?php echo $concot->C_DESITM; ?>"   > <?php echo $concot->C_DESITM; ?> </option>
 							<?php  endforeach;	 ?>            
 					  </select>					
 				    </div>
 				</div>
 
+				<?php $ListaPlazoM=json_decode($data['ListaPlazoM']) ;?>
 
 				<div class="form-group">
 					<label  class="col-lg-4 control-label">Factura Pago </label>
 					<div class="col-lg-8">
 						<select name="txtFacturaPago" id="txtFacturaPago" class="select2 form-control" <?php echo $ObjetoDisable?>>
 							<option value="SELECCIONE">SELECCIONE</option>  
-							<?php foreach($this->model->ListaPlazoM() as $concot):	 ?>                                               
-							<option value="<?php echo $concot->c_desitm; ?>"  <?php echo $concot->c_desitm == $ConcOt ? 'selected' : ''; ?>  > <?php echo $concot->c_desitm; ?> </option>
+							<?php foreach($ListaPlazoM as $concot):	 ?>                                               
+							<option value="<?php echo $concot->TP_DESC; ?>"   > <?php echo $concot->TP_DESC; ?> </option>
 							<?php  endforeach;	 ?>            
 					  </select>	
 					
@@ -531,13 +538,14 @@ if(isset($_REQUEST['op'])){
 						</div>
 					</div>
 
-					<div class="form-group">
+					<div class="form-group"> 
+					<?php $ListaConceptosOT=json_decode($data['ListaConceptosOT']) ;?>
 						<label  class="col-lg-4 control-label">Concepto de Trabajo</label>
 						<div class="col-lg-8">
 							<select name="txtConceptoTrabajo" id="txtConceptoTrabajo" class="select2 form-control" <?php echo $ObjetoDisable?>>
 							<option value="OTROS">OTROS</option>  
-							<?php foreach($this->ordentrabajo->ListaConceptosOTAsignados() as $concot):	 ?>                                               
-							<option value="<?php echo $concot->descripcion; ?>"  <?php echo $concot->codigo == $ConcOt ? 'selected' : ''; ?>  > <?php echo $concot->descripcion; ?> </option>
+							<?php foreach($ListaConceptosOT as $concot):	 ?>                                               
+							<option value="<?php echo $concot->descripcion; ?>"   > <?php echo $concot->descripcion; ?> </option>
 							<?php  endforeach;	 ?>            
 					  </select>
 						</div>
@@ -555,10 +563,12 @@ if(isset($_REQUEST['op'])){
 					<div class="form-group">
 						<label  class="col-lg-4 control-label">Tecnico encargado</label>
 						<div class="col-lg-8">
+						<?php $ListaTecnicoOT=json_decode($data['ListaTecnicoOT']) ;?>
+
 							<select name="txtTecnicoEncargado" id="txtTecnicoEncargado" class="select2 form-control" <?php echo $ObjetoDisable?>>
 							<option value="SELECCIONE">SELECCIONE</option>  
-							<?php foreach($this->maestro->ListaTecnicoOT() as $tecn):	 ?>                                               
-							<option value="<?php echo $tecn->c_desitm; ?>"  <?php echo $tecn->c_desitm == $ConcOt ? 'selected' : ''; ?>  > <?php echo $tecn->c_desitm; ?> </option>
+							<?php foreach($ListaTecnicoOT as $tecn):	 ?>                                               
+							<option value="<?php echo $tecn->C_DESITM; ?>"   > <?php echo $tecn->C_DESITM; ?> </option>
 							<?php  endforeach;	 ?>            
 					  </select>
 						</div>
@@ -612,57 +622,47 @@ if(isset($_REQUEST['op'])){
 							<table id="detalle-OT" class="table table-bordered table-striped">        
 								<thead>
 									<tr>
+										<th>RUC</th>
 										<th>Proveedor</th>
-										<th>Concepto</th>
 										<th>Encargado</th>
-										<th>Subtotal</th>
-										<th>Precio (<?php 
-																											 if($op==2 or $op==3 or $op==4) {
-																											echo $SimboloMoneda;?>																											
-																											<?php 
-																											  } else
-																											 {?><label class="SimboloMoneda"></label>
-																											 <?php }?>
-																								)</th>    
-										<th>Importe (<?php 
-																											 if($op==2 or $op==3 or $op==4) {
-																											echo $SimboloMoneda;?>																											
-																											<?php 
-																											  } else
-																											 {?><label class="SimboloMoneda"></label>
-																											 <?php }?>
-																								)</th>
-										<th></th>
+										<th>Cantidad</th>
+										<th>Precio </th>    
+										<th>Importe </th>
+										<th>x</th>
 									</tr>
 								</thead>
 								<tbody>	
-								<?php
-								if($op==2 or $op==3 or $op==4){
-									foreach($this->model->PresupuestoSeleccionarxIdDet($Id_cabpre)as $DetallePre):?>
+								<?php $detaot=json_decode($data['detaot']) ;?>
+
+								<?php	
+								$subtotal =0.0 ;				
+									foreach($detaot as $DetallePre):?>
 									<tr>
 										<td>
-											<input type="hidden" class="form-control " name="txtIdConceptoT[]" id="txtIdConceptoT<?php echo $DetallePre->item-1?>" value="<?php echo $DetallePre->Cod_concepto?>"/>
-											<input type="hidden" class="form-control " name="tipoT[]" id="tipoT<?php echo $DetallePre->item-1?>" value="T"/>
-											<input type="text" class="form-control text-left" name="txtConceptoT[]" id="txtConceptoT<?php echo $DetallePre->item-1?>" value="<?php echo $DetallePre->descripcion?>" readonly/>				 
+											<input type="text" class="form-control text-right" name="txtRUC[]" id="txtRUC<?php echo $DetallePre->id-1?>" value="<?php echo $DetallePre->c_rucprov?>" readonly/>
 										</td>
 										<td>
-											<input type="text" class="form-control text-right" name="txtDecripcionAT[]" id="txtDecripcionAT<?php echo $DetallePre->item-1?>" value="<?php echo $DetallePre->unidad_Medida?>" readonly/>
+											<input type="text" class="form-control text-right" name="txtProveedor[]" id="txtProveedor<?php echo $DetallePre->id-1?>" value="<?php echo $DetallePre->c_nomprov?>" readonly/>
 										</td>
 										<td>
-											<input type="text" class="form-control text-right" name="txtCantidadT[]" id="txtCantidadT<?php echo $DetallePre->item-1?>" value="<?php echo $DetallePre->Cantidad?>"  <?php echo $ObjetoDisable?>/>
-										</td>										
-										<td>
-											<input type="text" class="form-control text-right" name="txtPrecioDT[]" id="txtPrecioDT<?php echo $DetallePre->item-1?>" value="<?php echo $DetallePre->Precio_Dolares?>" <?php echo $ObjetoDisable?>/>
-										</td>										
-										<td>
-											<input type="text" class="form-control text-right" name="det_importeDT[]" id="det_importeDT<?php echo $DetallePre->item-1?>" value="<?php echo $DetallePre->T_dolares?>"  readonly  />
+											<input type="text" class="form-control text-right" name="txtEncargado[]" id="txtEncargado<?php echo $DetallePre->id-1?>" value="<?php echo $DetallePre->c_tecnico?>" readonly/>
 										</td>
 										<td>
-											<button class="btn btn-danger btn-sm btn-borrar-detT" type="button"><i class="glyphicon glyphicon-remove"></i></button>
-											</td>
+											<input type="text" class="form-control text-right" name="txtSubtotal[]" id="txtSubtotal<?php echo $DetallePre->id-1?>" value="<?php echo $DetallePre->n_cant?>" readonly/>
+										</td>
+										<td>
+											<input type="text" class="form-control text-right" name="txtPrecio[]" id="txtPrecio<?php echo $DetallePre->id-1?>" value="<?php echo $DetallePre->monto?>" readonly/>
+										</td>
+										<td>
+											<input type="text" class="form-control text-right" name="txtImporte[]" id="txtImporte<?php echo $DetallePre->id-1?>" value="<?php echo $DetallePre->n_totd?>" readonly/>
+										</td>
+										<td>x </td>
+										
+										
 									</tr>
 								<?php	
-									endforeach;	}
+									$subtotalx = $subtotal+floatval($DetallePre->n_totd) ;
+									endforeach;	
 								?>
 								</tbody>
 								<tfoot>
@@ -673,16 +673,9 @@ if(isset($_REQUEST['op'])){
 					<div class="row">
 						<div class="col-xs-9 pull-right">
 							<div class="form-group ">
-								<label class="control-label col-xs-8 text-right">Sub-Total (<?php 
-																											 if($op==2 or $op==3 or $op==4) {
-																											echo $SimboloMoneda;?>																											
-																											<?php 
-																											  } else
-																											 {?><label class="SimboloMoneda"></label>
-																											 <?php }?>
-																								)</label>										
+								<label class="control-label col-xs-8 text-right">Sub-Total </label>										
 									<div class="col-xs-3">
-										<input type="text" class="form-control text-right" name="sub_importeDT" id="sub_importeDT" value="<?php echo $Sub_dolaresT?>"  readonly/>
+										<input type="text" class="form-control text-right" name="sub_importeDT" id="sub_importeDT" value="<?php echo floatval($subtotalx)?>"  readonly/>
 									</div>
 							</div>
 						</div>									
@@ -709,7 +702,13 @@ if(isset($_REQUEST['op'])){
 								</thead>
 								<tbody>	
 								<?php
-								if($op==2 or $op==3 or $op==4){
+								 $notmae=json_decode($data['notmae']) ;
+								 //echo "notasdetalle".var_dump($notmae);
+
+								 $notas=json_decode($data['notas']) ;
+								 echo "datitos".var_dump($notas[1]);
+								// listar los insumos consumidos 
+							
 									foreach($this->model->PresupuestoSeleccionarxIdDet($Id_cabpre)as $DetallePre):?>
 									<tr>
 										<td>
@@ -734,7 +733,7 @@ if(isset($_REQUEST['op'])){
 											</td>
 									</tr>
 								<?php	
-									endforeach;	}
+									endforeach;	
 								?>
 								</tbody>
 								<tfoot>

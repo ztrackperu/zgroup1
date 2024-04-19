@@ -51,5 +51,76 @@ class OtrabajoModel extends Query
         curl_close($ch);   
         return $res;
     }
+    public function ListaFormaPagoM()
+    {
+        //consulta externa 
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, urlapi."/ListaFormaPagoM");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    }
+    public function ListaPlazoM()
+    {
+        //consulta externa 
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, urlapi."/ListaPlazoM");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    }
+    public function ListaConceptosOT()
+    {
+        //consulta externa 
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, urlapi."/ListaConceptosOT");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    }
+    public function ListaTecnicoOT()
+    {
+        //consulta externa 
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, urlapi."/ListaTecnicoOT");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    }
+    public function detaot($ot)
+    {
+        //consulta externa 
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, urlapi."/detaot/".$ot);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    }
+    public function notmae($ot)
+    {
+        //consulta externa 
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, urlapi."/notmae/".$ot);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    }
+    public function notmov($ot)
+    {
+        //consulta externa 
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, urlapi."/notmov/".$ot);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    }
+
 
 }
