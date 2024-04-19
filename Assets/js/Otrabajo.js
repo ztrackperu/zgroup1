@@ -207,7 +207,9 @@ $(document).ready(function() {
         }); 
     });     
     $('#enviarInput').click(function() {
-        var data = {
+        sector1 = document.getElementById('cargarDetalle');
+
+        var data1 = {
             nroOrdenInput: $('#nrOrdenInput').val(),
             rucInput: $('#rucInput').val(),
             proveedorInput: $('#proveedorInput').val(),
@@ -218,15 +220,19 @@ $(document).ready(function() {
             cantidadDctoInput: $('#cantDctoInput').val(),
             igvDscInput: $('#igvDscInput').val(),
             totalDctoInput: $('#totalDctoInput').val(),
-            montoUntInput: $('#montoUntPactadoInput').val()
+            montoUntInput: $('#montoUntPactadoInput').val(),
+            //sector :sector1
         };
         
-        console.log(data);
+        console.log(data1);
         $.ajax({
             url: base_url + "Otrabajo/testCorreo",
             type: 'POST',
+            //dataType:'json',
             contentType: "application/json",
-            data: JSON.stringify(data),
+            //data: JSON.stringify(data),
+            data : {'datos': JSON.stringify(data1)},
+            //data : data1,
             success: function(response) {
                 console.log(response);
             },
