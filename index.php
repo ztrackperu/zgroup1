@@ -5,6 +5,15 @@
     ob_end_flush();
     require_once "Config/Config.php";
     require_once "Config/Helpers.php";
+    require_once "vendor/autoload.php";
+
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\Exception;
+    use PHPMailer\PHPMailer\SMTP;
+
+
+
+
     //date_default_timezone_set('America/Lima');
     $ruta = !empty($_GET['url']) ? $_GET['url'] : "Home/index";
     $array = explode("/", $ruta);
