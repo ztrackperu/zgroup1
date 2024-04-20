@@ -19,7 +19,7 @@ class ConceptosOTModel extends Query
     {
         //conexion a la API
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, urlapi."/ListaConceptosOT");
+        curl_setopt($ch, CURLOPT_URL, urlapi."/ConceptosOT/");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $res = curl_exec($ch);
         curl_close($ch);   
@@ -65,6 +65,11 @@ class ConceptosOTModel extends Query
         $res = curl_exec($ch);
         curl_close($ch);   
         return $res;
+    }
+
+    public function accionConcepto($estado, $id)
+    {
+        echo 'eliminando';
     }
 
 }

@@ -13,7 +13,7 @@
 if (!empty($_GET['url'])) {
 
     $script = $_GET['url'] . '.js';
-    //echo $script;
+    echo $script;
     if (file_exists('Assets/js/' . $script)) {
         echo '<script src="'. base_url . 'Assets/js/' . $script .'"></script>';
     }else{
