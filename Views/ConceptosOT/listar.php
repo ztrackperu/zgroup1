@@ -75,3 +75,4 @@
         </div>
     </div>
 </div>
+<?php include "Views/templates/footer.php"; ?>

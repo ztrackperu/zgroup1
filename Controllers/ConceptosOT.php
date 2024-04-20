@@ -32,7 +32,7 @@ class ConceptosOT extends Controller
     public function listar()
     {
         $data = $this->model->getConceptos();
-        
+        $resultado = json_decode($data);
         /*
         for ($i = 0; $i < count($data); $i++) {
             if ($data[$i]['estado'] == 1) {
@@ -43,7 +43,18 @@ class ConceptosOT extends Controller
             }
         }
         */
-        echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        foreach($resultado as $item){
+            if ($item->estado == 1) {
+                $item->estado= "<span class='badge badge-success'>Activo</span>";
+                $item->acciones="ok";
+
+            } else {
+                $item->estado = "span class='badge badge-danger'>Eliminado</span>";
+                $item->acciones="fail";
+            }
+
+        }
+        echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
         die();
     }
 
