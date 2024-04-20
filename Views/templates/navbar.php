@@ -34,6 +34,14 @@
               <li><a class="nav-link active" aria-current="page "href=" <?php echo base_url; ?>Permisos">Permisos</a></li>
             </ul>
           </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href= id="conceptoDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Conceptos OT</a>
+            <ul class="dropdown-menu border-0 shadow bsb-zoomIn" aria-labelledby="conceptoDropdown">
+              <li><a class="dropdown-item" href="ConceptosOT">Lista</a></li>
+              <li><a class="dropdown-item" href="#!">Asignar</a></li>
+              <li><a class="dropdown-item" href="#!">Crear</a></li>
+            </ul>
+          </li>
    
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href= id="conceptoDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Concepto</a>
