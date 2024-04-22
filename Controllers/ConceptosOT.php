@@ -178,4 +178,22 @@ class ConceptosOT extends Controller
         die();
     }
 
+    public function Asignar($data)
+    {
+        /*
+        $data = $this->model->getMaximoConcepto();
+        $resultado = json_decode($data);
+        $resultado = $resultado->data;
+        $resultado =[
+            "id" =>$resultado->id,
+            "codigo" =>$resultado->codigo
+        ];
+        */
+        $resultado =" estoy en asignar";
+        //echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
+        //die();
+        $this->views->getView($this, "listar");  
+    }
+
+
 }
