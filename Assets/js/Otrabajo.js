@@ -134,7 +134,7 @@ $(document).ready(function() {
             }
             respuesta += num;
         
-            var url = 'http://161.132.206.104:8000/ot/' + respuesta;
+            var url = 'http://161.132.206.104:8000/concepto_ot/' + respuesta;
             //var url = 'http://192.168.1.166:8000/testOT/' + respuesta;
             $.ajax({
                 url: url,

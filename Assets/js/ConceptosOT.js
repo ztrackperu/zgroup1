@@ -167,6 +167,29 @@ function registrarConcepto(e) {
         }
     }
 }
+function registrarConceptoVista(e) {
+    e.preventDefault();
+    const Concepto = document.getElementById("descripcion_concepto");
+    if (Concepto.value == "") {
+        alertas('El Nombre del Concepto es requerida', 'warning');
+    } else {
+        const url = base_url + "ConceptosOT/registrar";
+        const frm = document.getElementById("frmConceptosOT");
+        const http = new XMLHttpRequest();
+        http.open("POST", url, true);
+        http.send(new FormData(frm));
+        http.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                const res = this.responseText;
+                console.log(res)
+                // Redirige a otra vista en lugar de ocultar el modal y resetear el formulario
+                window.location.href = base_url + "ConceptosOT/";
+            }
+        }
+    }
+}
+
+
 function btnEditarConcepto(id) {
     document.getElementById("title").textContent = "Modificar Concepto";
     document.getElementById("btnAccion").textContent = "Modificar";
