@@ -118,9 +118,36 @@ function btnEliminarConcepto(id) {
     })
 }
 
+
+function btntReingresoConcepto(id) {
+    Swal.fire({
+        title: 'Esta seguro de reincorporar elemento?',
+        text: "El Concepto volverá a estar activo",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si!',
+        cancelButtonText: 'No'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const url = base_url + "ConceptosOT/reingresar/" + id;
+            const http = new XMLHttpRequest();
+            http.open("GET", url, true);
+            http.send();
+            http.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    const res = JSON.parse(this.responseText);
+                    tblConceptosOT.ajax.reload();
+                    alertas(res.msg, res.icono);
+                }
+            }
+        }
+    })
+}
 function registrarConcepto(e) {
     e.preventDefault();
-    const Concepto = document.getElementById("codigo_concepto");
+    const Concepto = document.getElementById("descripcion_concepto");
     if (Concepto.value == "") {
         alertas('El Nombre del Concepto es requerida', 'warning');
     } else {
@@ -134,7 +161,7 @@ function registrarConcepto(e) {
                 const res = JSON.parse(this.responseText);
                 $("#nuevoConcepto").modal("hide");
                 frm.reset();
-                tblConceptos.ajax.reload();
+                tblConceptosOT.ajax.reload();
                 alertas(res.msg, res.icono);
             }
         }
@@ -164,6 +191,18 @@ function frmConceptosOT() {
     document.getElementById("title").textContent = "Nuevo Concepto";
     document.getElementById("btnAccion").textContent = "Registrar";
     document.getElementById("frmConceptosOT").reset();
+    const url = base_url + "ConceptosOT/maximo/" ;
+    const http = new XMLHttpRequest();
+    http.open("GET", url, true);
+    http.send();
+    http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            const res = JSON.parse(this.responseText);
+            console.log(res);
+            //document.getElementById("id").value = res.id+1;        
+            document.getElementById("codigo_concepto").value = res.codigo+1;          
+        }
+    }
     document.getElementById("id").value = "";
     $("#nuevoConcepto").modal("show");
 }

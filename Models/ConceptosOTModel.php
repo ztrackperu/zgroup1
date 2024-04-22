@@ -25,6 +25,16 @@ class ConceptosOTModel extends Query
         curl_close($ch);   
         return $res;
     }
+    public function getMaximoConcepto()
+    {
+        //conexion a la API
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, urlapi."/concepto_ot/maximo/");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    }
     public function ListaUnidadMedida()
     {
         //consulta externa 
@@ -81,5 +91,42 @@ class ConceptosOTModel extends Query
         curl_close($ch);   
         return $res;
     }
-
+    public function registrarConcepto($data)
+    {
+        $ch = curl_init();
+        $data =json_encode($data);
+        curl_setopt($ch, CURLOPT_URL, urlapi."/concepto_ot/");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    } 
+    public function validarConcepto($data)
+    {
+        $ch = curl_init();
+        $data =json_encode($data);
+        curl_setopt($ch, CURLOPT_URL, urlapi."/concepto_ot/validar/");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    }
+    //actualizarConcepto
+    public function actualizarConcepto($id,$data)
+    {
+        $ch = curl_init();
+        $data =json_encode($data);
+        curl_setopt($ch, CURLOPT_URL, urlapi."/concepto_ot/".$id);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    } 
 }

@@ -22,14 +22,6 @@ class ConceptosOT extends Controller
         $this->views->getView($this, "listar");
         
     }
-    /*
-    public function crear()
-    {
-        $data['ListaUnidadMedida'] =  $this->model->ListaUnidadMedida();
-        $data['ListaSolicitanteOT'] =  $this->model->ListaSolicitanteOT();
-        $data['ListaSupervisadoOT'] =  $this->model->ListaSupervisadoOT();
-        $this->views->getView($this, "crear",$data);
-    }*/
 
     public function crearOT(){
         $this->views->getView($this, "crear");
@@ -40,17 +32,6 @@ class ConceptosOT extends Controller
         $data = $this->model->getConceptos();
         $resultado = json_decode($data);
         $resultado = $resultado->data;
-        /*
-        for ($i = 0; $i < count($data); $i++) {
-            if ($data[$i]['estado'] == 1) {
-                $data[$i]['estado'] = '<span class="badge badge-success">Activo</span>';
-
-            } else {
-                $data[$i]['estado'] = '<span class="badge badge-danger">Eliminado</span>';
-            }
-        }
-        */
-        
         foreach($resultado as $item){
             if ($item->estado == 1) {
                 $item->estado= "<span class='badge badge-success'>Activo</span>";
@@ -61,6 +42,9 @@ class ConceptosOT extends Controller
                     </div>";
             } else {
                 $item->estado = "<span class='badge badge-danger'>Eliminado</span>";
+                $item->acciones="<div>
+                <button class='btn btn-primary' type='button' onclick='btntReingresoConcepto(" . $item->id . ");'><i class='fa fa-pencil-square-o'></i>R</button>           
+                </div>";
             }
         }
      
@@ -69,13 +53,36 @@ class ConceptosOT extends Controller
         die();
     }
 
-    public function eliminar( $id)
+    public function eliminar($id)
     {
-        $data = $this->model->accionConcepto(0, $id);
-        if ($data == 1) {
-            $msg = array('msg' => 'Concepto dado de baja', 'icono' => 'success');
+        //pasar un objeto con campoestado :0
+        $objeto =[
+            "estado" =>0
+        ];
+        $data = $this->model->actualizarConcepto($id,$objeto);
+        $resultado = json_decode($data);
+        $resultado = $resultado->data;
+        if($resultado=="ok"){
+            $msg = array('msg' => 'Concepto Eliminado', 'icono' => 'success');
         }else{
-            $msg = array('msg' => 'Error al eliminar', 'icono' => 'error');
+            $msg = array('msg' => 'Error al Actualizar Concepto', 'icono' => 'error');
+        }
+        echo json_encode($msg, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+    public function reingresar($id)
+    {
+        //pasar un objeto con campoestado :0
+        $objeto =[
+            "estado" =>1
+        ];
+        $data = $this->model->actualizarConcepto($id,$objeto);
+        $resultado = json_decode($data);
+        $resultado = $resultado->data;
+        if($resultado=="ok"){
+            $msg = array('msg' => 'Concepto Reincorporado', 'icono' => 'success');
+        }else{
+            $msg = array('msg' => 'Error al Reincorporar Concepto', 'icono' => 'error');
         }
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();
@@ -90,30 +97,84 @@ class ConceptosOT extends Controller
     }
     public function registrar()
     {
-        $conceptoOT = strClean($_POST['codigo_concepto']);
+        $descripcion_concepto = strClean($_POST['descripcion_concepto']);
+        $codigo_concepto = strClean($_POST['codigo_concepto']);
         $id = strClean($_POST['id']);
+        if ($id == "") {
+            #construir el objeto
+            $objetov =[
+                "descripcion" =>$descripcion_concepto
+            ];
+            $objeto =[
+                "id" =>intval($codigo_concepto-1000),
+                "codigo" =>intval($codigo_concepto),
+                "descripcion" =>$descripcion_concepto,
+                "estado" =>1
+            ];
+            #validar que no haya duplicado
+            $data = $this->model->validarConcepto($objetov);
+            $resultado = json_decode($data);
+            $resultado = $resultado->data;
+            if($resultado=="ok"){
+                #Procedo a guardar
+                $data = $this->model->registrarConcepto($objeto);
+                $resultado = json_decode($data);
+                $resultado = $resultado->data;
+                if($resultado=="ok"){
+                    $msg = array('msg' => 'Concepto registrado', 'icono' => 'success');
+                }else{
+                    $msg = array('msg' => 'Error al Registar Concepto', 'icono' => 'error');
+                }
 
- 
-            if ($id == "") {
-                $data = $this->model->registrarConcepto($conceptoOT);
-                if ($data == "ok") {
-                    $msg = array('msg' => 'Permiso registrado', 'icono' => 'success');
-                } else if ($data == "existe") {
-                    $msg = array('msg' => 'El Permiso ya existe', 'icono' => 'warning');
-                } else {
-                    $msg = array('msg' => 'Error al registrar', 'icono' => 'error');
-                }
+                $msg = array('msg' => 'Concepto registrado', 'icono' => 'success');
             }else{
-                $data = $this->model->modificarConcepto($conceptoOT,$id);
-                if ($data == "modificado") {
-                    $msg = array('msg' => 'Permiso modificado', 'icono' => 'success');
-                }else {
-                    $msg = array('msg' => 'Error al modificar', 'icono' => 'error');
-                }
+                $msg = array('msg' => 'El Concepto ya existe', 'icono' => 'warning');
             }
-        
+
+        }else{
+            $objetoA =[
+                "descripcion" =>$descripcion_concepto,
+            ];
+            //pedir el objeto que hace referencia a ese id 
+            $val = $this->model->editarConcepto($id);
+            $resultado = json_decode($val);
+            $comparador = $resultado->data->descripcion;
+            if($comparador==$descripcion_concepto){
+                $msg = array('msg' => 'No haz realizado ninguna modificacion', 'icono' => 'error');
+            }else{
+                $data = $this->model->validarConcepto($objetoA);
+                $resultado = json_decode($data);
+                $resultado = $resultado->data;
+                if($resultado=="ok"){
+                    $data = $this->model->actualizarConcepto($id,$objetoA);
+                    $resultado = json_decode($data);
+                    $resultado = $resultado->data;
+                    if($resultado=="ok"){
+                        $msg = array('msg' => 'Concepto Actualizado', 'icono' => 'success');
+                    }else{
+                        $msg = array('msg' => 'Error al Actualizar Concepto', 'icono' => 'error');
+                    }
+
+                }else{
+                    $msg = array('msg' => 'concepto ya existe', 'icono' => 'error');
+                }
+
+            }
+        } 
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
 
+        die();
+    }
+    public function maximo( )
+    {
+        $data = $this->model->getMaximoConcepto();
+        $resultado = json_decode($data);
+        $resultado = $resultado->data;
+        $resultado =[
+            "id" =>$resultado->id,
+            "codigo" =>$resultado->codigo
+        ];
+        echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
         die();
     }
 
