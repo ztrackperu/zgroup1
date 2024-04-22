@@ -192,7 +192,7 @@ class ConceptosOT extends Controller
         $resultado =" estoy en asignar";
         //echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
         //die();
-        $this->views->getView($this, "listar");  
+        $this->views->getView($this, "Asignar");  
     }
 
 

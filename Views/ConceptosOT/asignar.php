@@ -1,79 +1,57 @@
 <?php include "Views/templates/navbar.php"; ?>
 <p></p>
-<div class="app-title">
-    <div>
-        <h1><i class="fa fa-dashboard"></i> Asignar Recursos a conceptos OT</h1>
+
+<div class="col-lg-12">
+    <div class="app-title">
+        <div>
+            <h1><i class="fa fa-dashboard"></i> Asignar Recursos a conceptos OT</h1>
+        </div>
     </div>
 </div>
-<button class="btn btn-primary mb-2" type="button" onclick="frmUsuario();">+<i class="fa fa-plus"></i></button>
-<?php echo $data ; ?>
-<div class="row">
-    <div class="col-lg-12">
-        <div class="tile">
-            <div class="tile-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover" id="tblAsignar">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>Id</th>
-                                <th>Codigo</th>
-                                <th>Descripcion</th>
-                                <th>cantidad</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
+<div class="col-lg-12">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="form-group">
+                <label for="titulo">Título</label>
+                <input type="hidden" id="id" name="id">
+                <input id="titulo" class="form-control" type="text" name="titulo" placeholder="Título del libro" required>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label for="autor">Autor</label><br>
+                <select id="autor" class="form-control autor" name="autor" required style="width: 100%;">
+                <!--<option id="selectAutor" value="0">Seleccione</option> -->
+                </select> 
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-primary mb-2" type="button" onclick="frmConceptosOT();">+<i class="fa fa-plus"></i></button>
+</div>
+<div class="col-lg-12">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="tile">
+                <div class="tile-body">
+                <div class="table-responsive-sm">
+                        <table class="table table-bordered table-hover" id="tblConceptosOT2">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Codigo</th>
+                                    <th>Descripcion</th>
+                                    <th>Estado</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div id="nuevo_usuario" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-primary">
-                <h5 class="modal-title text-white" id="title">Nuevo Usuario</h5>
-                <button class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form method="post" id="frmUsuario">
-                    <div class="form-group">
-                        <label for="usuario">Usuario</label>
-                        <input type="hidden" id="id" name="id">
-                        <input id="usuario" class="form-control" type="text" name="usuario" placeholder="Usuario">
-                    </div>
-                    <div class="form-group">
-                        <label for="nombre">Nombre</label>
-                        <input id="nombre" class="form-control" type="text" name="nombre"
-                            placeholder="Nombre del usuario">
-                    </div>
-                    <div class="row" id="claves">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="clave">Contraseña</label>
-                                <input id="clave" class="form-control" type="password" name="clave"
-                                    placeholder="Contraseña">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="confirmar">Confirmar Contraseña</label>
-                                <input id="confirmar" class="form-control" type="password" name="confirmar"
-                                    placeholder="Confirmar contraseña">
-                            </div>
-                        </div>
-                    </div>
-                    <button class="btn btn-primary" type="button" onclick="registrarUser(event);"
-                        id="btnAccion">Registrar</button>
-                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancelar</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+
 <?php include "Views/templates/footer.php"; ?>
