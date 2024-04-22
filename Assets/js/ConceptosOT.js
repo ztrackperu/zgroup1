@@ -122,7 +122,7 @@ function registrarConcepto(e) {
     e.preventDefault();
     const Concepto = document.getElementById("codigo_concepto");
     if (Concepto.value == "") {
-        alertas('El Nombre de la Concepto es requerida', 'warning');
+        alertas('El Nombre del Concepto es requerida', 'warning');
     } else {
         const url = base_url + "ConceptosOT/registrar";
         const frm = document.getElementById("frmConceptosOT");
@@ -140,7 +140,6 @@ function registrarConcepto(e) {
         }
     }
 }
-
 function btnEditarConcepto(id) {
     document.getElementById("title").textContent = "Modificar Concepto";
     document.getElementById("btnAccion").textContent = "Modificar";
@@ -151,9 +150,11 @@ function btnEditarConcepto(id) {
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             const res = JSON.parse(this.responseText);
+            console.log(res);
             document.getElementById("id").value = res.id;
-            document.getElementById("codigo_concepto").value = res.codigo_concepto;
-            document.getElementById("descripcion_concepto").value = res.descripcion_concepto;                
+            
+            document.getElementById("codigo_concepto").value = res.codigo;
+            document.getElementById("descripcion_concepto").value = res.descripcion;                
             $("#nuevoConcepto").modal("show");
         }
     }

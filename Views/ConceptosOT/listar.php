@@ -44,9 +44,9 @@
                     <div class="form-group">
                         <label for="codigo_concepto">Código Concepto</label>
                         <input type="hidden" id="id" name="id">
-                        <input id="codigo_concepto" class="form-control" type="text" name="codigo_concepto" placeholder="Código del concepto">
+                        <input id="codigo_concepto" class="form-control" type="text" name="codigo_concepto" placeholder="Código del concepto" readonly>
                     </div>
-                    <div class="form_group mb-2" id="claves">
+                    <div class="form_group">
                         <label for="descripcion_concepto">Descripción</label>
                         <input id="descripcion_concepto" class="form-control" type="text" name="descripcion_concepto" placeholder="Descripción">    
                     </div>

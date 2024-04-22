@@ -39,6 +39,7 @@ class ConceptosOT extends Controller
     {
         $data = $this->model->getConceptos();
         $resultado = json_decode($data);
+        $resultado = $resultado->data;
         /*
         for ($i = 0; $i < count($data); $i++) {
             if ($data[$i]['estado'] == 1) {
@@ -49,6 +50,7 @@ class ConceptosOT extends Controller
             }
         }
         */
+        
         foreach($resultado as $item){
             if ($item->estado == 1) {
                 $item->estado= "<span class='badge badge-success'>Activo</span>";
@@ -81,7 +83,9 @@ class ConceptosOT extends Controller
     public function editar( $id)
     {
         $data = $this->model->editarConcepto($id);
-        echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        $resultado = json_decode($data);
+        $resultado = $resultado->data;
+        echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
         die();
     }
     public function registrar()
