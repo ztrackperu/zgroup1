@@ -10,6 +10,21 @@
 </div>
 <div class="col-lg-12">
     <div class="row">
+        <div class="col-lg-5">
+            <h2>Concepto OT</h2>
+        </div>
+        <div class="col-lg-1">
+        <button class="btn btn-primary mb-2" type="button" onclick="frmConceptosOT();">+<i class="fa fa-plus"></i></button>
+        </div>
+        <div class="col-lg-4">
+                <select id="autor" class="form-control autor" name="autor" required style="width: 100%;">
+                <!--<option id="selectAutor" value="0">Seleccione</option> -->
+                </select> 
+        </div>
+        <div class="col-lg-2">
+            <button class="w-100 btn btn-warning btn-lg" type="submit">SELECCIONAR</button>
+        </div>
+
         <div class="col-lg-8">
             <div class="form-group">
                 <label for="titulo">Título</label>

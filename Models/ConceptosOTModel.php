@@ -129,4 +129,12 @@ class ConceptosOTModel extends Query
         curl_close($ch);   
         return $res;
     } 
+    public function buscarAutor($valor)
+    {
+        $sql = "SELECT id, autor AS text FROM autor WHERE autor LIKE '%" . $valor . "%'  AND estado = 1 LIMIT 10";
+        $data = $this->selectAll($sql);
+        return $data;
+
+        #establecer una consulta a conceptos que haga una busqueea regex de los 10 primeros
+    }
 }

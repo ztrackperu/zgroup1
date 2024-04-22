@@ -11,6 +11,30 @@ function alertas(msg, icono) {
 }
 
 document.addEventListener("DOMContentLoaded", function(){
+    $('.autor').select2({
+        placeholder: 'Buscar Autor',
+        minimumInputLength: 2,
+        allowClear: true,
+        ajax: {
+            url: base_url + 'Autor/buscarAutor',
+            dataType: 'json',
+            delay: 250, 
+            data: function (params) {
+                
+                console.log(params);        
+                return {
+                    q: params.term
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: data
+                };
+            },
+            cache: true
+        }
+    });
+    
     const language = {
         "decimal": "",
         "emptyTable": "No hay información",
