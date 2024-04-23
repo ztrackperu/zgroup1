@@ -70,6 +70,15 @@ class OtrabajoModel extends Query
         $res = curl_exec($ch);
         curl_close($ch);   
         return $res;
+    } 
+    public function consultarOT($id)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, urlapi1."/ot/".$id);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
     }
 
 }
