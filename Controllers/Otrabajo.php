@@ -1,4 +1,14 @@
 <?php
+
+/*DOM PDF*/
+
+require_once "Config/Config.php";
+require_once "Config/Helpers.php";
+require_once "vendor/autoload.php";
+
+
+use Dompdf\Dompdf;
+
 class Otrabajo extends Controller
 {
     public function __construct()
@@ -21,6 +31,28 @@ class Otrabajo extends Controller
     {
         $this->views->getView($this, "index");
     }
+    // GENERAR PDF
+    function generarPDF(){
+        
+        $data = $this->model->cargarTest();
+
+        // Inicia el almacenamiento en búfer de salida
+        ob_start();
+
+        // Carga la vista con los datos
+        $this->views->getView($this, 'test', $data);
+
+        // Obtiene el contenido del búfer y lo limpia
+        $htmlContent = ob_get_clean();
+
+        // Crea el PDF con Dompdf
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($htmlContent);
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+        $dompdf->stream();
+    }    
+
     public function crear()
     {
         $data['ListaUnidadMedida'] =  $this->model->ListaUnidadMedida();
@@ -33,20 +65,12 @@ class Otrabajo extends Controller
     {
         $this->views->getView($this, "test");
     }
-
-    
     public function testCorreo()
     {
         $datosRecibidos = file_get_contents("php://input");
-        
         //echo json_decode($datosRecibidos) ;
-        echo $datosRecibidos ;
-
-        
+        echo $datosRecibidos ;   
     }
-
-    
-
     public function listar()
     {
         $data = $this->model->getMovimientos();

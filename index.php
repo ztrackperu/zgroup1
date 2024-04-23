@@ -8,6 +8,8 @@
     require_once "Config/Helpers.php";
     require_once "vendor/autoload.php";
 
+
+
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
     use PHPMailer\PHPMailer\SMTP;
@@ -48,6 +50,7 @@
         header('Location:' . base_url . 'Configuracion/Error');
     }
     
+
 
     function envio_correo($remitente,$passRemitente,$destinatario)
     { 

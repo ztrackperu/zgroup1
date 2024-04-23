@@ -62,5 +62,14 @@ class OtrabajoModel extends Query
         curl_close($ch);   
         return $res;
     }
+    //PROBANDO ANDO
+    public function cargarTest(){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, urlapi);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    }
 
 }

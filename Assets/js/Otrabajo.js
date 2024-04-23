@@ -60,9 +60,6 @@ document.addEventListener("DOMContentLoaded", function(){
                 text: '<button class="btn btn-info"><i class="fa fa-print"></i></button>'
             }
         ]
-
-
-
 })
 
 $(document).ready(function() {    
@@ -121,7 +118,7 @@ $(document).ready(function() {
         $('#agregarDetalle tbody').append(newRow);
 
         });
-    $('#busquedaInput').click(function() {
+        $('#busquedaInput').click(function() {
             var num = $('#busqueda').val();
             var digitos = 10;
             num = String(num);
@@ -134,8 +131,10 @@ $(document).ready(function() {
             }
             respuesta += num;
         
-            var url = 'http://161.132.206.104:8000/concepto_ot/' + respuesta;
+            var url = 'http://192.168.1.166:7000/ot/' + respuesta;
             //var url = 'http://192.168.1.166:8000/testOT/' + respuesta;
+            // Antes de hacer la nueva búsqueda, borra los valores de los inputs
+
             $.ajax({
                 url: url,
                 type: 'GET',
@@ -204,7 +203,7 @@ $(document).ready(function() {
                 error: function(jqXHR,textStatus, errorThrown) {
                     console.error(jqXHR,textStatus, errorThrown);
                 }
-        }); 
+            }); 
     });     
     $('#enviarInput').click(function() {
         var nodo = document.getElementById('cargarDetalle');
@@ -244,8 +243,24 @@ $(document).ready(function() {
         });
         
     });
-
+    $('#btnReporte').click(function() {
+        $.ajax({
+            url: 'Otrabajo.php',
+            type: 'POST',
+            data: {
+                action: 'generarPDF',
+                htmlContent: '<h1>Welcome to Dompdf!</h1><p>Hello World</p>'
+            },
+            success: function(response) {
+                console.log(response)
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log('error')
+            }
+        });
+    });
 
 });
+
 
 
