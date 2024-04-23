@@ -11,29 +11,7 @@ function alertas(msg, icono) {
 }
 
 document.addEventListener("DOMContentLoaded", function(){
-    $('.autor').select2({
-        placeholder: 'Buscar Autor',
-        minimumInputLength: 2,
-        allowClear: true,
-        ajax: {
-            url: base_url + 'Autor/buscarAutor',
-            dataType: 'json',
-            delay: 250, 
-            data: function (params) {
-                
-                console.log(params);        
-                return {
-                    q: params.term
-                };
-            },
-            processResults: function (data) {
-                return {
-                    results: data
-                };
-            },
-            cache: true
-        }
-    });
+
     
     const language = {
         "decimal": "",
@@ -110,6 +88,30 @@ document.addEventListener("DOMContentLoaded", function(){
             "<'row'<'col-sm-12'tr>>" +
             "<'row'<'col-sm-5'i><'col-sm-7'p>>",
         buttons
+    });
+
+    $('#concepto').select2({
+        placeholder: 'Buscar Concepto',
+        minimumInputLength: 2,
+        allowClear: true,
+        ajax: {
+            url: base_url + 'ConceptosOT/buscarConcepto',
+            dataType: 'json',
+            delay: 250, 
+            data: function (params) {
+                
+                console.log(params);        
+                return {
+                    q: params.term
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: data
+                };
+            },
+            cache: true
+        }
     });
 
 })

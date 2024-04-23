@@ -17,7 +17,7 @@
         <button class="btn btn-primary mb-2" type="button" onclick="frmConceptosOT();">+<i class="fa fa-plus"></i></button>
         </div>
         <div class="col-lg-4">
-                <select id="autor" class="form-control autor" name="autor" required style="width: 100%;">
+                <select id="concepto" class="form-control autor" name="concepto" required style="width: 100%;">
                 <!--<option id="selectAutor" value="0">Seleccione</option> -->
                 </select> 
         </div>

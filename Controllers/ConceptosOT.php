@@ -194,12 +194,14 @@ class ConceptosOT extends Controller
         //die();
         $this->views->getView($this, "Asignar");  
     }
-    public function buscarAutor()
+    public function buscarConcepto()
     {
         if (isset($_GET['q'])) {
             $valor = $_GET['q'];
-            $data = $this->model->buscarAutor($valor);
-            echo json_encode($data, JSON_UNESCAPED_UNICODE);
+            $data = $this->model->buscarConcepto($valor);
+            $resultado = json_decode($data);
+            $resultado = $resultado->data;
+            echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
             die();
         }
     }
