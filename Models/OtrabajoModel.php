@@ -74,7 +74,7 @@ class OtrabajoModel extends Query
     public function consultarOT($id)
     {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, urlapi."/ot/".$id);
+        curl_setopt($ch, CURLOPT_URL, urlapi2."/ot/".$id);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $res = curl_exec($ch);
         curl_close($ch);   
