@@ -1,11 +1,11 @@
 <?php include "Views/templates/navbar.php"; ?>
+
 <div class="container">
     <div class="app-title m-1">
         <div>
             <h1><i class="fa fa-dashboard"></i> Crear Concepto OT </h1>
         </div>
     </div>
-    
     <div id="nuevoConcepto">
         <form method="post" id="frmConceptosOT">
             <div class="form-group">

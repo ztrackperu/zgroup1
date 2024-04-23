@@ -1,4 +1,14 @@
 <?php
+
+/*DOM PDF*/
+
+require_once "Config/Config.php";
+require_once "Config/Helpers.php";
+//require_once "vendor/autoload.php";
+
+
+//use Dompdf\Dompdf;
+
 class Otrabajo extends Controller
 {
     public function __construct()
@@ -21,6 +31,47 @@ class Otrabajo extends Controller
     {
         $this->views->getView($this, "index");
     }
+    // GENERAR PDF
+    public function generarPDF($param){ 
+        
+
+        $numot="";
+        $data="";
+        if($param!=""){
+            $pros = explode("/",$param);
+            $numot=procesarNumOT($pros[0]);
+            $data = $this->model->consultarOT($numot);
+           // ob_start();
+            // Carga la vista con los datos
+            //$this->views->getView($this, "pdf",$data="");
+            // Obtiene el contenido del búfer y lo limpia
+            //$htmlContent = ob_get_clean();
+            //$htmlContent = $this->crearreporte($data);
+
+            
+            // Crea el PDF con Dompdf
+            /*
+            $dompdf = new Dompdf();
+            $dompdf->loadHtml($htmlContent);
+            $dompdf->setPaper('A4', 'landscape');
+            header('Content-Type: application/pdf');
+            $dompdf->render();
+            $dompdf->stream($numot.".pdf", ['Attachment' => false]);
+            */
+            $htmlContent = aspectoPDFoT($data);
+            procesarPdf($htmlContent,$numot);
+            exit(0);
+            //$dompdf->render();
+            //$dompdf->stream();
+            //$data=json_decode($data);
+        }
+        //echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        //die();
+
+        //$data = $this->model->cargarTest(); 
+
+    }    
+
     public function crear()
     {
         $data['ListaUnidadMedida'] =  $this->model->ListaUnidadMedida();
@@ -33,20 +84,12 @@ class Otrabajo extends Controller
     {
         $this->views->getView($this, "test");
     }
-
-    
     public function testCorreo()
     {
         $datosRecibidos = file_get_contents("php://input");
-        
         //echo json_decode($datosRecibidos) ;
-        echo $datosRecibidos ;
-
-        
+        echo $datosRecibidos ;   
     }
-
-    
-
     public function listar()
     {
         $data = $this->model->getMovimientos();
@@ -61,6 +104,39 @@ class Otrabajo extends Controller
         }
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
         die();
+    }
+    
+    public function consultarOT($param)
+    {
+        //evaluar el parametro 
+        $numot="";
+        $data="";
+        if($param!=""){
+            $pros = explode("/",$param);
+            $numot=procesarNumOT($pros[0]);
+            $data = $this->model->consultarOT($numot);
+            $data=json_decode($data);
+        }
+        echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    public function testEstatica($param)
+    {
+        //$this->views->getView($this, "test");
+        //evaluar el parametro 
+        $numot="";
+        $data="";
+        if($param!=""){
+            $pros = explode("/",$param);
+            $numot=procesarNumOT($pros[0]);
+            $data = $this->model->consultarOT($numot);
+            $data=json_decode($data);
+        }
+        //echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        $this->views->getView($this, "pdf",$data);
+
+        
     }
 
 }

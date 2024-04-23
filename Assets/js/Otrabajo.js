@@ -60,9 +60,6 @@ document.addEventListener("DOMContentLoaded", function(){
                 text: '<button class="btn btn-info"><i class="fa fa-print"></i></button>'
             }
         ]
-
-
-
 })
 
 $(document).ready(function() {    
@@ -121,25 +118,21 @@ $(document).ready(function() {
         $('#agregarDetalle tbody').append(newRow);
 
         });
-    $('#busquedaInput').click(function() {
-            var num = $('#busqueda').val();
-            var digitos = 10;
-            num = String(num);
-            var can = num.length;
-            var falta = digitos - can - 1;
-            var respuesta = "1";
-        
-            for(var i = 0; i < falta; i++) {
-                respuesta += "0";
-            }
-            respuesta += num;
-        
-            var url = 'http://161.132.206.104:8000/concepto_ot/' + respuesta;
+        $('#busquedaInput').click(function() {
+            //var num = $('#busqueda').val();
+            var respuesta = $('#busqueda').val();
+
+            var url = base_url+'Otrabajo/consultarOT/'+respuesta;
+            //var url = 'http://192.168.1.166:7000/ot/' + respuesta;
             //var url = 'http://192.168.1.166:8000/testOT/' + respuesta;
+            // Antes de hacer la nueva búsqueda, borra los valores de los inputs
+
             $.ajax({
                 url: url,
                 type: 'GET',
-                success: function(response) {
+                success: function(response1) {
+                    const response = JSON.parse(response1);
+
                     console.log(response);
                     $('#nrOrdenInput').val(response.c_numot);
                     $('#trabajoInput').val(response.c_asunto);
@@ -204,8 +197,9 @@ $(document).ready(function() {
                 error: function(jqXHR,textStatus, errorThrown) {
                     console.error(jqXHR,textStatus, errorThrown);
                 }
-        }); 
+            }); 
     });     
+
     $('#enviarInput').click(function() {
         var nodo = document.getElementById('cargarDetalle');
         var nodo1 = nodo.outerHTML;
@@ -244,8 +238,33 @@ $(document).ready(function() {
         });
         
     });
+    $('#btnReporte').click(function() {
 
+        var num = $('#busqueda').val();
+        const http = new XMLHttpRequest();
+        const url = base_url+'Otrabajo/generarPDF/'+num;
+        http.open("GET", url);
+        http.send();
+        http.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                //const res = JSON.parse(this.responseText);
+                console.log(this.responseText);    
+                //debe salir el pdf
+                /*
+                if (res.icono == 'success') {
+                    document.getElementById('msg_error').innerHTML = `<span class="badge badge-primary">Disponible: ${res.cantidad}</span>`;
+                }else{
+                    alertas(res.msg, res.icono);
+                    return false;
+                }
+                */
+            }
+        }
+
+
+    });
 
 });
+
 
 

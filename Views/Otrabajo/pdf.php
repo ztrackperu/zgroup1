@@ -1,11 +1,7 @@
-
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- BOOTSTRAP 5 CDN--><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <!-- REMIX ICON--><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css">    <!-- REMIX ICON--><link rel="stylesheet" href="./Plantillapdf_files/remixicon.css">
     <title>Plantilla</title>
 </head>
 
@@ -102,7 +98,7 @@
             </tr>
         </thead>
         <tbody>
-        </tbody>
+        <tr><td>1000001210</td><td>20521180774</td><td>ZGROUP S.A.C.</td><td></td><td>TITTO raul</td><td>REC. HONORARIO</td><td>150</td><td>1</td><td>0</td><td>150</td><td>150</td><td><button class="btn btn-danger">Eliminar</button></td></tr></tbody>
         </table>
         <!----------------------------------------- FIN CONTENIDO DETALLE DE TRABAJO----------------------------------------->
         <div class="row mt-5">
@@ -130,17 +126,10 @@
             </tr>
         </thead>
         <tbody>
-        </tbody>
+        <tr><td>S0001473</td><td>INDND0374</td><td>DILUIDO SECADO RAPIDO BLANCO 1X5</td><td>soles</td><td>4.5</td><td>GL</td><td>27.9661</td><td>125.85</td><td>148.50</td><td>TITTO RAUL</td><td>9/13/2016</td><td></td></tr><tr><td>S0001473</td><td>INDND0007</td><td>THINNER ACRILICO</td><td>soles</td><td>5</td><td>GL</td><td>14.406</td><td>72.03</td><td>85.00</td><td>TITTO RAUL</td><td>9/13/2016</td><td></td></tr><tr><td>S0001473</td><td>INDND0407</td><td>CINTA MASKING # 2</td><td>soles</td><td>1</td><td>UND</td><td>6.96</td><td>6.96</td><td>8.21</td><td>TITTO RAUL</td><td>9/13/2016</td><td></td></tr><tr><td>S0014169</td><td>RNDND0173</td><td>CORTINA DE VINIL REFORZADA 20CM X 2MM X 91.4MT</td><td>dolares</td><td>16</td><td>M</td><td>2.4656</td><td>39.45</td><td>46.55</td><td>TITTO RAUL</td><td>6/23/2022</td><td>ENTREGA</td></tr><tr><td>S0014169</td><td>INDND2760</td><td>PLACA DE SUJECION (ACERO INOXIDABLE)</td><td>dolares</td><td>16</td><td>UND</td><td>0.9754</td><td>15.61</td><td>18.42</td><td>TITTO RAUL</td><td>6/23/2022</td><td>ENTREGA</td></tr><tr><td>S0014169</td><td>INDND2759</td><td>POLEA DE ALEACION A PRUEBA DE OXIDACION</td><td>dolares</td><td>16</td><td>UND</td><td>0.10024</td><td>1.60</td><td>1.89</td><td>TITTO RAUL</td><td>6/23/2022</td><td>ENTREGA</td></tr><tr><td>S0014169</td><td>INDND2758</td><td>CARRIL DE GUIA DE ALUMINIO.</td><td>dolares</td><td>1</td><td>UND</td><td>3</td><td>3.00</td><td>3.54</td><td>TITTO RAUL</td><td>6/23/2022</td><td>ENTREGA</td></tr></tbody>
         </table>
 <!--</form>-->
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-        const base_url = '<?php echo base_url; ?>';
-       console.log(base_url);
-    </script>
 
-    <script src="..\assets\js\Otrabajo.js"></script>
 
-</body>
-</html>
+</div></body></html>
