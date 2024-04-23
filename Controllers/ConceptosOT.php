@@ -24,7 +24,16 @@ class ConceptosOT extends Controller
     }
 
     public function crearOT(){
-        $this->views->getView($this, "crear");
+
+        $data = $this->model->getMaximoConcepto();
+        $resultado = json_decode($data);
+        $resultado = $resultado->data;
+        $resultado =[
+            "id" =>$resultado->id,
+            "codigo" =>$resultado->codigo
+        ];
+        $this->views->getView($this, "crear",$resultado);
+     
     }
 
     public function listar()
@@ -32,6 +41,7 @@ class ConceptosOT extends Controller
         $data = $this->model->getConceptos();
         $resultado = json_decode($data);
         $resultado = $resultado->data;
+        
         foreach($resultado as $item){
             if ($item->estado == 1) {
                 $item->estado= "<span class='badge badge-success'>Activo</span>";
