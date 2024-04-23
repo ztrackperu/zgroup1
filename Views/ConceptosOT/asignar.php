@@ -11,13 +11,13 @@
 <div class="col-lg-12">
     <div class="row">
         <div class="col-lg-5">
-            <h2>Concepto OT</h2>
+            <h2>Concepto OT</h2><select id="concepto1" class="form-control-concepto1" name="concepto1" required style="width: 100%;"></select>
         </div>
         <div class="col-lg-1">
         <button class="btn btn-primary mb-2" type="button" onclick="frmConceptosOT();">+<i class="fa fa-plus"></i></button>
         </div>
         <div class="col-lg-4">
-                <select id="concepto" class="form-control autor" name="concepto" required style="width: 100%;">
+                <select id="concepto" class="form-control-concepto" name="concepto" required style="width: 100%;">
                 <!--<option id="selectAutor" value="0">Seleccione</option> -->
                 </select> 
         </div>
