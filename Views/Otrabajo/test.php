@@ -19,7 +19,7 @@
                 <button type="text" class="btn btn-primary" id="busquedaInput">Búsqueda</button>
                 <button type="text" class="btn btn-success" id="enviarInput">Enviar Correo</button>
              
-                <button type="text" class="btn btn-secondary" id="btnReporte">Generar Reporte</button>
+                <button type="text" class="btn btn-secondary" id="btnReporte" >Generar Reporte</button>
             </div>
         </div>
         <div class="row"><div class="col-12"><h3>Detalle de trabajo</h3></div></div>

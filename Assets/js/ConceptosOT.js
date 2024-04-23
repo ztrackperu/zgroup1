@@ -12,39 +12,59 @@ function alertas(msg, icono) {
 
 document.addEventListener("DOMContentLoaded", function(){
 
-    $(".form-control-concepto1").select2({
+      
+      $('#concepto2').select2({
+        //language:"es",
+        //closeOnSelect: false,
+        placeholder: 'Buscar Concepto',
+        minimumInputLength: 2,
+        //allowClear: true,
+        delay: 250,
         ajax: {
-          url: "https://api.github.com/search/repositories",
-          dataType: 'json',
-          delay: 250,
-          data: function (params) {
-            return {
-              q: params.term, // search term
-              page: params.page
-            };
-          },
-          processResults: function (data, params) {
-            // analiza los resultados en el formato esperado por Select2
-            // dado que estamos usando funciones de formato personalizadas, no es necesario
-            // altera los datos JSON remotos, excepto para indicar que infinito
-            // se puede utilizar el desplazamiento
-            params.page = params.page || 1;
-      
-            return {
-              results: data.items,
-              pagination: {
-                more: (params.page * 30) < data.total_count
-              }
-            };
-          },
-          cache: true
-        },
-        placeholder: 'Search for a repository',
-        minimumInputLength: 1,
-        templateResult: formatRepo,
-        templateSelection: formatRepoSelection
-      });
-      
+            url: base_url + 'ConceptosOT/buscarConcepto',
+            dataType: 'json',
+            //delay: 250, 
+            data: function (params) {
+                
+                console.log(params);        
+                return {
+                    q: params.term
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: data
+                };
+            },
+            cache: true
+        }
+    });
+    $("#insumosL").select2({
+        //language:"es",
+        closeOnSelect: false,
+        //placeholder: 'Buscar Concepto',
+        //minimumInputLength: 3,
+        //allowClear: true,
+        //delay: 250,
+        ajax: {
+            url: base_url + 'ConceptosOT/buscarInsumos',
+            dataType: 'json',
+            //delay: 250, 
+            data: function (params) {
+                
+                console.log(params);        
+                return {
+                    q: params.term
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: data
+                };
+            },
+            cache: true
+        }
+    });
 
     
     const language = {
@@ -129,29 +149,6 @@ document.addEventListener("DOMContentLoaded", function(){
 })
 
 
-$('.form-control-concepto').select2({
-    placeholder: 'Buscar Concepto',
-    minimumInputLength: 2,
-    allowClear: true,
-    ajax: {
-        url: base_url + 'ConceptosOT/buscarConcepto',
-        dataType: 'json',
-        delay: 250, 
-        data: function (params) {
-            
-            console.log(params);        
-            return {
-                q: params.term
-            };
-        },
-        processResults: function (data) {
-            return {
-                results: data
-            };
-        },
-        cache: true
-    }
-});
 // para borrar lo cargado de forma predefinada 
 $('.form-control-concepto').on('select2:open', function (e) { 
     $('.form-control-concepto').val(null).trigger('change');
@@ -331,3 +328,21 @@ function frmConceptosOT() {
   function formatRepoSelection (repo) {
     return repo.full_name || repo.text;
   }
+
+  function tomarInsumos(){
+    variable = $('#insumosL').select2('data');
+    //console.log(variable);
+    var http = new XMLHttpRequest();
+    var url = base_url + "ConceptosOT/agregarInsumo";
+    //http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    http.open("POST", url, true);
+    http.send(JSON.stringify({data:variable}));
+    http.onreadystatechange = function() {
+        if(http.readyState == 4 && http.status == 200) { 
+        //aqui obtienes la respuesta de tu peticion
+        //alert(http.responseText);
+        console.log(JSON.parse(http.responseText));
+        console.log("oli");
+        }
+    }
+}

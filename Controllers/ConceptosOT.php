@@ -77,7 +77,7 @@ class ConceptosOT extends Controller
         }else{
             $msg = array('msg' => 'Error al Actualizar Concepto', 'icono' => 'error');
         }
-        echo json_encode($msg, JSON_UNESCAPED_UNICODE);
+        echo json_encode($msg, JSON_UNESCAPED_UNICODE); 
         die();
     }
     public function reingresar($id)
@@ -214,6 +214,36 @@ class ConceptosOT extends Controller
             echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
             die();
         }
+    }
+
+    public function buscarInsumos()
+    {
+        if (isset($_GET['q'])) {
+            $valor = $_GET['q'];
+            $data = $this->model->buscarInsumos($valor);
+            $resultado = json_decode($data);
+            $resultado = $resultado->data;
+            echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
+            die();
+        }
+    }
+
+    public function agregarInsumo()
+    {
+        //header('Content-type: application/json; charset=utf-8');
+        $datosRecibidos = file_get_contents("php://input");
+        //$resultado = $_POST['data'];
+        //echo json_encode($datosRecibidos, JSON_UNESCAPED_UNICODE);
+        $resultado1 = json_decode($datosRecibidos);
+        $resultado = $resultado1->data;
+        $objetov =[
+            "data" =>$resultado
+        ];
+        $data = $this->model->validarInsumos($objetov);
+        $resultado2 = json_decode($data);
+        $resultado3 = $resultado2->data;
+        echo json_encode($resultado3, JSON_UNESCAPED_UNICODE);        
+        die();
     }
 
 

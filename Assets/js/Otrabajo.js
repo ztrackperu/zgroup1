@@ -248,7 +248,7 @@ $(document).ready(function() {
         http.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 //const res = JSON.parse(this.responseText);
-                console.log(this.responseText);    
+                //console.log(this.responseText);    
                 //debe salir el pdf
                 /*
                 if (res.icono == 'success') {

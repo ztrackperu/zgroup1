@@ -71,7 +71,7 @@ class ConceptosOTModel extends Query
         //consulta externa 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, urlapi."");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
         $res = curl_exec($ch);
         curl_close($ch);   
         return $res;
@@ -141,6 +141,31 @@ class ConceptosOTModel extends Query
         $url_a =urlapi."/concepto_ot/regex/".$valor;
         #echo $url_a;
         curl_setopt($ch, CURLOPT_URL, $url_a);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    }
+    public function buscarInsumos($valor)
+    {
+        $ch = curl_init();
+        //esta navehando dentro de concepto_ot para hacer test
+        //http://161.132.206.104:8000/concepto_ot/buscarInsumo/casc
+        $url_a =urlapi."/concepto_ot/buscarInsumo/".$valor;
+        curl_setopt($ch, CURLOPT_URL, $url_a);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    } 
+
+    public function validarInsumos($data)
+    {
+        $ch = curl_init();
+        $data =json_encode($data);
+        curl_setopt($ch, CURLOPT_URL, urlapi."/concepto_ot/validarInsumo/");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $res = curl_exec($ch);
         curl_close($ch);   

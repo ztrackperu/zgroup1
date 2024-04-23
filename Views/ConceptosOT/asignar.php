@@ -11,20 +11,29 @@
 <div class="col-lg-12">
     <div class="row">
         <div class="col-lg-5">
-            <h2>Concepto OT</h2><select id="concepto1" class="form-control-concepto1" name="concepto1" required style="width: 100%;"></select>
+            <h2>Concepto OT</h2>
         </div>
         <div class="col-lg-1">
         <button class="btn btn-primary mb-2" type="button" onclick="frmConceptosOT();">+<i class="fa fa-plus"></i></button>
         </div>
         <div class="col-lg-4">
-                <select id="concepto" class="form-control-concepto" name="concepto" required style="width: 100%;">
+                <select id="concepto2" class="js-example-basic-multiple" name="concepto2" required style="width: 100%;">
                 <!--<option id="selectAutor" value="0">Seleccione</option> -->
                 </select> 
         </div>
         <div class="col-lg-2">
             <button class="w-100 btn btn-warning btn-lg" type="submit">SELECCIONAR</button>
         </div>
-
+        <p></p>
+        <div class="col-lg-4">
+            <h3>Insumos a Incorporar</h3>    
+        </div>
+        <div class="col-lg-6">
+            <select id="insumosL" class="js-example-basic-multiple"  name="insumosL[]" multiple="multiple"  style="width: 100%;" ></select>
+        </div>
+        <div class="col-lg-2">
+            <button class="w-100 btn btn-success btn-lg" type="submit"  onclick="tomarInsumos()">AGREGAR<i class="fa fa-plus"></i></button>
+        </div>
         <div class="col-lg-8">
             <div class="form-group">
                 <label for="titulo">Título</label>
