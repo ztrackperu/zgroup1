@@ -81,4 +81,6 @@ class OtrabajoModel extends Query
         return $res;
     }
 
+    
+
 }

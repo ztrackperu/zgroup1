@@ -13,7 +13,7 @@
 <body>
 <nav class="navbar navbar-expand-lg bsb-navbar bsb-navbar-hover bsb-navbar-caret">
   <div class="container">
-    <a class="navbar-brand" href="index.html"> <img src="<?php echo base_url; ?>Assets/img/image.png" alt="logo__zgroup" width="135" height="44"></a>
+    <a class="navbar-brand" href="<?php echo base_url; ?>AdminPage"> <img src="<?php echo base_url;?>Assets/img/image.png" alt="logo__zgroup" width="135" height="44"></a>
     <button type="button" class="navbar-toggler" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
         <span class="navbar-toggler-icon"></span>
     </button>

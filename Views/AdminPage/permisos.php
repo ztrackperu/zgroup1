@@ -1,6 +1,6 @@
-<?php include "Views/Templates/header1.php"; ?>
+<?php include "Views/templates/navbar.php"; ?>
 <div class="row">
-    <div class="col-md-5 mx-auto">
+    <div class="col-md-5 mx-auto m-5">
         <div class="card">
             <div class="card-header text-center bg-primary">
                 <h4 class="text-white">No tienes permisos</h4>
@@ -11,4 +11,4 @@
         </div>
     </div>
 </div>
-<?php include "Views/Templates/footer1.php"; ?>
+<?php include "Views/templates/footer.php"; ?>

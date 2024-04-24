@@ -245,10 +245,9 @@ $(document).ready(function() {
     });
     $('#btnReporte').click(function() {
         $.ajax({
-            url: 'Otrabajo.php',
+            url: 'generarPDF/' + respuesta,
             type: 'POST',
             data: {
-                action: 'generarPDF',
                 htmlContent: '<h1>Welcome to Dompdf!</h1><p>Hello World</p>'
             },
             success: function(response) {
@@ -262,5 +261,20 @@ $(document).ready(function() {
 
 });
 
+function enviarCorreo(event) {
+    event.preventDefault();
+    const url = base_url + "Otrabajo/enviarCorreoReporte";
+    const http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    const formData = new FormData();
+    formData.append("busqueda", document.getElementById("busqueda").value);
 
-
+    http.send(formData);
+    http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            const res = JSON.parse(this.responseText);
+            console.log(res);
+            alertas(res.msg, res.icono);
+        }
+    }
+}

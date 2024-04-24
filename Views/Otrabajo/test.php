@@ -1,3 +1,4 @@
+<?php include "Views/templates/navbar.php"; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +18,8 @@
                 <h3>Ingrese su N° OT</h3>
                 <input type="text" id="busqueda" name="busqueda" class="form-control" value="">
                 <button type="text" class="btn btn-primary" id="busquedaInput">Búsqueda</button>
-                <button type="text" class="btn btn-success" id="enviarInput">Enviar Correo</button>
+                <button type="button" type="submit" onclick="enviarCorreo(event)" id="btnAccion" class="btn btn-success">Enviar Correo</button>
+
              
                 <button type="text" class="btn btn-secondary" id="btnReporte">Generar Reporte</button>
             </div>

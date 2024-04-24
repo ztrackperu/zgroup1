@@ -61,6 +61,7 @@ class Configuracion extends Controller
     }
     public function admin()
     {
+        /*
         $data['libros'] = $this->model->selectDatos('libro');
         $data['materias'] = $this->model->selectDatos('materia');
         $data['estudiantes'] = $this->model->selectDatos('estudiante');
@@ -68,7 +69,8 @@ class Configuracion extends Controller
         $data['editorial'] = $this->model->selectDatos('editorial');
         $data['prestamos'] = $this->model->selectDatos('prestamo');
         $data['usuarios'] = $this->model->selectDatos('usuarios');
-        $this->views->getView($this, "home", $data);
+        */
+        $this->views->getView($this, "../AdminPage/index");
     }
     public function error()
     {
