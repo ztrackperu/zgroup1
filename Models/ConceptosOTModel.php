@@ -118,6 +118,9 @@ class ConceptosOTModel extends Query
     //actualizarConcepto
     public function actualizarConcepto($id,$data)
     {
+        //return $id; 
+        //return $data;
+        
         $ch = curl_init();
         $data =json_encode($data);
         curl_setopt($ch, CURLOPT_URL, urlapi."/concepto_ot/".$id);
@@ -128,6 +131,7 @@ class ConceptosOTModel extends Query
         $res = curl_exec($ch);
         curl_close($ch);   
         return $res;
+        
     } 
     public function buscarConcepto($valor)
     {

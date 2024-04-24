@@ -50,13 +50,13 @@
             <div class="form-group">
                 <label for="titulo">Codigo Concepto</label>
                 <input type="hidden" id="id" name="id">
-                <input id="codigo_concepto" class="form-control" type="text" name="codigo_concepto"  placeholder="codigo..." required readonly>
+                <input id="codigo_concepto" class="form-control" type="text" name="codigo_concepto" <?php if($data !="ok"){echo "value=".$proceso->data->codigo;}?> placeholder="codigo..." required readonly>
             </div>
         </div>
         <div class="col-lg-8">
             <div class="form-group">
                 <label for="autor">Descripcion Concepto</label><br>
-                <input id="descripcion_concepto" class="form-control" type="text" name="descripcion_concepto"  placeholder="concepto..." required readonly>
+                <input id="descripcion_concepto" class="form-control" type="text" name="descripcion_concepto" <?php if($data !="ok"){echo "value=".$proceso->data->descripcion;}?> placeholder="concepto..." required readonly>
             </div>
         </div>
     </div>
@@ -73,10 +73,54 @@
     </div>
 </div>
 <div class="col-lg-12">
-    <p id="comparador"><p>   
+    <p id="comparador"><p>
+    <?php if($data =="ok"){ ?>
     <table id="myTableInsumo" class="table table-striped table-bordered"></table>
+    <?php }else { ?>
+    <table id="myTableInsumo" class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Codigo</th>
+                <th>Descripcion</th>
+                <th>Unidad</th>
+                <th>Cantidad</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php  //echo var_dump(($proceso->data->insumos)); 
+            $proceso1 = $proceso->data->insumos;
+            foreach($proceso1 as $data){
+                //echo var_dump($data);
+                //echo $data->IN_CODI;
+                ?>
+            <tr>
+                <th><?= $data->IN_CODI ?></th>
+                <th><?= $data->IN_ARTI ?></th>
+                <th><?= $data->IN_UVTA  ?></th>
+                <?php $cadena ='"'.$data->IN_CODI.'"'; ?>
+                <th><div ><input id=<?= "'insumo_".$data->IN_CODI."'" ?> class='form-control' type='text' name=<?= "'insumo_".$data->IN_CODI."'" ?> value=<?= $data->cantidad ?> style='width: 80px;'required></div></th>
+                <th><div ><button class='btn btn-danger' type='button' onclick=<?= "'btnEliminarInsumo(".$cadena.")'" ?>><i class='fa fa-pencil-square-o'></i>X</button></th>
+            </tr>
+                
+            <?php } ?>
+            <?php
+            /*
+"insumo_".$item->IN_CODI."'
+'btnEliminarInsumo(" . $cadena .")'
+<?= "btnEliminarInsumo('".$data->IN_CODI.")'" ?>
+$cadena ='"'.$item->IN_CODI.'"';
+$item->acciones= "<button class='btn btn-danger' type='button' onclick='btnEliminarInsumo(" . $cadena .")'><i class='fa fa-pencil-square-o'></i>X</button>";
+$item->cantidad="<div ><input id='insumo_".$item->IN_CODI."' class='form-control' type='text' name='insumo_".$item->IN_CODI."' value=1 style='width: 80px;'required></div>";
+*/
 
-   
+?>
+
+
+
+        </tbody>
+    </table>
+    <?php } ?>
 </div>
 
 

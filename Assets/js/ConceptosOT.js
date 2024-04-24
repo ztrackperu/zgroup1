@@ -294,120 +294,399 @@ function frmConceptosOT() {
     $("#nuevoConcepto").modal("show");
 }
 
-
-
-  function formatRepo (repo) {
-    if (repo.loading) {
-      return repo.text;
-    }
-  
-    var $container = $(
-      "<div class='select2-result-repository clearfix'>" +
-        "<div class='select2-result-repository__avatar'><img src='" + repo.owner.avatar_url + "' /></div>" +
-        "<div class='select2-result-repository__meta'>" +
-          "<div class='select2-result-repository__title'></div>" +
-          "<div class='select2-result-repository__description'></div>" +
-          "<div class='select2-result-repository__statistics'>" +
-            "<div class='select2-result-repository__forks'><i class='fa fa-flash'></i> </div>" +
-            "<div class='select2-result-repository__stargazers'><i class='fa fa-star'></i> </div>" +
-            "<div class='select2-result-repository__watchers'><i class='fa fa-eye'></i> </div>" +
-          "</div>" +
-        "</div>" +
-      "</div>"
-    );
-  
-    $container.find(".select2-result-repository__title").text(repo.full_name);
-    $container.find(".select2-result-repository__description").text(repo.description);
-    $container.find(".select2-result-repository__forks").append(repo.forks_count + " Forks");
-    $container.find(".select2-result-repository__stargazers").append(repo.stargazers_count + " Stars");
-    $container.find(".select2-result-repository__watchers").append(repo.watchers_count + " Watchers");
-  
-    return $container;
-  }
-  
-  function formatRepoSelection (repo) {
-    return repo.full_name || repo.text;
-  }
-
   function tomarInsumos(){
+    var tablaInsumos = $('#myTableInsumo').DataTable({retrieve: true,paging: false});
     variable = $('#insumosL').select2('data');
     //console.log(variable);
-    var http = new XMLHttpRequest();
-    var url = base_url + "ConceptosOT/agregarInsumo";
-    //http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    http.open("POST", url, true);
-    http.send(JSON.stringify({data:variable}));
-    http.onreadystatechange = function() {
-        if(http.readyState == 4 && http.status == 200) { 
-        //limpiar select 2
-        $('#insumosL').val(null).trigger('change');
-        //console.log(JSON.parse(http.responseText));
-        resul = JSON.parse(http.responseText);
-        var tablaInsumos = $('#myTableInsumo').DataTable();
-        contInsumos = tablaInsumos.rows().count();
-        if(contInsumos==0){
-            tablaInsumos.destroy();
-            console.log("esta vacio");
+    if(variable.length!=0){
+        var http = new XMLHttpRequest();
+        var url = base_url + "ConceptosOT/agregarInsumo";
+        //http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        http.open("POST", url, true);
+        http.send(JSON.stringify({data:variable}));
+        http.onreadystatechange = function() {
+            if(http.readyState == 4 && http.status == 200) { 
+                //limpiar select 2
+                $('#insumosL').val(null).trigger('change');
+                //console.log(JSON.parse(http.responseText));
+                resul = JSON.parse(http.responseText);
+                console.log(resul);
+                contInsumos = tablaInsumos.rows().count();
+                console.log(contInsumos)
+                if(contInsumos==0){
+                    tablaInsumos.destroy();
+                    console.log("esta vacio");
+                    var table = $('#myTableInsumo').DataTable({
+                        paging: false,
+                        searching: true,
+                        info: false,
+                        data: resul,
+                        columns: [
+                        { title: "Codigo", data: "IN_CODI" },
+                        { title: "Descripcion", data: "IN_ARTI" },
+                        { title: "Unidad", data: "IN_UVTA" },
+                        { title: "Cantidad", data: "cantidad" },
+                        { title: "Eliminar", data: "acciones" }
+                        ]
+                    });
+                    //canti = table.rows().count();
+                    //console.log(canti);
+                }else{
+                    //aqui debe agregar la data 
+                    //primero comparar con la ya agregada 
+                    //tomamos la agregada 
+                    datosya =[]
+                    let rows = tablaInsumos.rows(
+                        //(idx, data) => data.location === 'Edinburgh'
+                        (idx, data) => datosya.push(data.IN_CODI) 
+                        //(idx, data) => datosya.push(data) 
+
+                    );
+                    //datos ya contiene la informacion de los que ya existen
+                    //console.log(datosya)
+                    //comparamos con los datos que tenemos
+                    //console.log(resul);
+                    sinrepetiones=[];
+                    for(let i=0;i<resul.length;i++){
+                        let element = resul[i].IN_CODI;
+                        //console.log(element);
+                        if(datosya.includes(element)){
+                            //console.log(`coincide '${element}'`);
+                        }else{
+                            //console.log(`No coincide '${element}'`);
+                            sinrepetiones.push(resul[i]) ;
+                        }
+                    }
+                    console.log("hay data");
+                    //aqui se guardan los elementos listo pa ser agregados 
+                    console.log(sinrepetiones);
+                    for(let i=0;i<sinrepetiones.length;i++){
+                        tablaInsumos.row.add(
+                            //{ tamano: tamano, nombre: nombre }
+                            {
+                                IN_CODI: sinrepetiones[i].IN_CODI,
+                                IN_ARTI: sinrepetiones[i].IN_ARTI,
+                                IN_UVTA: sinrepetiones[i].IN_UVTA,
+                                cantidad: sinrepetiones[i].cantidad,
+                                acciones: sinrepetiones[i].acciones, 
+                            }
+                        
+                        ).draw(false);
+                    }
+                }
+            }
+        }
+    }else{
+        Swal.fire({
+            title: 'No se ha seleccionado ningun Insumo',
+            text: "Los insumos  deben ser seleccionado",
+            icon: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Entendido',
+            //cancelButtonText: false
+        })
+
+    }
+}
+
+function fila(id){
+    id1=id-1000;
+    const url = base_url + "ConceptosOT/nuevaSeleccion/" + id1;
+    const http = new XMLHttpRequest();
+    http.open("GET", url, true);
+    http.send();
+    http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            const res = JSON.parse(this.responseText);
+            console.log(res);
             var table = $('#myTableInsumo').DataTable({
                 paging: false,
                 searching: true,
                 info: false,
-                data: resul,
+                data: res,
                 columns: [
-                  { title: "Codigo", data: "IN_CODI" },
-                  { title: "Descripcion", data: "IN_ARTI" },
-                  { title: "Unidad", data: "IN_UVTA" },
-                  { title: "Cantidad", data: "cantidad" },
-                  { title: "Eliminar", data: "acciones" }
+                { title: "Codigo", data: "IN_CODI" },
+                { title: "Descripcion", data: "IN_ARTI" },
+                { title: "Unidad", data: "IN_UVTA" },
+                { title: "Cantidad", data: "cantidad" },
+                { title: "Eliminar", data: "acciones" }
                 ]
-              });
-            //canti = table.rows().count();
-            //console.log(canti);
+            });
+            //console.log(res.insumos);
+            if(res.insumos!=null){
+                console.log(res.insumos);
+                if(res.insumos.length!=0){
+                    //tablaInsumos.destroy();
+                    console.log("esta vacio");
+                    
+                    var table = $('#myTableInsumo').DataTable({
+                        paging: false,
+                        searching: true,
+                        info: false,
+                        data: res.insumos,
+                        columns: [
+                        { title: "Codigo", data: "IN_CODI" },
+                        { title: "Descripcion", data: "IN_ARTI" },
+                        { title: "Unidad", data: "IN_UVTA" },
+                        { title: "Cantidad", data: "cantidad" },
+                        { title: "Eliminar", data: "acciones" }
+                        ]
+                    });
+                    
+                /*
+                datz= res.insumos.length;
+                console.log(datz);
+                    for(let i=0;i<res.insumos.length;i++){
+                        if(typeof tablaInsumos === 'undefined'){
+                            var tablaInsumos = $('#myTableInsumo').DataTable({retrieve: true,paging: false});
+                       }
+                       var table = $('#myTableInsumo').DataTable({
+                        paging: false,
+                        searching: true,
+                        info: false,
+                        data: resul,
+                        columns: [
+                        { title: "Codigo", data: "IN_CODI" },
+                        { title: "Descripcion", data: "IN_ARTI" },
+                        { title: "Unidad", data: "IN_UVTA" },
+                        { title: "Cantidad", data: "IN_CODI" },
+                        { title: "Eliminar", data: "IN_CODI" }
+                        ]
+                    });
+                        console.log("oki");
+                        tablaInsumos.row.add(
+                            //{ tamano: tamano, nombre: nombre }
+                            {
+                                IN_CODI: res.insumos[i].IN_CODI,
+                                IN_ARTI: res.insumos[i].IN_ARTI,
+                                IN_UVTA: res.insumos[i].IN_UVTA,
+                                cantidad: res.insumos[i].IN_UVTA,
+                                acciones: res.insumos[i].IN_UVTA, 
+                            }
+                        
+                        ).draw(false);
+                    }
+
+                    */
+
+                }
+        }
+
+            //agregar los resultados del concepto
+
+            /*
+            document.getElementById("id").value = res.id;
+            
+            document.getElementById("codigo_concepto").value = res.codigo;
+            document.getElementById("descripcion_concepto").value = res.descripcion;                
+            $("#nuevoConcepto").modal("show");
+            */
+        }
+    }
+}
+function asignarConcepto(){
+    variable = $('#concepto2').select2('data');
+    if(variable.length!=0){
+        codigo_concepto = document.getElementById("codigo_concepto").value ;
+        descripcion_concepto = document.getElementById("descripcion_concepto").value ;
+        console.log(variable);
+        //console.log(codigo_concepto);
+        //console.log(descripcion_concepto);
+        if(codigo_concepto!="" || descripcion_concepto!=""){
+            Swal.fire({
+                title: 'Esta seguro de reemplazar ?',
+                text: "Ya tiene selecciono el concepto :"+descripcion_concepto,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Reemplazar',
+                cancelButtonText: 'No'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById("codigo_concepto").value = variable[0].id;
+                    document.getElementById("descripcion_concepto").value = variable[0].text;
+                    // solcitar data 
+                    fila(variable[0].id);
+
+                }
+            })
         }else{
-            //aqui debe agregar la data 
-            //primero comparar con la ya agregada 
-            //tomamos la agregada 
-            datosya =[]
+            //reemplazar
+            document.getElementById("codigo_concepto").value = variable[0].id;
+            document.getElementById("descripcion_concepto").value = variable[0].text;
+            fila(variable[0].id);
+    
+        }
+    }else{
+        Swal.fire({
+            title: 'No se ha seleccionado el Concepto',
+            text: "El Concepto debe ser seleccionado",
+            icon: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Entendido',
+            //cancelButtonText: false
+        })
+    }
+}
+
+//onclick="btnEliminarInsumo(100038800);"
+function btnEliminarInsumo(cod){
+    console.log(cod);
+    
+    Swal.fire({
+        title: 'Esta seguro de Eliminar Insumo ?',
+        text: "Insumo a Eliminar :"+cod,
+        icon: 'error',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Eliminar',
+        cancelButtonText: 'No'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            //$('#myTableInsumo').DataTable();
+            trama = $('#myTableInsumo').DataTable()
+            .row( 
+                (idx, data) => data.IN_CODI===cod
+             ).remove().draw();
+             console.log(trama)
+        }
+    })
+}
+
+function procesarConceptoInsumo(){
+    codigo_concepto = document.getElementById("codigo_concepto").value ;
+    descripcion_concepto = document.getElementById("descripcion_concepto").value ;
+    if(codigo_concepto!="" && descripcion_concepto!=""){
+        var tablaInsumos = $('#myTableInsumo').DataTable({retrieve: true,paging: false});
+        contInsumos = tablaInsumos.rows().count();
+        if(contInsumos!=0){
+            console.log("tenemos datos proceder");
+            datosya=[];
             let rows = tablaInsumos.rows(
                 //(idx, data) => data.location === 'Edinburgh'
-                (idx, data) => datosya.push(data.IN_CODI) 
+                (idx, data) => datosya.push(data) 
                 //(idx, data) => datosya.push(data) 
 
             );
-            //datos ya contiene la informacion de los que ya existen
-            //console.log(datosya)
-            //comparamos con los datos que tenemos
-            //console.log(resul);
-            sinrepetiones=[];
-            for(let i=0;i<resul.length;i++){
-                let element = resul[i].IN_CODI;
-                //console.log(element);
-                if(datosya.includes(element)){
-                    //console.log(`coincide '${element}'`);
-                }else{
-                    //console.log(`No coincide '${element}'`);
-                    sinrepetiones.push(resul[i]) ;
+            console.log(datosya);
+            //crear el array 
+            nuevojson =[];
+            for(let i=0;i<datosya.length;i++){
+                objet=[];
+                objet['IN_CODI'] =datosya[i].IN_CODI ;
+                objet['IN_ARTI'] =datosya[i].IN_ARTI ;
+                objet['IN_UVTA'] =datosya[i].IN_UVTA ;
+                objet['cantidad'] =4 ;
+
+
+                
+                //capturamos el valor de el input ingresado
+                iden = "insumo_"+datosya[i].IN_CODI;
+                console.log(iden);
+                //insumo_INDND1120
+                //valor1 = document.getElementById("insumo_INDND0270").value ;
+                //console.log(valor1);
+
+                //valor = document.getElementById("'"+iden+"'").value ;
+                //objet['real'] =valor ;
+                /*
+                $("#"+iden).on('input',function (event){
+                    console.log(event.target.value)
+                    
+              });
+              */
+             //valinput = $("'"+iden+"'").val();
+             //INDND1509
+             //CASACA TERMICAS MOD. CLASICO
+             //valinput = $("#insumo_INDND1119").val();
+            valinput = $("#"+iden).val();
+
+             //valinput = $("#".iden).val();
+
+             console.log(valinput);
+             objet['valor'] =valinput ;
+
+             var objetivo = {
+                IN_CODI: datosya[i].IN_CODI ,
+                IN_ARTI: datosya[i].IN_ARTI,
+                IN_UVTA: datosya[i].IN_UVTA,
+                cantidad: valinput
+              };
+
+                nuevojson.push(objetivo) ;
+                
+            }
+            console.log(nuevojson);
+            //este enviar a actualizar en la base de datos
+            var http = new XMLHttpRequest();
+            var url = base_url + "ConceptosOT/registrarAsignacion";
+            //http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            http.open("POST", url, true);
+            http.send(JSON.stringify({data:nuevojson,id:codigo_concepto}));
+            http.onreadystatechange = function() {
+                if(http.readyState == 4 && http.status == 200) { 
+                    const res = JSON.parse(this.responseText);
+                    alertas(res.msg, res.icono);
+                    setTimeout(function(){
+                        window.location = base_url + "AdminPage";       
+                    }, 1000);
+
                 }
             }
-            console.log("hay data");
-            //aqui se guardan los elementos listo pa ser agregados 
-            console.log(sinrepetiones);
-            for(let i=0;i<sinrepetiones.length;i++){
-                tablaInsumos.row.add(
-                    //{ tamano: tamano, nombre: nombre }
-                    {
-                        IN_CODI: sinrepetiones[i].IN_CODI,
-                        IN_ARTI: sinrepetiones[i].IN_ARTI,
-                        IN_UVTA: sinrepetiones[i].IN_UVTA,
-                        cantidad: sinrepetiones[i].cantidad,
-                        acciones: sinrepetiones[i].acciones, 
-                    }
-                
-                ).draw(false);
-            }
+        }else{
+            Swal.fire({
+                title: 'No se ha seleccionado Insumos para el concepto',
+                text: "Los Insumos deben ser asignados al concepto",
+                icon: 'warning',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Entendido',
+                //cancelButtonText: false
+            })
         }
-        
+    }else{
+        Swal.fire({
+            title: 'No se ha seleccionado el Concepto',
+            text: "El Concepto debe ser seleccionado",
+            icon: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Entendido',
+            //cancelButtonText: false
+        })
+    }
+}
 
+
+function btnAsignarInsumoConcepto(id){
+    const url = base_url + "ConceptosOT/editar/" + id;
+    const http = new XMLHttpRequest();
+    http.open("GET", url, true);
+    http.send();
+    http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            const res = JSON.parse(this.responseText);
+            console.log(res);
+            document.getElementById("codigo_concepto").value = res.codigo;
+            document.getElementById("descripcion_concepto").value = res.descripcion;       
+            //window.location = base_url + "ConceptosOT/asignar";   
+
+            /*
+            document.getElementById("id").value = res.id;
+            
+            document.getElementById("codigo_concepto").value = res.codigo;
+            document.getElementById("descripcion_concepto").value = res.descripcion;                
+            $("#nuevoConcepto").modal("show");
+            */
         }
     }
+
 }

@@ -43,13 +43,17 @@ class ConceptosOT extends Controller
         $resultado = $resultado->data;
         
         foreach($resultado as $item){
+            //enlazar a vista desde controlador php
+            //<div class='col-lg-4'><a class='dropdown-item' style='background-color: red;color:white' href='".base_url."ConceptosOT/Asignar/".$item->id."'>A</a></div>
             if ($item->estado == 1) {
                 $item->estado= "<span class='badge badge-success'>Activo</span>";
-                $item->acciones="<div>
-                    <button class='btn btn-dark' onclick='btnEditarConcepto(" . $item->id . ")'><i class='fa fa-key'></i>M</button>
-                    <button class='btn btn-primary' type='button' onclick='btnEliminarConcepto(" . $item->id . ");'><i class='fa fa-pencil-square-o'></i>E</button>
-                    <button class='btn btn-danger' type='button' onclick='btnAsignarConcepto(" . $item->id . ");'><i class='fa fa-trash-o'></i>A</button>
-                    </div>";
+                $item->acciones="<div class='row' style='width: 140px;'>
+                    <div class='col-lg-4'>
+                    <button class='btn btn-dark' onclick='btnEditarConcepto(" . $item->id . ")'><i class='fa fa-key'></i>M</button></div><div class='col-lg-4'>
+                    <button class='btn btn-primary' type='button' onclick='btnEliminarConcepto(" . $item->id . ");'><i class='fa fa-pencil-square-o'></i>E</button></div>
+                    <div class='col-lg-4'><button class='btn btn-success' type='button' onclick='btnAsignarInsumoConcepto(" . $item->id . ");'><i class='fa fa-pencil-square-o'></i>A</button></div>
+                    </div>
+                    ";
             } else {
                 $item->estado = "<span class='badge badge-danger'>Eliminado</span>";
                 $item->acciones="<div>
@@ -190,6 +194,15 @@ class ConceptosOT extends Controller
 
     public function Asignar($data)
     {
+        if($data==""){
+            $data="ok";
+        }else{
+            $data = $this->model->editarConcepto($data);
+ 
+        }
+        //$data = $this->model->editarConcepto($data);
+
+        //pedir con metodo get la data 
         /*
         $data = $this->model->getMaximoConcepto();
         $resultado = json_decode($data);
@@ -202,7 +215,7 @@ class ConceptosOT extends Controller
         $resultado =" estoy en asignar";
         //echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
         //die();
-        $this->views->getView($this, "Asignar");  
+        $this->views->getView($this, "Asignar",$data);  
     }
     public function buscarConcepto()
     {
@@ -243,16 +256,69 @@ class ConceptosOT extends Controller
         $resultado2 = json_decode($data);
         $resultado3 = $resultado2->data;
         //aqui debemos pasar los datos 
-        foreach($resultado3 as $item){      
-            $item->cantidad= "<span class='badge badge-success'>Activo</span>";
-            $item->acciones="<div>
-                <button class='btn btn-primary' type='button' onclick='btnEliminarConcepto(" . $item->IN_CODI . ");'><i class='fa fa-pencil-square-o'></i>E</button>
-                </div>";
+        foreach($resultado3 as $item){
+            //$cadena =  "('".  strtoupper($item->IN_CODI)."')"   ;
+            //$cadena ='"locura"';
+            $cadena ='"'.$item->IN_CODI.'"';
+            $item->acciones= "<button class='btn btn-danger' type='button' onclick='btnEliminarInsumo(" . $cadena .")'><i class='fa fa-pencil-square-o'></i>X</button>";
+            //$item->acciones= "<button class='btn btn-danger' type='button' onclick='btnEliminarInsumo(" . $cadena .")'><i class='fa fa-pencil-square-o'></i>X</button>";
+            
+            $item->cantidad="<div >
+            <input id='insumo_".$item->IN_CODI."' class='form-control' type='text' name='insumo_".$item->IN_CODI."' value=1 style='width: 80px;'required>
+            </div>";
             
         }
         echo json_encode($resultado3, JSON_UNESCAPED_UNICODE);        
         die();
     }
+    public function registrarAsignacion()
+    {      
+        $datosRecibidos = file_get_contents("php://input");
+        //$resultado = $_POST['data'];
+        //echo json_encode($datosRecibidos, JSON_UNESCAPED_UNICODE);
+        $resultado1 = json_decode($datosRecibidos);
+        $resultado = $resultado1->data;
+        $id = $resultado1->id-1000;
+        $objetov =[
+            "insumos" =>$resultado
+        ];
+        $data = $this->model->actualizarConcepto($id,$objetov);
 
 
+        $resultado2 = json_decode($data);
+        $resultado3 = $resultado2->data;
+        if($resultado3=="ok"){
+            //nos vamos al inicio
+            //$this->views->getView($this, "index");  
+            //die();
+            $msg = array('msg' => 'Asignacion exitosa ', 'icono' => 'success');
+        }else{
+            $msg = array('msg' => 'Verifica las cantidades a asignar', 'icono' => 'error');
+        }
+        echo json_encode($msg, JSON_UNESCAPED_UNICODE);        
+        die();
+    }  
+
+    public function nuevaSeleccion($id){
+        $data = $this->model->editarConcepto($id);
+        $resultado = json_decode($data);
+        $resultado = $resultado->data->insumos;
+        //aqui debemos tratar la informacion
+        foreach($resultado as $item){
+            //$cadena =  "('".  strtoupper($item->IN_CODI)."')"   ;
+            //$cadena ='"locura"';
+            $cadena ='"'.$item->IN_CODI.'"';
+            $item->acciones= "<button class='btn btn-danger' type='button' onclick='btnEliminarInsumo(" . $cadena .")'><i class='fa fa-pencil-square-o'></i>X</button>";
+            //$item->acciones= "<button class='btn btn-danger' type='button' onclick='btnEliminarInsumo(" . $cadena .")'><i class='fa fa-pencil-square-o'></i>X</button>";
+            
+            $item->cantidad="<div >
+            <input id='insumo_".$item->IN_CODI."' class='form-control' type='text' name='insumo_".$item->IN_CODI."' value=".$item->cantidad." style='width: 80px;'required>
+            </div>";
+            
+        }
+
+        echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
+        die();
+
+    }
 }
