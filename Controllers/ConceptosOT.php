@@ -242,6 +242,14 @@ class ConceptosOT extends Controller
         $data = $this->model->validarInsumos($objetov);
         $resultado2 = json_decode($data);
         $resultado3 = $resultado2->data;
+        //aqui debemos pasar los datos 
+        foreach($resultado3 as $item){      
+            $item->cantidad= "<span class='badge badge-success'>Activo</span>";
+            $item->acciones="<div>
+                <button class='btn btn-primary' type='button' onclick='btnEliminarConcepto(" . $item->IN_CODI . ");'><i class='fa fa-pencil-square-o'></i>E</button>
+                </div>";
+            
+        }
         echo json_encode($resultado3, JSON_UNESCAPED_UNICODE);        
         die();
     }

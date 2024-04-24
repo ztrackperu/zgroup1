@@ -53,6 +53,9 @@
     <button class="btn btn-primary mb-2" type="button" onclick="frmConceptosOT();">+<i class="fa fa-plus"></i></button>
 </div>
 <div class="col-lg-12">
+    <table id="myTableInsumo" class="table table-striped table-bordered">
+</div>
+<div class="col-lg-12">
     <div class="row">
         <div class="col-lg-12">
             <div class="tile">

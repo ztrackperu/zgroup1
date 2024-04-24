@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function(){
         //language:"es",
         closeOnSelect: false,
         //placeholder: 'Buscar Concepto',
-        //minimumInputLength: 3,
+        minimumInputLength: 3,
         //allowClear: true,
         //delay: 250,
         ajax: {
@@ -339,10 +339,75 @@ function frmConceptosOT() {
     http.send(JSON.stringify({data:variable}));
     http.onreadystatechange = function() {
         if(http.readyState == 4 && http.status == 200) { 
-        //aqui obtienes la respuesta de tu peticion
-        //alert(http.responseText);
-        console.log(JSON.parse(http.responseText));
-        console.log("oli");
+        //limpiar select 2
+        $('#insumosL').val(null).trigger('change');
+        //console.log(JSON.parse(http.responseText));
+        resul = JSON.parse(http.responseText);
+        var tablaInsumos = $('#myTableInsumo').DataTable();
+        contInsumos = tablaInsumos.rows().count();
+        if(contInsumos==0){
+            tablaInsumos.destroy();
+            console.log("esta vacio");
+            var table = $('#myTableInsumo').DataTable({
+                paging: false,
+                searching: true,
+                info: false,
+                data: resul,
+                columns: [
+                  { title: "Codigo", data: "IN_CODI" },
+                  { title: "Descripcion", data: "IN_ARTI" },
+                  { title: "Unidad", data: "IN_UVTA" },
+                  { title: "Cantidad", data: "cantidad" },
+                  { title: "Eliminar", data: "acciones" }
+                ]
+              });
+            //canti = table.rows().count();
+            //console.log(canti);
+        }else{
+            //aqui debe agregar la data 
+            //primero comparar con la ya agregada 
+            //tomamos la agregada 
+            datosya =[]
+            let rows = tablaInsumos.rows(
+                //(idx, data) => data.location === 'Edinburgh'
+                (idx, data) => datosya.push(data.IN_CODI) 
+                //(idx, data) => datosya.push(data) 
+
+            );
+            //datos ya contiene la informacion de los que ya existen
+            //console.log(datosya)
+            //comparamos con los datos que tenemos
+            //console.log(resul);
+            sinrepetiones=[];
+            for(let i=0;i<resul.length;i++){
+                let element = resul[i].IN_CODI;
+                //console.log(element);
+                if(datosya.includes(element)){
+                    //console.log(`coincide '${element}'`);
+                }else{
+                    //console.log(`No coincide '${element}'`);
+                    sinrepetiones.push(resul[i]) ;
+                }
+            }
+            console.log("hay data");
+            //aqui se guardan los elementos listo pa ser agregados 
+            console.log(sinrepetiones);
+            for(let i=0;i<sinrepetiones.length;i++){
+                tablaInsumos.row.add(
+                    //{ tamano: tamano, nombre: nombre }
+                    {
+                        IN_CODI: sinrepetiones[i].IN_CODI,
+                        IN_ARTI: sinrepetiones[i].IN_ARTI,
+                        IN_UVTA: sinrepetiones[i].IN_UVTA,
+                        cantidad: sinrepetiones[i].cantidad,
+                        acciones: sinrepetiones[i].acciones, 
+                    }
+                
+                ).draw(false);
+            }
+        }
+        
+
         }
     }
 }
