@@ -266,5 +266,19 @@ $(document).ready(function() {
 
 });
 
+document.getElementById('checkOrdenTrabajo').addEventListener('change', function() {
+    if(this.checked) {
+        document.getElementById('nroReporte').value = "S/N";
+        document.getElementById('serieEquipo').value = "S/N";
+        document.getElementById('nroGuiaOC').value = "S/N";
+        document.getElementById('nroTicket').value = "S/N";
+    } else {
+        document.getElementById('nroReporte').value = "";
+        document.getElementById('serieEquipo').value = "";
+        document.getElementById('nroGuiaOC').value = "";
+        document.getElementById('nroTicket').value = "";
+    }
+});
+
 
 
