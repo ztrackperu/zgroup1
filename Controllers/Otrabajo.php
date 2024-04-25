@@ -143,12 +143,290 @@ class Otrabajo extends Controller
     
         // Crear un array
         $data = array(
-            "trabajo" => 'OTROS',
+            "trabajo" => "OTROS",
             "solicitado" => "EMERSON ZABARBURU",
-            "equipo" => "THERMO KING",
+            "equipo" => "CAJA ISOTERMICA 40 RH SEGUNDO USO",
+            "serie" => "S/N",
+            "moneda" => "SOLES",
+            "supervisado" => "CLAROS BOBADILLA CINTHY VANESA",
+            "lugarTrabajo" => "ALMACEN ZGROUP",
+            "codigoEquipo" => "ZGRU519202-7",
+
+            "nroOrden" => "1001000001",
+            "ruc" => "13059246643",
+            "proveedor" => "ZGROUP USA LLC",
+            "trabajoRealizado" => "OTROS PINTADO DE SOCALOS Y MARCOS EXTERNOS",
+            "tecnicoEncargado" => "ALCANTARA SAAVEDRA MILAGROS",
+            "tipoDcto" => "FACTURA",
+            "nroDcto" => "",
+            "fechaDcto" => "",
+            "montoUnitario" => "2.0",
+            "cantidadDcto" => "1.0",
+            "igv" => "0.35",
+            "totalDcto" => "2.35",
+            "montoUnitarioPactado" => "2.0",
         );
     
-        $data = json_decode(json_encode($data));
+        $trato = json_decode(json_encode($data));
+        $trabajo = $trato->trabajo;
+        $solicitado = $trato->solicitado;
+        $serie = $trato->serie;
+        $moneda = $trato->moneda;
+        $supervisado = $trato->supervisado;
+        $lugarTrabajo = $trato->lugarTrabajo;
+        $codigoEquipo = $trato->codigoEquipo;
+
+        $nroOrden = $trato->nroOrden;
+        $ruc = $trato->ruc;
+        $proveedor = $trato->proveedor;
+        $trabajoRealizado = $trato->trabajoRealizado;
+        $tecnicoEncargado = $trato->tecnicoEncargado;
+        $tipoDcto = $trato->tipoDcto;
+        $nroDcto = $trato->nroDcto;
+        $fechaDcto = $trato->fechaDcto;
+        $montoUnitario = $trato->montoUnitario;
+        $cantidadDcto = $trato->cantidadDcto;
+        $igv = $trato->igv;
+        $totalDcto = $trato->totalDcto;
+        $montoUnitarioPactado = $trato->montoUnitarioPactado;
+
+
+        // Configura y envía el correo
+        $mail = new PHPMailer(true);
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'zgroupsistemas@gmail.com'; // Reemplaza con tu dirección de correo electrónico de Gmail
+        $mail->Password = 'bsfgahtiqboilexe'; // Reemplaza con tu contraseña de Gmail
+        $mail->SMTPSecure = 'ssl';
+        $mail->Port = 465;
+    
+        // Configuración del correo electrónico
+        $mail->setFrom('zgroupsistemas@gmail.com', 'Nombre del remitente');
+        $mail->addAddress('zgroupsistemas@gmail.com'); // Reemplaza con la dirección de correo electrónico del destinatario
+        $mail->Subject = 'Reporte';
+        $mail->isHTML(true);
+        
+        $mail->addEmbeddedImage('Assets/img/logo_pdf.png', 'logo_img');
+       
+        $mail->Body = '<html>
+        
+        <head>
+        <style>
+        @import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap");
+        body {
+            font-family: "Roboto Slab", sans-serif;
+            font-size: 9px;
+            margin: 0;
+            padding: 0;
+           
+        }
+
+        .container{
+            width: 85%;
+            height: 15%;
+            border: 1px solid black;
+            margin-top: 100px;
+            padding: 0 20px;
+        }
+        .container .columna{
+            width: 20%;
+            height: 100%;
+            float: left;
+        }
+
+        .container .columna__respuesta{
+            width: 40%;
+            height: 100%;
+            float: left;
+            line-height: 2;
+        }
+
+        .container .columna2{
+            width: 12%;
+            float:right;
+            margin-bottom: 100px;
+            line-height:1.5;
+        }
+
+        .container .columna2__respuesta{
+            margin-bottom: 100px;
+            width: 20%;
+            float:right;
+            line-height: 1;
+        }
+
+
+        table {
+            width: 90%; /* Cambia el ancho de la tabla al 100% */
+            border-collapse: collapse;
+            margin: 30px 0 10px 0;
+            
+        }
+
+        table + table{
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+            word-wrap: break-word; /* Asegura que las palabras largas se rompan y pasen a la siguiente línea */
+        }
+        th {
+            background-color: #d9e5f4;
+            color: black;
+        }
+
+        .contenido__fecha {
+            position: absolute; /* Se posiciona de forma absoluta */
+            bottom: 0;
+            left: 0;
+            padding: 10px;
+            color: #1d2d4d;
+            font-size: 12px;
+        }
+        .contenido__superior__derecho{
+            position: absolute;
+            top:0;
+            right:0;
+        }
+        .contenido__superior__izquierda{
+            position:absolute;
+            top:0;
+            left:0;
+            padding: 10px;
+            color: #1d2d4d;
+            font-size: 12px;
+            height: 50px;
+            text-align:right;
+            line-height: 5px;
+        }
+        
+        .contenido__inferior__derecho {
+            position: absolute; 
+            bottom: 0;
+            right: 0;
+            padding: 0px;
+            line-height:0;
+            color: #1d2d4d;
+            font-size: 12px;
+            text-align: right; 
+        }
+
+        .contenido__firmas {
+            margin-top: 50px;
+            width: 100%;
+            overflow: auto; 
+        }
+        
+        .contenido__firmas .firma {
+            width: 30%;
+            float: left;
+            text-align: center;
+        }
+    
+        .linea-firma {
+            border-top: 1px solid black;
+            width: 100px;
+            margin: 0 auto; 
+        }
+       
+    </style>
+        </head>
+        <body>
+            <div class="contenido__superior__izquierda">
+                <h3>Fecha de Impresión:</h3>
+                <h3>Nro Orden Trabajo:</h3>
+                <h3>Generado Por:</h3>
+                <h3>Aprobado/Cerrado Por:</h3>
+            </div>
+            <div class="contenido__superior__derecho">
+                <img src="cid:logo_img" alt="" width="250" height="90">
+            </div>
+            <div class="container">
+                <div class="columna">
+                    <h3>Trabajo A Realizar</h3>
+                    <h3>Fecha Orden</h3>
+                    <h3>Solicitado Por</h3>
+                    <h3>Equipo</h3>
+                    <h3>Serie Equipo</h3>
+                    <h3>Hora Inicio</h3>
+                </div>
+                <div class="columna__respuesta">
+                    <p>:ruc </p>
+                    <p>:encargado de la tarea</p>
+                    <p>:Thermo King</p>
+                    <p>:Thermo King</p>
+                    <p>:CONTENEDOR</p>
+                    <p>:Thermo King</p>
+                    <p>:Thermo King</p>
+                </div>
+                <div class="columna2">
+                    <p>:ZGROUP S.A.C</p>
+                    <p>:Thermo King</p>
+                    <p>:Thermo King</p>
+                    <p>:Thermo King</p>
+                    <p>:Thermo King</p>
+                    <p>:Thermo King</p>
+                </div>
+                <div class="columna2__respuesta">
+                    <h3>Moneda</h3>
+                    <h3>Supervisado por:</h3>
+                    <h3>Ref Documento:</h3>
+                    <h3>Lugar Trabajo:</h3>
+                    <h3>Codigo Equipo:</h3>
+                    <h3>Hora Fin</h3>
+                </div>
+            </div>
+        
+            <table>
+                <thead>
+                    <tr>
+                        <th>N° Orden de Trabajo</th>
+                        <th>RUC</th>
+                        <th>Proveedor</th>
+                        <th>Trabajo Realizado</th>
+                        <th>Tecnico Encargado </th>
+                        <th>Tipo Dcto</th>
+                        <th>Monto Unitario</th>
+                        <th>Cantidad Dcto</th>
+                        <th>IGV</th>
+                        <th>Total Dcto</th>
+                        <th>Monto Unitario Pactado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>'.$c_numot.'</td>
+                    <td>'.$c_rucprov.'</td>
+                    <td>'.$c_nomprov.'</td>
+                    <td>'.$c_asunto.'</td>
+                    <td>'.$c_tecnico.'</td>
+                    <td>'.$tdoc.'</td>
+                    <td>'.$monto.'</td>
+                    <td>'.$n_cant.'</td>
+                    <td>'.$n_igvd.'</td>
+                    <td>'.$n_totd.'</td>
+                    <td>'.$montop.'</td>         
+                </tr>
+                </tbody>
+            </table>
+                <div class="contenido__inferior__derecho">
+                <h3>ZGROUP S.A.C. RUC:20521180774</h3>
+                <h3>SISTEMA INTRANET</h3>
+                <h3>EMAIL: ZTRACK@ZGROUP.COM.PE</h3>
+                <h3>WWW.ZGROUP.COM.PE</h3>
+            </div>
+        </body>
+    </html>';
+    
+        try {
+            $mail->send();
+            echo json_encode(['msg' => 'Correo enviado con éxito', 'icono' => 'success']);
+        } catch (Exception $e) {
+            echo json_encode(['msg' => 'Error al enviar el correo: ' . $mail->ErrorInfo, 'icono' => 'error']);
+        }
 
 
     }
