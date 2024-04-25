@@ -137,13 +137,379 @@ class Otrabajo extends Controller
         $this->views->getView($this, "pdf",$data);
     }
 
-    public function enviarCorreo($param){
-        $pros = explode("/",$param);
-        $numot = procesarNumOT($pros[0]);
-    
+    public function otConInsumos(){
+        $data = array(
+            "nroOrden" => "1001000001",
+            "ruc" => "13059246643",
+            "proveedor" => "ZGROUP USA LLC",
+            "trabajoRealizado" => "OTROS PINTADO DE SOCALOS Y MARCOS EXTERNOS",
+            "tecnicoEncargado" => "ALCANTARA SAAVEDRA MILAGROS",
+            "fechaSolicitud" => "22/02/2024",            
+            "OtDescripcion" => (object) array(
+                "descontables" => (object) array(
+                    "partNumber" => "INDND0173",
+                    "descripcion" => "REMACHE DE ALUMINIO 3/16 X 1/2",
+                    "cantidad" => 50,
+                    "unidadMedida" => "UND"
+                ),
+                "reefer" =>(object) array(
+                    "partNumber" => "INDND2772",
+                    "descripcion" => "CABLE FLEXIBLE AUTOMOTRIZ GPT 0.3KV 14 AWG",
+                    "cantidad" => 6,
+                    "unidadMedida" => "M"
+                ),
+            )
+            
+        
+                   
+
+            /*
+            "luminarias" => array(
+                (object) array(
+                    "concepto" => "descontables",
+                    "partNumber" => "INDND0173",
+                    "descripcion" => "REMACHE DE ALUMINIO 3/16 X 1/2",
+                    "cantidad" => 50,
+                    "unidadMedida" => "UND"
+                ),
+                (object) array(
+                    "concepto" => "descontables",
+                    "partNumber" => "INDND0171",
+                    "descripcion" => "REMACHE POP DE ALUMINIO 3/16X1",
+                    "cantidad" => 50,
+                    "unidadMedida" => "UND"
+                ),
+                (object) array(
+                    "concepto" => "descontables",
+                    "partNumber" => "INDND3242",
+                    "descripcion" => "BROCA DE COBALTO HSS 3/16",
+                    "cantidad" => 1,
+                    "unidadMedida" => "UND"
+                ),
+                (object) array(
+                    "concepto" => "descontables",
+                    "partNumber" => "INDND0134",
+                    "descripcion" => "BROCA DE COBALTO HSS 3/8",
+                    "cantidad" => 1,
+                    "unidadMedida" => "UND"
+                ),
+                (object) array(
+                    "concepto" => "descontables",
+                    "partNumber" => "INDND0406",
+                    "descripcion" => "ADHESIVO POLIURETANO 550 BLANCO - 600 ML",
+                    "cantidad" => 2,
+                    "unidadMedida" => "UND"
+                ),
+                (object) array(
+                    "concepto" => "descontables",
+                    "partNumber" => "INDND0405",
+                    "descripcion" => "ADHESIVO POLIURETANO 540 GRIS - 600 ML",
+                    "cantidad" => 2,
+                    "unidadMedida" => "UND"
+                )
+            ),
+
+            "notaSalida" => array(
+                (object) array(
+                    "NT_NDOC" => "D0026830",
+                    "insumos" => (object) array(
+                        "partNumber" => "INDND2772",
+                        "descripcion" => "CABLE FLEXIBLE AUTOMOTRIZ GPT 0.3KV 14 AWG",
+                        "cantidad" => 6,
+                        "unidadMedida" => "M"
+                    )
+                ),
+                (object) array(
+                    "NT_NDOC" => "D0026830",
+                    "insumos" => (object) array(
+                        "partNumber" => "INDND0843",
+                        "descripcion" => "ACCESORIO ANGULO INTERNO BLANCO 20X12 RH DXN11042HD",
+                        "cantidad" => 2,
+                        "unidadMedida" => "UND"
+                    )
+                ),
+                (object) array(
+                    "NT_NDOC" => "S0026830",
+                    "insumos" => (object) array(
+                        "partNumber" => "RNDND0264",
+                        "descripcion" => "ACCESORIO ANGULO PLANO 90 20X12 BLANCO DXN11043",
+                        "cantidad" => 2,
+                        "unidadMedida" => "UND"
+                )
+                ),
+                
+            )*/
+        );
+        
+        
+        $trato = json_decode(json_encode($data));
+        echo var_dump($trato);
+        $nroOrden = $trato->nroOrden;
+        $ruc = $trato->ruc;
+        $proveedor = $trato->proveedor;
+        $trabajoRealizado = $trato->trabajoRealizado;
+        $tecnicoEncargado = $trato->tecnicoEncargado;
+        $fechaSolicitud = $trato->fechaSolicitud;
+
+        $tablaContenido = '';
+  
+        foreach ($trato->OtDescripcion as $OTDESCRIPCION) {
+            
+            $partNumber = isset($OTDESCRIPCION->partNumber) ? $OTDESCRIPCION->partNumber : null;
+            $descripcion = isset($OTDESCRIPCION->descripcion) ? $OTDESCRIPCION->descripcion : null;
+            $cantidad = isset($OTDESCRIPCION->cantidad) ? $OTDESCRIPCION->cantidad : null;
+            $unidadMedida = isset($OTDESCRIPCION->unidadMedida) ? $OTDESCRIPCION->unidadMedida : null;
+            $tablaContenido .= "
+            <tr>
+                <td>{$partNumber}</td>
+                <td>{$descripcion}</td>
+                <td>{$cantidad}</td>
+                <td>{$unidadMedida}</td>
+            </tr>";
+
+        }
+
+        $tablaContenido2 = '';
+
+        foreach($OTDESCRIPCION->reefer as $REEF){
+            $partNumber = isset($REEF->partNumber) ? $REEF->partNumber : null;
+            $descripcion = isset($REEF->descripcion) ? $REEF->descripcion : null;
+            $cantidad = isset($REEF->cantidad) ? $REEF->cantidad : null;
+            $unidadMedida = isset($REEF->unidadMedida) ? $REEF->unidadMedida : null;
+            
+            $tablaContenido2 .= "
+            <tr>
+                <td>{$partNumber}</td>
+                <td>{$descripcion}</td>
+                <td>{$cantidad}</td>
+                <td>{$unidadMedida}</td>
+            </tr>";
+        }
+
+
+        
+        //Fecha con zona horari de Lima- Perú
+        date_default_timezone_set('America/Lima');
+        $fechaHoy = date('d/m/Y H:i:s');
+
+         // Configura y envía el correo
+         $mail = new PHPMailer(true);
+         $mail->isSMTP();
+         $mail->Host = 'smtp.gmail.com';
+         $mail->SMTPAuth = true;
+         $mail->Username = 'zgroupsistemas@gmail.com'; // Reemplaza con tu dirección de correo electrónico de Gmail
+         $mail->Password = 'bsfgahtiqboilexe'; // Reemplaza con tu contraseña de Gmail
+         $mail->SMTPSecure = 'ssl';
+         $mail->Port = 465;
+     
+         // Configuración del correo electrónico
+         $mail->setFrom('zgroupsistemas@gmail.com', 'Nombre del remitente');
+         $mail->addAddress('zgroupsistemas@gmail.com'); // Reemplaza con la dirección de correo electrónico del destinatario
+         $mail->Subject = 'Reporte';
+         $mail->isHTML(true);
+         
+         $mail->addEmbeddedImage('Assets/img/logo_pdf.png', 'logo_img');
+        
+         $mail->Body = '<html>
+         
+         <head>
+         <style>
+         @import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap");
+         body {
+             font-family: "Roboto Slab", sans-serif;
+             font-size: 9px;
+             margin: 0;
+             padding: 0;
+            
+         }
+         .titulo h2{
+             text-align: center;
+             font-size: 20px;
+             margin-top: 50px;
+         }
+         .container{
+             width: 85%;
+             height: 15%;
+             border: 1px solid black;
+             margin-top: 10px;
+             padding: 0 20px;
+         }
+         .container .columna{
+             width: 20%;
+             height: 100%;
+             float: left;
+         }
+ 
+         .container .columna__respuesta{
+             width: 40%;
+             height: 100%;
+             float: left;
+             line-height: 2;
+         }
+ 
+         .container .columna2{
+             width: 18%;
+             float:right;
+             margin-bottom: 100px;
+             line-height:1.1;
+         }
+ 
+         .container .columna2__respuesta{
+             margin-bottom: 100px;
+             width: 20%;
+             float:right;
+             line-height: 1;
+         }
+ 
+ 
+         table {
+             width: 90%; /* Cambia el ancho de la tabla al 100% */
+             border-collapse: collapse;
+             margin: 30px 0 10px 0;
+             
+         }
+ 
+         table + table{
+             margin-top: 10px;
+         }
+         th, td {
+             border: 1px solid black;
+             padding: 8px;
+             text-align: center;
+             word-wrap: break-word; /* Asegura que las palabras largas se rompan y pasen a la siguiente línea */
+         }
+         th {
+             background-color: #d9e5f4;
+             color: black;
+         }
+ 
+         .contenido__fecha {
+             position: absolute; /* Se posiciona de forma absoluta */
+             bottom: 0;
+             left: 0;
+             padding: 10px;
+             color: #1d2d4d;
+             font-size: 12px;
+         }
+         .contenido__superior__derecho{
+             position: absolute;
+             top:0;
+             right:0;
+         }
+         .contenido__superior__izquierda{
+             position:absolute;
+             top:0;
+             left:0;
+             padding: 10px;
+             color: #1d2d4d;
+             font-size: 12px;
+             height: 50px;
+             text-align:right;
+             line-height: 5px;
+         }
+         
+         .contenido__inferior__derecho {
+             position: absolute; 
+             bottom: 0;
+             right: 0;
+             padding: 0px;
+             line-height:0;
+             color: #1d2d4d;
+             font-size: 12px;
+             text-align: right; 
+         }
+ 
+         .contenido__firmas {
+             margin-top: 50px;
+             width: 100%;
+             overflow: auto; 
+         }
+         
+         .contenido__firmas .firma {
+             width: 30%;
+             float: left;
+             text-align: center;
+         }
+     
+         .linea-firma {
+             border-top: 1px solid black;
+             width: 100px;
+             margin: 0 auto; 
+         }
+        
+     </style>
+         </head>
+         <body>
+             <div class="contenido__superior__izquierda">
+                 <h3>Fecha de Impresión:'.$fechaHoy.'</h3>
+                 <h3>Nro Orden Trabajo:'.$nroOrden.'</h3>
+                 <h3>Generado Por: VANESA</h3>
+                 <h3>Aprobado/Cerrado Por: </h3>
+             </div>
+             <div class="titulo">
+                 <h2>ORDEN DE TRABAJO: '.$nroOrden.'</h2>
+             </did>
+   
+             <div class="container">
+                 <div class="columna">
+                     <h3>RUC</h3>
+                     <h3>PROVEEDOR</h3>
+                     <h3>TRABAJO REALIZADO</h3>
+                     <h3>TECNICO ENCARGADO</h3>
+                     <h3>FECHA SOLICITUD</h3>
+                 </div>
+                 <div class="columna__respuesta">
+                     <p>:'.$ruc.'</p>
+                     <p>:'.$proveedor.'</p>
+                     <p>:'.$trabajoRealizado.'</p>
+                     <p>:'.$tecnicoEncargado.'</p>
+                     <p>:'.$fechaSolicitud.'</p>
+                 </div>
+             </div>
+             <table>
+                 <thead>
+                     <tr>
+                     
+                         <th>PART NUMBER</th>
+                         <th>DESCRIPCION</th>
+                         <th>CANTIDAD</th>
+                         <th>Unidad de Medida</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                 <tr>
+                    '.$tablaContenido.'
+                    '.$tablaContenido2.'
+                       
+                 </tr>
+                 </tbody>
+             </table>
+                 <div class="contenido__inferior__derecho">
+                 <h3>ZGROUP S.A.C. RUC:20521180774</h3>
+                 <h3>SISTEMA INTRANET</h3>
+                 <h3>EMAIL: ZTRACK@ZGROUP.COM.PE</h3>
+                 <h3>WWW.ZGROUP.COM.PE</h3>
+             </div>
+         </body>
+     </html>';
+     
+         try {
+             $mail->send();
+             echo json_encode(['msg' => 'Correo enviado con éxito', 'icono' => 'success']);
+         } catch (Exception $e) {
+             echo json_encode(['msg' => 'Error al enviar el correo: ' . $mail->ErrorInfo, 'icono' => 'error']);
+         }
+ 
+ 
+
+    }
+
+    public function otSinInsumos(){
+       
         // Crear un array
         $data = array(
             "trabajo" => "OTROS",
+            "fechaOrden" => "22/02/2024",
             "solicitado" => "EMERSON ZABARBURU",
             "equipo" => "CAJA ISOTERMICA 40 RH SEGUNDO USO",
             "serie" => "S/N",
@@ -166,10 +532,11 @@ class Otrabajo extends Controller
             "totalDcto" => "2.35",
             "montoUnitarioPactado" => "2.0",
         );
-    
         $trato = json_decode(json_encode($data));
         $trabajo = $trato->trabajo;
+        $fechaOrden = $trato->fechaOrden;
         $solicitado = $trato->solicitado;
+        $equipo = $trato->equipo;
         $serie = $trato->serie;
         $moneda = $trato->moneda;
         $supervisado = $trato->supervisado;
@@ -189,6 +556,10 @@ class Otrabajo extends Controller
         $igv = $trato->igv;
         $totalDcto = $trato->totalDcto;
         $montoUnitarioPactado = $trato->montoUnitarioPactado;
+
+        //Fecha con zona horari de Lima- Perú
+        date_default_timezone_set('America/Lima');
+        $fechaHoy = date('d/m/Y H:i:s');
 
 
         // Configura y envía el correo
@@ -221,12 +592,16 @@ class Otrabajo extends Controller
             padding: 0;
            
         }
-
+        .titulo h2{
+            text-align: center;
+            font-size: 20px;
+            margin-top: 50px;
+        }
         .container{
             width: 85%;
             height: 15%;
             border: 1px solid black;
-            margin-top: 100px;
+            margin-top: 10px;
             padding: 0 20px;
         }
         .container .columna{
@@ -243,10 +618,10 @@ class Otrabajo extends Controller
         }
 
         .container .columna2{
-            width: 12%;
+            width: 18%;
             float:right;
             margin-bottom: 100px;
-            line-height:1.5;
+            line-height:1.1;
         }
 
         .container .columna2__respuesta{
@@ -336,14 +711,15 @@ class Otrabajo extends Controller
         </head>
         <body>
             <div class="contenido__superior__izquierda">
-                <h3>Fecha de Impresión:</h3>
-                <h3>Nro Orden Trabajo:</h3>
-                <h3>Generado Por:</h3>
-                <h3>Aprobado/Cerrado Por:</h3>
+                <h3>Fecha de Impresión:'.$fechaHoy.'</h3>
+                <h3>Nro Orden Trabajo:'.$nroOrden.'</h3>
+                <h3>Generado Por: VANESA</h3>
+                <h3>Aprobado/Cerrado Por: </h3>
             </div>
-            <div class="contenido__superior__derecho">
-                <img src="cid:logo_img" alt="" width="250" height="90">
-            </div>
+            <div class="titulo">
+                <h2>ORDEN DE TRABAJO</h2>
+            </did>
+  
             <div class="container">
                 <div class="columna">
                     <h3>Trabajo A Realizar</h3>
@@ -354,21 +730,20 @@ class Otrabajo extends Controller
                     <h3>Hora Inicio</h3>
                 </div>
                 <div class="columna__respuesta">
-                    <p>:ruc </p>
-                    <p>:encargado de la tarea</p>
-                    <p>:Thermo King</p>
-                    <p>:Thermo King</p>
-                    <p>:CONTENEDOR</p>
-                    <p>:Thermo King</p>
-                    <p>:Thermo King</p>
+                    <p>:'.$trabajo.'</p>
+                    <p>:'.$fechaOrden.'</p>
+                    <p>:'.$solicitado.'</p>
+                    <p>:'.$equipo.'</p>
+                    <p>:'.$serie.'</p>
+                    <p>:Hora Inicio</p>
                 </div>
                 <div class="columna2">
-                    <p>:ZGROUP S.A.C</p>
-                    <p>:Thermo King</p>
-                    <p>:Thermo King</p>
-                    <p>:Thermo King</p>
-                    <p>:Thermo King</p>
-                    <p>:Thermo King</p>
+                    <p>:'.$moneda.'</p>
+                    <p>:'.$supervisado.'</p>
+                    <p>: ref</p>
+                    <p>:'.$lugarTrabajo.'</p>
+                    <p>:'.$codigoEquipo.'</p>
+                    <p>:Hora Fin</p>
                 </div>
                 <div class="columna2__respuesta">
                     <h3>Moneda</h3>
@@ -379,7 +754,6 @@ class Otrabajo extends Controller
                     <h3>Hora Fin</h3>
                 </div>
             </div>
-        
             <table>
                 <thead>
                     <tr>
@@ -389,6 +763,8 @@ class Otrabajo extends Controller
                         <th>Trabajo Realizado</th>
                         <th>Tecnico Encargado </th>
                         <th>Tipo Dcto</th>
+                        <th>Nro Dcto</th>
+                        <th>Fecha Dcto</th>
                         <th>Monto Unitario</th>
                         <th>Cantidad Dcto</th>
                         <th>IGV</th>
@@ -398,17 +774,19 @@ class Otrabajo extends Controller
                 </thead>
                 <tbody>
                 <tr>
-                    <td>'.$c_numot.'</td>
-                    <td>'.$c_rucprov.'</td>
-                    <td>'.$c_nomprov.'</td>
-                    <td>'.$c_asunto.'</td>
-                    <td>'.$c_tecnico.'</td>
-                    <td>'.$tdoc.'</td>
-                    <td>'.$monto.'</td>
-                    <td>'.$n_cant.'</td>
-                    <td>'.$n_igvd.'</td>
-                    <td>'.$n_totd.'</td>
-                    <td>'.$montop.'</td>         
+                    <td>'.$nroOrden.'</td>
+                    <td>'.$ruc.'</td>
+                    <td>'.$proveedor.'</td>
+                    <td>'.$trabajoRealizado.'</td>
+                    <td>'.$tecnicoEncargado.'</td>
+                    <td>'.$tipoDcto.'</td>
+                    <td>'.$nroDcto.'</td>
+                    <td>'.$fechaDcto.'</td>
+                    <td>'.$montoUnitario.'</td>
+                    <td>'.$cantidadDcto.'</td>
+                    <td>'.$igv.'</td>
+                    <td>'.$totalDcto.'</td> 
+                    <td>'.$montoUnitarioPactado.'</td>        
                 </tr>
                 </tbody>
             </table>
