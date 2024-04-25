@@ -137,6 +137,23 @@ class Otrabajo extends Controller
         $this->views->getView($this, "pdf",$data);
     }
 
+    public function enviarCorreo($param){
+        $pros = explode("/",$param);
+        $numot = procesarNumOT($pros[0]);
+    
+        // Crear un array
+        $data = array(
+            "trabajo" => 'OTROS',
+            "solicitado" => "EMERSON ZABARBURU",
+            "equipo" => "THERMO KING",
+        );
+    
+        $data = json_decode(json_encode($data));
+
+
+    }
+
+    
     public function enviarCorreoReporte($param) {
        
         $pros = explode("/",$param);
@@ -454,5 +471,6 @@ class Otrabajo extends Controller
             echo json_encode(['msg' => 'Error al enviar el correo: ' . $mail->ErrorInfo, 'icono' => 'error']);
         }
     }
+    
 
 }

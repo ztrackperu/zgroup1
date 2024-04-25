@@ -80,7 +80,5 @@ class OtrabajoModel extends Query
         curl_close($ch);   
         return $res;
     }
-
     
-
 }

@@ -263,7 +263,7 @@ $(document).ready(function() {
 
 function enviarCorreo(event) {
     event.preventDefault();
-    const url = base_url + "Otrabajo/enviarCorreoReporte";
+    const url = base_url + "Otrabajo/enviarCorreo";
     const http = new XMLHttpRequest();
     http.open("POST", url, true);
     const formData = new FormData();
