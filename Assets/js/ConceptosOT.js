@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function(){
     
     const language = {
         "decimal": "",
-        "emptyTable": "No hay información",
+        "emptyTable": "sin registro",
         "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
         "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
         "infoFiltered": "(Filtrado de _MAX_ total entradas)",
@@ -143,12 +143,32 @@ document.addEventListener("DOMContentLoaded", function(){
             "<'row'<'col-sm-5'i><'col-sm-7'p>>",
         buttons
     });
-
+    
+    tablaInsumos = $('#myTableInsumo').DataTable(
+        {
+            retrieve: true,
+            paging: false,
+            paging: false,
+            searching: false,
+            info: false,
+            language
+        });
+        
+    //tablaInsumos =new DataTable('#myTableInsumo');
 
 
 })
-
-
+/*
+tablaInsumos = $('#myTableInsumo').DataTable(
+    {
+        retrieve: true,
+        paging: false,
+        paging: false,
+        searching: false,
+        info: false,
+        language
+    });
+*/
 // para borrar lo cargado de forma predefinada 
 $('.form-control-concepto').on('select2:open', function (e) { 
     $('.form-control-concepto').val(null).trigger('change');
@@ -295,7 +315,7 @@ function frmConceptosOT() {
 }
 
   function tomarInsumos(){
-    var tablaInsumos = $('#myTableInsumo').DataTable({retrieve: true,paging: false});
+    //var tablaInsumos = $('#myTableInsumo').DataTable({retrieve: true,paging: false});
     variable = $('#insumosL').select2('data');
     //console.log(variable);
     if(variable.length!=0){
@@ -316,7 +336,7 @@ function frmConceptosOT() {
                 if(contInsumos==0){
                     tablaInsumos.destroy();
                     console.log("esta vacio");
-                    var table = $('#myTableInsumo').DataTable({
+                     tablaInsumos = $('#myTableInsumo').DataTable({
                         paging: false,
                         searching: true,
                         info: false,
@@ -391,17 +411,49 @@ function frmConceptosOT() {
     }
 }
 
-function fila(id){
+ async function fila(id){
     id1=id-1000;
-    const url = base_url + "ConceptosOT/nuevaSeleccion/" + id1;
-    const http = new XMLHttpRequest();
-    http.open("GET", url, true);
-    http.send();
-    http.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            const res = JSON.parse(this.responseText);
-            console.log(res);
-            var table = $('#myTableInsumo').DataTable({
+    //tablaInsumos.destroy();
+    datafila =[];
+    /*
+    $.get(base_url + "ConceptosOT/nuevaSeleccion/" + id1, (data, status) => {
+        console.log(data);
+        datafila.push(data);
+
+    });
+    */
+   /*
+    $.ajax({
+        url: base_url + "ConceptosOT/nuevaSeleccion/" + id1,
+        type: "GET",
+        success: function (result) {
+            console.log(result);
+            datafila.push(result);
+        },
+    });
+    */
+
+    //console.log(datafila);
+    //let response = await fetch(base_url + "ConceptosOT/nuevaSeleccion/"+id);
+    let response = $.get(base_url + "ConceptosOT/nuevaSeleccion/" + id1, (data, status) => {
+        //console.log(data);
+    });
+    //let userData = await response.json();
+    return response;
+
+}
+async function lista1(id){
+    //console.log(terrible);
+    //console.log(conf);
+
+        result1 =  await fila(id);  
+        console.log(result1);        
+        tablaInsumos.destroy();
+        console.log("aqui esta");
+        if(result1!="null"){
+            res = JSON.parse(result1);
+            console.log("esta vacio");
+             tablaInsumos = $('#myTableInsumo').DataTable({
                 paging: false,
                 searching: true,
                 info: false,
@@ -414,79 +466,10 @@ function fila(id){
                 { title: "Eliminar", data: "acciones" }
                 ]
             });
-            //console.log(res.insumos);
-            if(res.insumos!=null){
-                console.log(res.insumos);
-                if(res.insumos.length!=0){
-                    //tablaInsumos.destroy();
-                    console.log("esta vacio");
-                    
-                    var table = $('#myTableInsumo').DataTable({
-                        paging: false,
-                        searching: true,
-                        info: false,
-                        data: res.insumos,
-                        columns: [
-                        { title: "Codigo", data: "IN_CODI" },
-                        { title: "Descripcion", data: "IN_ARTI" },
-                        { title: "Unidad", data: "IN_UVTA" },
-                        { title: "Cantidad", data: "cantidad" },
-                        { title: "Eliminar", data: "acciones" }
-                        ]
-                    });
-                    
-                /*
-                datz= res.insumos.length;
-                console.log(datz);
-                    for(let i=0;i<res.insumos.length;i++){
-                        if(typeof tablaInsumos === 'undefined'){
-                            var tablaInsumos = $('#myTableInsumo').DataTable({retrieve: true,paging: false});
-                       }
-                       var table = $('#myTableInsumo').DataTable({
-                        paging: false,
-                        searching: true,
-                        info: false,
-                        data: resul,
-                        columns: [
-                        { title: "Codigo", data: "IN_CODI" },
-                        { title: "Descripcion", data: "IN_ARTI" },
-                        { title: "Unidad", data: "IN_UVTA" },
-                        { title: "Cantidad", data: "IN_CODI" },
-                        { title: "Eliminar", data: "IN_CODI" }
-                        ]
-                    });
-                        console.log("oki");
-                        tablaInsumos.row.add(
-                            //{ tamano: tamano, nombre: nombre }
-                            {
-                                IN_CODI: res.insumos[i].IN_CODI,
-                                IN_ARTI: res.insumos[i].IN_ARTI,
-                                IN_UVTA: res.insumos[i].IN_UVTA,
-                                cantidad: res.insumos[i].IN_UVTA,
-                                acciones: res.insumos[i].IN_UVTA, 
-                            }
-                        
-                        ).draw(false);
-                    }
-
-                    */
-
-                }
         }
-
-            //agregar los resultados del concepto
-
-            /*
-            document.getElementById("id").value = res.id;
-            
-            document.getElementById("codigo_concepto").value = res.codigo;
-            document.getElementById("descripcion_concepto").value = res.descripcion;                
-            $("#nuevoConcepto").modal("show");
-            */
-        }
-    }
+    
 }
-function asignarConcepto(){
+async function asignarConcepto(){
     variable = $('#concepto2').select2('data');
     if(variable.length!=0){
         codigo_concepto = document.getElementById("codigo_concepto").value ;
@@ -494,8 +477,10 @@ function asignarConcepto(){
         console.log(variable);
         //console.log(codigo_concepto);
         //console.log(descripcion_concepto);
-        if(codigo_concepto!="" || descripcion_concepto!=""){
-            Swal.fire({
+        if(codigo_concepto!="" && descripcion_concepto!=""){
+            conf = [] ;
+            /*
+              Swal.fire({
                 title: 'Esta seguro de reemplazar ?',
                 text: "Ya tiene selecciono el concepto :"+descripcion_concepto,
                 icon: 'warning',
@@ -508,17 +493,64 @@ function asignarConcepto(){
                 if (result.isConfirmed) {
                     document.getElementById("codigo_concepto").value = variable[0].id;
                     document.getElementById("descripcion_concepto").value = variable[0].text;
-                    // solcitar data 
-                    fila(variable[0].id);
+                    //conf.push(1);
+                    //console.log(conf);
+                    //lista1(variable[0].id)
+                    // si reemplaza primero destruir la data 
+                    //$('#myTableInsumo').DataTable().destroy();
+                    //tablaInsumos.destroy(  
+                  
 
                 }
-            })
+            });
+            */
+            document.getElementById("codigo_concepto").value = variable[0].id;
+            document.getElementById("descripcion_concepto").value = variable[0].text;
+            result1 = await fila(variable[0].id);
+            res = JSON.parse(result1);
+            console.log(res);
+            tablaInsumos.destroy();
+            console.log("esta vacio");
+            if(res==null){
+                res=[];
+            }
+
+             tablaInsumos = $('#myTableInsumo').DataTable({
+                paging: false,
+                searching: true,
+                info: false,
+                data: res,
+                columns: [
+                { title: "Codigo", data: "IN_CODI" },
+                { title: "Descripcion", data: "IN_ARTI" },
+                { title: "Unidad", data: "IN_UVTA" },
+                { title: "Cantidad", data: "cantidad" },
+                { title: "Eliminar", data: "acciones" }
+                ]
+            });
+
         }else{
             //reemplazar
             document.getElementById("codigo_concepto").value = variable[0].id;
             document.getElementById("descripcion_concepto").value = variable[0].text;
-            fila(variable[0].id);
-    
+            result1 = await fila(variable[0].id);
+            res = JSON.parse(result1);
+            console.log(res);
+            tablaInsumos.destroy();
+            console.log("esta vacio");
+             tablaInsumos = $('#myTableInsumo').DataTable({
+                paging: false,
+                searching: true,
+                info: false,
+                data: res,
+                columns: [
+                { title: "Codigo", data: "IN_CODI" },
+                { title: "Descripcion", data: "IN_ARTI" },
+                { title: "Unidad", data: "IN_UVTA" },
+                { title: "Cantidad", data: "cantidad" },
+                { title: "Eliminar", data: "acciones" }
+                ]
+            });    
         }
     }else{
         Swal.fire({
@@ -534,7 +566,6 @@ function asignarConcepto(){
     }
 }
 
-//onclick="btnEliminarInsumo(100038800);"
 function btnEliminarInsumo(cod){
     console.log(cod);
     

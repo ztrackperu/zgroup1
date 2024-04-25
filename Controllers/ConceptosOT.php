@@ -304,17 +304,21 @@ class ConceptosOT extends Controller
         $resultado = json_decode($data);
         $resultado = $resultado->data->insumos;
         //aqui debemos tratar la informacion
-        foreach($resultado as $item){
-            //$cadena =  "('".  strtoupper($item->IN_CODI)."')"   ;
-            //$cadena ='"locura"';
-            $cadena ='"'.$item->IN_CODI.'"';
-            $item->acciones= "<button class='btn btn-danger' type='button' onclick='btnEliminarInsumo(" . $cadena .")'><i class='fa fa-pencil-square-o'></i>X</button>";
-            //$item->acciones= "<button class='btn btn-danger' type='button' onclick='btnEliminarInsumo(" . $cadena .")'><i class='fa fa-pencil-square-o'></i>X</button>";
-            
-            $item->cantidad="<div >
-            <input id='insumo_".$item->IN_CODI."' class='form-control' type='text' name='insumo_".$item->IN_CODI."' value=".$item->cantidad." style='width: 80px;'required>
-            </div>";
-            
+        if($resultado!=""){
+            foreach($resultado as $item){
+                //$cadena =  "('".  strtoupper($item->IN_CODI)."')"   ;
+                //$cadena ='"locura"';
+                $cadena ='"'.$item->IN_CODI.'"';
+                $item->acciones= "<button class='btn btn-danger' type='button' onclick='btnEliminarInsumo(" . $cadena .")'><i class='fa fa-pencil-square-o'></i>X</button>";
+                //$item->acciones= "<button class='btn btn-danger' type='button' onclick='btnEliminarInsumo(" . $cadena .")'><i class='fa fa-pencil-square-o'></i>X</button>";
+                
+                $item->cantidad="<div >
+                <input id='insumo_".$item->IN_CODI."' class='form-control' type='text' name='insumo_".$item->IN_CODI."' value=".$item->cantidad." style='width: 80px;'required>
+                </div>";
+                
+            }
+        }else{
+            $resultado=="";
         }
 
         echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
