@@ -1,0 +1,28 @@
+use("intranet")
+//db.cabeot.find({c_numot:1000028211})
+//db.detaot.find({c_numot:1000028211})
+//explain()
+//explain("executionStats")
+factor =4
+inicio = 1000000000+(5000)*(factor-1)+1
+fin =1000000000+(5000)*(factor)
+basedatos = 'O-c-d-nota-'+factor
+db.notmae.aggregate([
+    {$project:{_id:0,}},
+    //{$match: {c_numot: 1000028211}}, 
+    //$gte: 20, $lte: 25
+    {$match: {c_NumOT: {$gte: inicio, $lte: fin}}}, 
+    {
+        $lookup: {
+          from: 'notmov',
+          localField: 'NT_NDOC',
+          foreignField: 'NT_NDOC',
+          as: 'DetalleNota',
+
+        }
+    }, 
+    //agregamso el resultado en la coleccion dataot
+    {
+        $out :basedatos
+    }  
+])
