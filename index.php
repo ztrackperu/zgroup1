@@ -1,9 +1,9 @@
 <?php
     
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
-    ob_end_flush();
+    //ini_set('display_errors', 1);
+    //ini_set('display_startup_errors', 1);
+    //error_reporting(E_ALL);
+    //ob_end_flush();
     require_once "Config/Config.php";
     require_once "Config/Helpers.php";
     require_once "vendor/autoload.php";
