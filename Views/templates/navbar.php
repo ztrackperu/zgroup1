@@ -72,7 +72,7 @@
             <a class="nav-link dropdown-toggle" href="#!" id="analisisDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Análisis</a>
             <ul class="dropdown-menu border-0 shadow bsb-zoomIn" aria-labelledby="analisisDropdown">
               <li><a class="dropdown-item" href="#!">O.T.</a></li>
-              <li><a class="dropdown-item" href="#!">Conceptos</a></li>
+              <li><a class="dropdown-item" href="<?php echo base_url; ?>ConceptosOT/Analisis">Conceptos</a></li>
               <li><a class="dropdown-item" href="#!">Insumo</a></li>
 
             </ul>

@@ -175,4 +175,15 @@ class ConceptosOTModel extends Query
         curl_close($ch);   
         return $res;
     }
+    public function ConceptoPeriodo()
+    {
+        //conexion a la API
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, urlapi."/concepto_ot/ConceptoPeriodo/");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    }
+    //http://161.132.206.104:8000/concepto_ot/ConceptoPeriodo/
 }

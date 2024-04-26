@@ -323,6 +323,70 @@ class ConceptosOT extends Controller
 
         echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
         die();
+    }
+    //http://161.132.206.104:8000/concepto_ot/ConceptoPeriodo/
+    public function ConceptoPeriodo( )
+    {
+        $data = $this->model->ConceptoPeriodo();
+        
+        $resultado = json_decode($data);
+        /*
+        $resultado = $resultado->data;
+        $resultado =[
+            "id" =>$resultado->id,
+            "codigo" =>$resultado->codigo
+        ];
+        */
+        //echo var_dump($resultado[0]->total[0]->total);
+        
+        $periodo = ["2015","2016","2017","2018","2019","2020","2021","2022","2023","2024"];
+        //echo "oli";
+        $total = [$resultado[0]->total[0]->total];
+        
+        $data = [
+            //$resultado[0]->total[0]->total,
+            $resultado[0]->A2015[0]->A2015,
+            $resultado[0]->A2016[0]->A2016,
+            $resultado[0]->A2017[0]->A2017,
+            $resultado[0]->A2018[0]->A2018,
+            $resultado[0]->A2019[0]->A2019,
+            $resultado[0]->A2020[0]->A2020,
+            $resultado[0]->A2021[0]->A2021,
+            $resultado[0]->A2022[0]->A2022,
+            $resultado[0]->A2023[0]->A2023,
+            $resultado[0]->A2024[0]->A2024
+        ];
+        $objetoT = [
+            "periodo"=>$periodo ,
+            "data"=>$data ,
+            "total"=>$total
+        ];
+        /*
+        $objetov =[
+            $resultado[0]->total[0],
+            $resultado[0]->A2015[0],
+            $resultado[0]->A2016[0],
+            $resultado[0]->A2017[0],
+            $resultado[0]->A2018[0],
+            $resultado[0]->A2019[0],
+            $resultado[0]->A2020[0],
+            $resultado[0]->A2021[0],
+            $resultado[0]->A2022[0],
+            $resultado[0]->A2023[0],
+            $resultado[0]->A2024[0]
+
+        ];
+        */
+        
+        
+        //echo var_dump($resultado[0]);
+        echo json_encode($objetoT, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+    public function Analisis( )
+    {
+        echo "oli analisis";
+        $this->views->getView($this, "analisis");
 
     }
 }

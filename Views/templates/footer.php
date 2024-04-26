@@ -5,7 +5,8 @@
 <script src="https:////cdn.datatables.net/2.0.5/js/dataTables.min.js"></script>
 <script src="<?php echo base_url; ?>Assets/js/sweetalert2.all.min.js"></script>
 <script src="<?php echo base_url; ?>Assets/js/select2.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
         const base_url = '<?php echo base_url; ?>';
        console.log(base_url);
