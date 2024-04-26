@@ -1,5 +1,4 @@
 <?php include "Views/templates/navbar.php"; ?>
-
 <div class="container">
     <div class="app-title m-1">
         <div>

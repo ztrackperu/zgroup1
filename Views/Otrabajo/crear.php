@@ -169,6 +169,8 @@ include "Views/templates/navbar.php";
 	<div class="container-fluid">
     <div class="card m-3">
         <div class="card-header text-bg-primary">Registro de Orden de Trabajo Oka</div>
+		<?php  var_dump($data) ;?>
+
         <div class="card-body">
 		<div class="form-group">
                 <div class="mb-3 row">
@@ -209,12 +211,18 @@ include "Views/templates/navbar.php";
 						</select>
                     </div>
                     <label for="supervisadoPor" class="col-sm-2 col-form-label">Supervisado por:</label>
-                    <div class="col-sm-2">
+					<?php $ListaSupervisadoOT=json_decode($data['ListaSupervisadoOT']) ;?>
+					<div class="col-sm-2">
 						<select name="txtSupervisadoPor" id="txtSupervisadoPor" class="form-select">
-							<option value="">SELECCIONE</option>
-							<option value="Instalacion Cliente">Instalacion Cliente</option>           
+								<option value="SELECCIONE">SELECCIONE</option>  
+								<?php foreach($ListaSupervisadoOT as $unid):	 ?>                                               
+								<option value="<?php echo $unid->C_DESITM; ?>"> <?php echo $unid->C_DESITM; ?> </option>
+								<?php  endforeach;	 ?>            
 						</select>
-                    </div>
+					</div>
+
+
+
 					<label for="fechaEntrega" class="col-sm-2 col-form-label">Fecha de Entrega</label>
                     <div class="col-sm-2">
 						<input type="date" class="form-control" id="txtFechaEntrega" name="txtFechaEntrega" placeholder="Fecha Entrega" value="2024-04-25">

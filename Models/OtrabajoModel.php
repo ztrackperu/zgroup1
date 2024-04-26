@@ -25,7 +25,7 @@ class OtrabajoModel extends Query
     {
         //consulta externa 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, urlapi."/ListaUnidadMedida");
+        curl_setopt($ch, CURLOPT_URL, urlapi."/concepto_ot/ListaUnidadMedida/");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $res = curl_exec($ch);
         curl_close($ch);   
@@ -35,7 +35,7 @@ class OtrabajoModel extends Query
     {
         //consulta externa 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, urlapi."/ListaSolicitanteOT");
+        curl_setopt($ch, CURLOPT_URL, urlapi."/concepto_ot/ListaSolicitanteOT/");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $res = curl_exec($ch);
         curl_close($ch);   
@@ -45,7 +45,7 @@ class OtrabajoModel extends Query
     {
         //consulta externa 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, urlapi."/ListaSupervisadoOT");
+        curl_setopt($ch, CURLOPT_URL, urlapi."/concepto_ot/ListaSupervisadoOT/");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $res = curl_exec($ch);
         curl_close($ch);   
