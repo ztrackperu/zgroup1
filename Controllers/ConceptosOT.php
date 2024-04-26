@@ -243,12 +243,13 @@ class ConceptosOT extends Controller
 
     public function agregarInsumo()
     {
-        //header('Content-type: application/json; charset=utf-8');
+        //recibir json desde js
         $datosRecibidos = file_get_contents("php://input");
         //$resultado = $_POST['data'];
         //echo json_encode($datosRecibidos, JSON_UNESCAPED_UNICODE);
         $resultado1 = json_decode($datosRecibidos);
         $resultado = $resultado1->data;
+        //creo un objeto
         $objetov =[
             "data" =>$resultado
         ];
@@ -272,7 +273,8 @@ class ConceptosOT extends Controller
         die();
     }
     public function registrarAsignacion()
-    {      
+    { 
+        //forma de recibir un json desde js     
         $datosRecibidos = file_get_contents("php://input");
         //$resultado = $_POST['data'];
         //echo json_encode($datosRecibidos, JSON_UNESCAPED_UNICODE);

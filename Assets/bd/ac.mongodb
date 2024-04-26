@@ -1,0 +1,31 @@
+use("intranet")
+
+db.invmae.aggregate([
+    {$project:{_id:0,}},
+    {$match: {IN_ESTA:{$ne:"0"}}}, 
+    //$gte: 20, $lte: 25
+    //{$match: {c_NumOT: {$gte: inicio, $lte: fin}}}, 
+    {
+        $lookup: {
+          from: 'dettabla',
+          localField: 'COD_CLASE',
+          foreignField: 'C_NUMITM',
+          as: 'tabla',
+          pipeline: [
+            {$project:{_id:0}} ,
+            {$match: {C_CODTAB:"CLP"}}
+
+          ]
+
+
+        }
+    }, 
+
+
+    //agregamso el resultado en la coleccion dataot
+    /*.
+    {
+        $out :basedatos
+    }  
+    */
+])

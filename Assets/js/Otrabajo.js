@@ -10,8 +10,60 @@ function alertas(msg, icono) {
     })
 }
 
+$('#Proveedor').on('change', function (e) {
+    variable = $('#Proveedor').select2('data');
+    document.getElementById("ruc").value = variable[0].id;
+    console.log(variable);
+  });
+  
 
 document.addEventListener("DOMContentLoaded", function(){
+    $('#refCotizacion').select2({
+        placeholder: 'Buscar Cotizacion',
+        minimumInputLength: 3,
+        //delay: 250,
+        ajax: {
+            url: base_url + 'Otrabajo/buscarCotizacion',
+            dataType: 'json',
+            //delay: 250, 
+            data: function (params) {
+                
+                console.log(params);        
+                return {
+                    q: params.term
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: data
+                };
+            },
+            cache: true
+        }    
+    });
+    $('#Proveedor').select2({
+        placeholder: 'Buscar Proveedor',
+        minimumInputLength: 3,
+        delay: 250,
+        ajax: {
+            url: base_url + 'Otrabajo/buscarProveedor',
+            dataType: 'json',
+            //delay: 250, 
+            data: function (params) {
+                
+                console.log(params);        
+                return {
+                    q: params.term
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: data
+                };
+            },
+            cache: true
+        }    
+    });
     const language = {
         "decimal": "",
         "emptyTable": "No hay información",

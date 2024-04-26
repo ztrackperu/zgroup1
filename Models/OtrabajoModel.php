@@ -80,5 +80,27 @@ class OtrabajoModel extends Query
         curl_close($ch);   
         return $res;
     }
+    public function buscarCotizacion($valor)
+    {
 
+        $ch = curl_init();
+        $url_a =urlapi."/concepto_ot/buscarCotizacion/".$valor;
+        curl_setopt($ch, CURLOPT_URL, $url_a);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    }
+    public function buscarProveedor($valor)
+    {
+
+        $ch = curl_init();
+        $url_a =urlapi."/concepto_ot/buscarProveedor/".$valor;
+        curl_setopt($ch, CURLOPT_URL, $url_a);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    }
+    
 }

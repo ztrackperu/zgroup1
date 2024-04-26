@@ -138,5 +138,29 @@ class Otrabajo extends Controller
 
         
     }
+    public function buscarCotizacion($param)
+    {
+        if (isset($_GET['q'])) {
+            $valor = $_GET['q'];
+            $data = $this->model->buscarCotizacion($valor);
+            $resultado = json_decode($data);
+            $resultado = $resultado->data;
+            echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
+            die();
+        }
+    }
+
+    public function buscarProveedor($param)
+    {
+        if (isset($_GET['q'])) {
+            $valor = $_GET['q'];
+            $data = $this->model->buscarProveedor($valor);
+            $resultado = json_decode($data);
+            $resultado = $resultado->data;
+            echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
+            die();
+        }
+    }
+
 
 }

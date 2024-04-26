@@ -181,7 +181,11 @@ include "Views/templates/navbar.php";
                     </div>
                     <label for="refCotizacion" class="col-sm-2 col-form-label">Ref. Cotizacion:</label>
                     <div class="col-sm-2">
-						<input type="text" class="form-control" id="refCotizacion" name="refCotizacion" placeholder="Ref. Cotizacion" value="">
+						<!--<input type="text" class="form-control" id="refCotizacion" name="refCotizacion" placeholder="Ref. Cotizacion" value="">-->
+                        <select name="refCotizacion" id="refCotizacion" class="form-select">
+							<option value="">SELECCIONE</option>          
+						</select>
+
                     </div>
 					<label for="nroGuiaOC" class="col-sm-2 col-form-label">Nro de Guia/OC</label>
                     <div class="col-sm-2">
@@ -205,9 +209,13 @@ include "Views/templates/navbar.php";
 				<div class="mb-3 row">
                     <label for="solicitadoPor" class="col-sm-2 col-form-label">Solicitado por:</label>
                     <div class="col-sm-2">
-						<select name="txtSolicitadoPor" id="txtSolicitadoPor" class="form-select">
-							<option value="">SELECCIONE</option>
-							<option value="Instalacion Cliente">Instalacion Cliente</option>           
+
+                        <?php $ListaSolicitanteOT=json_decode($data['ListaSolicitanteOT']) ;?>
+                        <select name="SolicitadoPor" id="SolicitadoPor" class="form-select">
+								<option value="SELECCIONE">SELECCIONE</option>  
+								<?php foreach($ListaSolicitanteOT as $unid):	 ?>                                               
+								<option value="<?php echo $unid->C_DESITM; ?>"> <?php echo $unid->C_DESITM; ?> </option>
+								<?php  endforeach;	 ?>            
 						</select>
                     </div>
                     <label for="supervisadoPor" class="col-sm-2 col-form-label">Supervisado por:</label>
@@ -231,13 +239,14 @@ include "Views/templates/navbar.php";
 				<div class="mb-3 row">
                     <label for="lugarTrabajo" class="col-sm-2 col-form-label">Lugar de trabajo</label>
                     <div class="col-sm-2">
-                        <input type="text" class="form-control" id="lugarTrabajo" value="" placeholder="Buscar Producto">
+                        <select name="LugarTrabajo" id="LugarTrabajo" class="form-select" <?php echo $ObjetoDisable?>>
+							<option value="Almacen Zgroup">Almacen Zgroup</option>
+							<option value="Instalacion Cliente">Instalacion Cliente</option>           
+						 </select>
                     </div>
                     <label for="lugarTrabajo" class="col-sm-2 col-form-label">Referencia Lugar</label>
                     <div class="col-sm-2">
-						<select name="txtLugarTrabajo" id="txtLugarTrabajo" class="form-select">
-							<option value="Almacen Zgroup">OTROS</option>
-						</select>
+                        <input type="text" class="form-control" id="ReferenciaLugar" name="ReferenciaLugar" placeholder="opcional..." value="">
                     </div>
 					<label for="usuario" class="col-sm-2 col-form-label">Usuario</label>
                     <div class="col-sm-2">
@@ -266,7 +275,9 @@ include "Views/templates/navbar.php";
                 <div class="mb-3 row">
                     <label for="proveedor" class="col-sm-2 col-form-label">Proveedor</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="proveedor" value="" placeholder="Buscar Proveedor">
+                    <select name="Proveedor" id="Proveedor" class="form-select">
+							<option value="">SELECCIONE</option>          
+						</select>
                     </div>
                     <label for="descripcionEquipo" class="col-sm-2 col-form-label">Descripcion Equipo</label>
                     <div class="col-sm-4">

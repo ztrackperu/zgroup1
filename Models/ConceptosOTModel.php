@@ -191,4 +191,5 @@ class ConceptosOTModel extends Query
 
     }
     //http://161.132.206.104:8000/concepto_ot/ConceptoPeriodo/
+    
 }

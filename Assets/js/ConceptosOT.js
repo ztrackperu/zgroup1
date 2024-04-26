@@ -320,7 +320,7 @@ function frmConceptosOT() {
   function tomarInsumos(){
     //var tablaInsumos = $('#myTableInsumo').DataTable({retrieve: true,paging: false});
     variable = $('#insumosL').select2('data');
-    //console.log(variable);
+    console.log(variable);
     if(variable.length!=0){
         var http = new XMLHttpRequest();
         var url = base_url + "ConceptosOT/agregarInsumo";
@@ -334,6 +334,7 @@ function frmConceptosOT() {
                 //console.log(JSON.parse(http.responseText));
                 resul = JSON.parse(http.responseText);
                 console.log(resul);
+                //contra las filas 
                 contInsumos = tablaInsumos.rows().count();
                 console.log(contInsumos)
                 if(contInsumos==0){
@@ -384,6 +385,7 @@ function frmConceptosOT() {
                     //aqui se guardan los elementos listo pa ser agregados 
                     console.log(sinrepetiones);
                     for(let i=0;i<sinrepetiones.length;i++){
+                        //agregar fila en datatable
                         tablaInsumos.row.add(
                             //{ tamano: tamano, nombre: nombre }
                             {
@@ -570,7 +572,7 @@ async function asignarConcepto(){
 }
 
 function btnEliminarInsumo(cod){
-    console.log(cod);
+    //console.log(cod);
     
     Swal.fire({
         title: 'Esta seguro de Eliminar Insumo ?',
@@ -583,6 +585,7 @@ function btnEliminarInsumo(cod){
         cancelButtonText: 'No'
     }).then((result) => {
         if (result.isConfirmed) {
+            //identifico el elemento a eliminar 
             //$('#myTableInsumo').DataTable();
             trama = $('#myTableInsumo').DataTable()
             .row( 
@@ -604,6 +607,7 @@ function procesarConceptoInsumo(){
             datosya=[];
             let rows = tablaInsumos.rows(
                 //(idx, data) => data.location === 'Edinburgh'
+                // identifica cada fila y lo gurada en el array datosya
                 (idx, data) => datosya.push(data) 
                 //(idx, data) => datosya.push(data) 
 
@@ -639,20 +643,22 @@ function procesarConceptoInsumo(){
              //INDND1509
              //CASACA TERMICAS MOD. CLASICO
              //valinput = $("#insumo_INDND1119").val();
-            valinput = $("#"+iden).val();
+             //aqui identificamos el valor del input
+            //tomo el valor del input identificado
+             valinput = $("#"+iden).val();
 
              //valinput = $("#".iden).val();
 
              console.log(valinput);
              objet['valor'] =valinput ;
-
+              //creo el objeto pestandar de la API
              var objetivo = {
                 IN_CODI: datosya[i].IN_CODI ,
                 IN_ARTI: datosya[i].IN_ARTI,
                 IN_UVTA: datosya[i].IN_UVTA,
                 cantidad: valinput
               };
-
+              //AÑADO CADA UNO DE ESOS OBJETOS A UNA LISTA
                 nuevojson.push(objetivo) ;
                 
             }
