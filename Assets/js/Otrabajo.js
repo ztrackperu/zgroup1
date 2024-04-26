@@ -64,6 +64,52 @@ document.addEventListener("DOMContentLoaded", function(){
             cache: true
         }    
     });
+    $('#Producto').select2({
+        placeholder: 'Buscar Producto',
+        minimumInputLength: 4,
+        delay: 250,
+        ajax: {
+            url: base_url + 'Otrabajo/buscarProductoOT',
+            dataType: 'json',
+            //delay: 250, 
+            data: function (params) {
+                
+                console.log(params);        
+                return {
+                    q: params.term
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: data
+                };
+            },
+            cache: true
+        }    
+    });
+    $('#codigoEquipo').select2({
+        placeholder: 'Buscar Codigo Equipo',
+        minimumInputLength: 5,
+        delay: 250,
+        ajax: {
+            url: base_url + 'Otrabajo/buscarCodigo',
+            dataType: 'json',
+            //delay: 250, 
+            data: function (params) {
+                
+                console.log(params);        
+                return {
+                    q: params.term
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: data
+                };
+            },
+            cache: true
+        }    
+    });
     const language = {
         "decimal": "",
         "emptyTable": "No hay información",
@@ -331,6 +377,42 @@ document.getElementById('checkOrdenTrabajo').addEventListener('change', function
         document.getElementById('nroTicket').value = "";
     }
 });
+
+function agregarDetalleTrabajo(){
+
+        var proveedor_trabajo = $('#Proveedor').val(); 
+        var concepto_trabajo = $('#txtConceptoTrabajo').val(); 
+        var tecnico_trabajo = $('#txtTecnicoEncargado').val(); 
+        var subTotal_trabajo = $('#precio').val();
+        var cantidad_trabajo = $('#cantidad').val();
+        var importe = $('#importe').val();
+
+        var newRow = $('<tr/>').append(
+            $('<td/>').append(
+                $('<input/>').addClass('form-control').val(proveedor_trabajo).attr('readonly', true),
+            ),
+            $('<td/>').append(
+                $('<input/>').addClass('form-control').val(concepto_trabajo).attr('readonly', true),
+            ),
+            $('<td/>').append(
+                $('<input/>').addClass('form-control').val(tecnico_trabajo),
+            ),
+            $('<td/>').append(
+                $('<input/>').addClass('form-control').val(subTotal_trabajo),
+            ),
+            $('<td/>').append(
+                $('<input/>').addClass('form-control').val(cantidad_trabajo),
+            ),
+            $('<td/>').append(
+                $('<input/>').addClass('form-control').val(importe),
+            ),
+            $('<td/>').append(
+                $('<button/>').addClass('btn btn-danger').text('Eliminar').click(function() {
+                $(this).parent().parent().remove();
+                })
+        ));
+        $('#myTableTrabajo tbody').append(newRow);
+}
 
 
 

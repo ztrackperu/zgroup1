@@ -299,7 +299,10 @@ include "Views/templates/navbar.php";
 				<div class="mb-3 row">
                     <label for="producto" class="col-sm-2 col-form-label">Producto</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="producto" value="" placeholder="Buscar Producto">
+                        <select name="Producto" id="Producto" class="form-select">
+							<option value="">SELECCIONE</option>          
+						</select>
+                       <!-- <input type="text" class="form-control" id="producto" value="" placeholder="Buscar Producto">-->
                     </div>
                     <label for="detalleTrabajo" class="col-sm-2 col-form-label">Detalle del Trabajo</label>
                     <div class="col-sm-4">
@@ -309,7 +312,9 @@ include "Views/templates/navbar.php";
 				<div class="mb-3 row">
                     <label for="codigoEquipo" class="col-sm-2 col-form-label">Codigo Equipo</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="codigoEquipo" value="" placeholder="Buscar Producto">
+                        <select name="codigoEquipo" id="codigoEquipo" class="form-select">
+							<option value="">SELECCIONE</option>          
+						</select>
                     </div>
                     <label for="tecnicoEncargado" class="col-sm-2 col-form-label">Tecnico Encargado</label>
                     <div class="col-sm-4">
@@ -362,10 +367,29 @@ include "Views/templates/navbar.php";
 						</select>
                     </div>
                 </div>
-				<button type="button" class="btn btn-danger">Añadir Detalle</button>
+				<button type="button" class="btn btn-danger" onclick="agregarDetalleTrabajo()">Añadir Detalle</button>
 
             </div>
-		</div>					
+		</div>	
+        <div class="col-lg-12">
+            <p id="comparador"><p>   
+            <table id="myTableTrabajo" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Proveedor</th>
+                        <th>Concepto</th>
+                        <th>Encargado</th>
+                        <th>Subtotal</th>
+                        <th>Precio</th>
+                        <th>Importe</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+				
 	</div>
 			</div>
 		<div class="container-fluid">			
