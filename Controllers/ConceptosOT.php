@@ -327,7 +327,10 @@ class ConceptosOT extends Controller
     //http://161.132.206.104:8000/concepto_ot/ConceptoPeriodo/
     public function ConceptoPeriodo( )
     {
-        $data = $this->model->ConceptoPeriodo();
+        $datosRecibidos = file_get_contents("php://input");
+        $resultado1 = json_decode($datosRecibidos);
+         //echo var_dump($resultado1) ;
+        $data = $this->model->ConceptoPeriodo($resultado1);
         
         $resultado = json_decode($data);
         /*

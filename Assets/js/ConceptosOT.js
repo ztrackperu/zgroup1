@@ -728,6 +728,31 @@ function btnAsignarInsumoConcepto(id){
 //generarGrafica
 
 async function generarGrafica(){
+    variable = $('#concepto2').select2('data');
+    //variableP = $('#periodoC').value();
+    variableP = document.getElementById('periodoC').value;
+    if(variable.length!=0){
+        if(variableP="TOTAL"){
+            //pedir el total
+            const json = JSON.stringify({ concepto: variable[0].text });
+            const res = await axios.post(base_url + "ConceptosOT/ConceptoPeriodo", json, {
+                headers: {
+                    // Overwrite Axios's automatically set Content-Type
+                    'Content-Type': 'application/json'
+                }
+            });
+            res.data.data; // '{"answer":42}'
+            res.data.headers['Content-Type']; // 'application/json',
+        }else{
+            //pedir por periodo
+        }
+        console.log(variable);
+        console.log(variableP);
+
+
+
+    }
+    /*
     const config = {
         method: 'get',
         dataType: 'json',
@@ -757,56 +782,6 @@ async function generarGrafica(){
           }
         },
     })
+    */
 }
 
-/*
-function generarGrafica(){
-    const url = base_url + "ConceptosOT/ConceptoPeriodo";
-    const http = new XMLHttpRequest();
-    http.open("GET", url, true);
-    http.send();
-    http.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            const res = JSON.parse(this.responseText);
-            
-            console.log(res);
-             w = new Chart(grafica1, {
-                type: 'bar',
-                labels: res.periodo,
-                data: res.data,
-                backgroundColor: [
-                  'rgba(255, 99, 132, 0.2)',
-                  'rgba(255, 159, 64, 0.2)',
-                  'rgba(255, 205, 86, 0.2)',
-                  'rgba(75, 192, 192, 0.2)',
-                  'rgba(54, 162, 235, 0.2)',
-                  'rgba(153, 102, 255, 0.2)',
-                  'rgba(201, 203, 207, 0.2)'
-                ],
-                borderColor: [
-                    'rgb(255, 99, 132)',
-                    'rgb(255, 159, 64)',
-                    'rgb(255, 205, 86)',
-                    'rgb(75, 192, 192)',
-                    'rgb(54, 162, 235)',
-                    'rgb(153, 102, 255)',
-                    'rgb(201, 203, 207)'
-                  ],
-                  borderWidth: 1,
-                options: {
-                  scales: {
-                    y: {
-                      beginAtZero: true
-                    }
-                  }
-                },
-            })
-            
-            document.getElementById("codigo_concepto").value = res.codigo;
-            document.getElementById("descripcion_concepto").value = res.descripcion;       
-            
-        }
-    }
-
-}
-*/
