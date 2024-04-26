@@ -728,6 +728,10 @@ function btnAsignarInsumoConcepto(id){
 //generarGrafica
 
 async function generarGrafica(){
+    if (typeof w !== 'undefined') {
+        w.clear();
+        w.destroy();
+    }
     variable = $('#concepto2').select2('data');
     //variableP = $('#periodoC').value();
     variableP = document.getElementById('periodoC').value;
@@ -741,8 +745,40 @@ async function generarGrafica(){
                     'Content-Type': 'application/json'
                 }
             });
-            res.data.data; // '{"answer":42}'
-            res.data.headers['Content-Type']; // 'application/json',
+            console.log (res.data); // '{"answer":42}'
+            res1 = res.data;
+            /*
+            const config = {
+                method: 'get',
+                dataType: 'json',
+                url: base_url + "ConceptosOT/ConceptoPeriodo"
+            }
+             const buena =  await axios(config);
+             const res = buena.data;   
+             console.log(res.data);
+             */
+
+             w = new Chart(grafica1, {
+                type: 'bar',
+                data: {
+                    labels: res1.periodo,
+                    datasets: [{
+                      label: '# Grafica : '+variable[0].text ,
+                      data: res1.data,
+                      borderWidth: 1
+                    }]
+                },
+        
+        
+                borderWidth: 1,
+                options: {
+                  scales: {
+                    y: {
+                      beginAtZero: true
+                    }
+                  }
+                },
+            })
         }else{
             //pedir por periodo
         }

@@ -16,7 +16,7 @@ if (!empty($_GET['url'])) {
     //echo "jaja".$_GET['url'] ;
     $cadena = explode("/",$_GET['url']);
     $script = $cadena[0] . '.js';
-    echo $script;
+    //echo $script;
     if (file_exists('Assets/js/' . $script)) {
         echo '<script src="'. base_url . 'Assets/js/' . $script .'"></script>';
     }else{

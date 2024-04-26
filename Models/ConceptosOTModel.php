@@ -179,6 +179,7 @@ class ConceptosOTModel extends Query
     {
         //conexion a la API
         $ch = curl_init();
+        $data =json_encode($data);
         curl_setopt($ch, CURLOPT_URL, urlapi."/concepto_ot/ConceptoPeriodo/");
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));

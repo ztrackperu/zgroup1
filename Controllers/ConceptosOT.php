@@ -329,9 +329,14 @@ class ConceptosOT extends Controller
     {
         $datosRecibidos = file_get_contents("php://input");
         $resultado1 = json_decode($datosRecibidos);
-         //echo var_dump($resultado1) ;
-        $data = $this->model->ConceptoPeriodo($resultado1);
-        
+        $objetov =[
+            "descripcion" =>$resultado1->concepto
+        ];
+         //echo var_dump($resultado1->concepto) ;
+        //echo var_dump($objetov);
+        $data = $this->model->ConceptoPeriodo($objetov);
+        //echo $resultado[0]->total[0]->total;
+        //echo $data;
         $resultado = json_decode($data);
         /*
         $resultado = $resultado->data;
@@ -345,10 +350,34 @@ class ConceptosOT extends Controller
         $periodo = ["2015","2016","2017","2018","2019","2020","2021","2022","2023","2024"];
         //echo "oli";
         $total = [$resultado[0]->total[0]->total];
-        
+        if(empty($resultado[0]->A2015[0]->A2015)){
+            $dat1 =0;
+        }else{
+            $dat1 =$resultado[0]->A2015[0]->A2015;
+        }
+        if(empty($resultado[0]->A2016[0]->A2016)){
+            $dat2 =0;
+        }else{$dat2 =$resultado[0]->A2016[0]->A2016;}
+        if(empty($resultado[0]->A2017[0]->A2017)){$dat3 =0;}else{$dat3 =$resultado[0]->A2017[0]->A2017;}
+        if(empty($resultado[0]->A2018[0]->A2018)){$dat4 =0;}else{$dat4 =$resultado[0]->A2018[0]->A2018;}
+        if(empty($resultado[0]->A2019[0]->A2019)){$dat5 =0;}else{$dat5 =$resultado[0]->A2019[0]->A2019;}
+        if(empty($resultado[0]->A2020[0]->A2020)){$dat6 =0;}else{$dat6 =$resultado[0]->A2020[0]->A2020;}
+        if(empty($resultado[0]->A2021[0]->A2021)){$dat7 =0;}else{$dat7 =$resultado[0]->A2021[0]->A2021;}
+        if(empty($resultado[0]->A2022[0]->A2022)){$dat8 =0;}else{$dat8 =$resultado[0]->A2022[0]->A2022;}
+        if(empty($resultado[0]->A2023[0]->A2023)){$dat9 =0;}else{$dat9 =$resultado[0]->A2023[0]->A2023;}
+        if(empty($resultado[0]->A2024[0]->A2024)){$dat10 =0;}else{$dat10 =$resultado[0]->A2024[0]->A2024;}     
+        $data = [
+            $dat1,$dat2,$dat3,$dat4, $dat5,$dat6,$dat7,$dat8, $dat9,$dat10
+        ];
+        $objetoT = [
+            "periodo"=>$periodo ,
+            "data"=>$data ,
+            "total"=>$total
+        ];
+        /*
         $data = [
             //$resultado[0]->total[0]->total,
-            $resultado[0]->A2015[0]->A2015,
+            if(empty($resultado[0]->A2015[0]->A2015){0}else{$resultado[0]->A2015[0]->A2015},
             $resultado[0]->A2016[0]->A2016,
             $resultado[0]->A2017[0]->A2017,
             $resultado[0]->A2018[0]->A2018,
@@ -359,12 +388,6 @@ class ConceptosOT extends Controller
             $resultado[0]->A2023[0]->A2023,
             $resultado[0]->A2024[0]->A2024
         ];
-        $objetoT = [
-            "periodo"=>$periodo ,
-            "data"=>$data ,
-            "total"=>$total
-        ];
-        /*
         $objetov =[
             $resultado[0]->total[0],
             $resultado[0]->A2015[0],
@@ -388,7 +411,7 @@ class ConceptosOT extends Controller
     }
     public function Analisis( )
     {
-        echo "oli analisis";
+        //echo "oli analisis";
         $this->views->getView($this, "analisis");
 
     }
