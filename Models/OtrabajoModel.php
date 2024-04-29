@@ -119,7 +119,7 @@ class OtrabajoModel extends Query
     {
 
         $ch = curl_init();
-        $url_a =urlapi."/concepto_ot/buscarCodigo/".$valor;
+        $url_a =urlapi."/concepto_ot/ExtraerCodigo/".$valor;
         curl_setopt($ch, CURLOPT_URL, $url_a);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $res = curl_exec($ch);
@@ -155,6 +155,28 @@ class OtrabajoModel extends Query
         //consulta externa 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, urlapi."/concepto_ot/ListaFormaPagoM/");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    }
+    public function buscarCodigoAlquilerVenta($valor)
+    {
+
+        $ch = curl_init();
+        $url_a =urlapi."/concepto_ot/buscarCodigoAlquilerVenta/".$valor;
+        curl_setopt($ch, CURLOPT_URL, $url_a);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    }
+    public function buscarCodigoDisponible($valor)
+    {
+
+        $ch = curl_init();
+        $url_a =urlapi."/concepto_ot/buscarCodigoDisponible/".$valor;
+        curl_setopt($ch, CURLOPT_URL, $url_a);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $res = curl_exec($ch);
         curl_close($ch);   

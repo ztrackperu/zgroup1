@@ -53,7 +53,101 @@ $('#ConceptoTrabajo').on('change', function (e) {
         });   
   });
 
+
+  $("#checkCodigo").change(function() {
+        if (this.checked) {
+            alert('Seleccionado');
+            urlC = base_url +'Otrabajo/buscarCodigoAlquilerVenta';
+        }else{
+            alert('NO ESTA Seleccionado');
+            urlC = base_url +'Otrabajo/buscarCodigoDisponible';
+        }
+        $('#codigoEquipo').select2({
+            //primero validar si se selecciono el checkbox checkCodigo
+            placeholder: 'Buscar Codigo Equipo',
+            minimumInputLength: 5,
+            delay: 250,
+            ajax: {
+                url: urlC,
+                dataType: 'json',
+                //delay: 250, 
+                data: function (params) {  
+                    console.log(params);        
+                    return {
+                        q: params.term
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data
+                    };
+                },
+                cache: true
+            }    
+        });  
+
+    });
+
+    $('#codigoEquipo').on('change', function (e) {
+        // obtenemos el valor y consultamos a la API
+        variable = $('#codigoEquipo').select2('data');
+        codBuscar= variable[0].text;
+        console.log(codBuscar);
+        let response = $.get(base_url + "Otrabajo/buscarCodigo/" + codBuscar, (data, status) => {
+            data1 = JSON.parse(data);
+            console.log(data1[0]);
+            //aqui asignamos y autocompletamos los campos 
+            descripcionEquipoI ="S/N" ;
+            maquinaI = "SIN MÁQUINA";
+            if(data1[0].codigo.length!=0){
+                maquinaI = data1[0].codigo[0].id_equipo_asignado;
+            }
+            if(data1[0].des.length!=0){
+                descripcionEquipoI = data1[0].des[0].IN_ARTI;
+            }
+            document.getElementById("descripcionEquipo").value = descripcionEquipoI;
+            document.getElementById("maquina").value = maquinaI;
+            
+        });
+        //let userData = await response.json();
+
+      });
+
+
+
+
 document.addEventListener("DOMContentLoaded", function(){
+    // hacemos un select a los datos que vienen del controlador 
+    $('#tecnicoEncargado').select2();
+    $('#txtSupervisadoPor').select2();
+    $('#SolicitadoPor').select2();
+
+
+    $('#codigoEquipo').select2({
+        //primero validar si se selecciono el checkbox checkCodigo
+        placeholder: 'Buscar Codigo Equipo',
+        minimumInputLength: 5,
+        delay: 250,
+        ajax: {
+            url: base_url+'Otrabajo/buscarCodigoDisponible',
+            dataType: 'json',
+            //delay: 250, 
+            data: function (params) {  
+                console.log(params);        
+                return {
+                    q: params.term
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: data
+                };
+            },
+            cache: true
+        }    
+    });  
+
+
 
     tablaInsumosOT = $('#myTableInsumo').DataTable(
         {
@@ -145,7 +239,7 @@ document.addEventListener("DOMContentLoaded", function(){
         minimumInputLength: 3,
         delay: 250,
         ajax: {
-            url: base_url + 'Otrabajo/buscarProveedor',
+            url:  base_url+ 'Otrabajo/buscarProveedor',
             dataType: 'json',
             //delay: 250, 
             data: function (params) {
@@ -156,6 +250,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 };
             },
             processResults: function (data) {
+                console.log(data);
                 return {
                     results: data
                 };
@@ -186,35 +281,7 @@ document.addEventListener("DOMContentLoaded", function(){
             cache: true
         }    
     });
-    $('#codigoEquipo').select2({
-        placeholder: 'Buscar Codigo Equipo',
-        minimumInputLength: 5,
-        delay: 250,
-        ajax: {
-            url: base_url + 'Otrabajo/buscarCodigo',
-            dataType: 'json',
-            //delay: 250, 
-            data: function (params) {
-                
-                console.log(params);        
-                return {
-                    q: params.term
-                };
-            },
-            processResults: function (data) {
-                
-                data1 = JSON.parse(data)
-                console.log(data1);
 
-                return {
-                    //results: data
-                    id:data1.c_nserie,
-                    text:data1.c_nserie,
-                };
-            },
-            cache: true
-        }    
-    });
     const language = {
         "decimal": "",
         "emptyTable": "No hay información",
@@ -484,6 +551,8 @@ document.getElementById('checkOrdenTrabajo').addEventListener('change', function
 });
 
 function agregarDetalleTrabajo(){
+
+
 
         var proveedor_trabajo = $('#Proveedor').val(); 
         var concepto_trabajo = $('#txtConceptoTrabajo').val(); 

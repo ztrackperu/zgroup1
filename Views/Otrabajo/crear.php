@@ -273,11 +273,11 @@ include "Views/templates/navbar.php";
 		<div class="card-body">
 		<div class="form-group">
                 <div class="mb-3 row">
-                    <label for="proveedor" class="col-sm-2 col-form-label">Proveedor</label>
+                    <label for="proveedor2" class="col-sm-2 col-form-label">Proveedor</label>
                     <div class="col-sm-4">
                     <select name="Proveedor" id="Proveedor" class="form-select">
-							<option value="">SELECCIONE</option>          
-						</select>
+							<!--<option value="">SELECCIONE</option>-->          
+					</select>
                     </div>
                     <label for="descripcionEquipo" class="col-sm-2 col-form-label">Descripcion Equipo</label>
                     <div class="col-sm-4">
@@ -313,15 +313,15 @@ include "Views/templates/navbar.php";
                 </div>
 				<div class="mb-3 row">
                     <label for="codigoEquipo" class="col-sm-2 col-form-label">Codigo Equipo</label>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <select name="codigoEquipo" id="codigoEquipo" class="form-select">
-							<option value="">SELECCIONE</option>          
-						</select>
-                    </div>
+                            <option value="">SELECCIONE</option>          
+                        </select>
+                    </div>    
+                    <div class="col-sm-1">
+                        <input type="checkbox" id="checkCodigo" name="checkCodigo">
+                    </div>                
                     <label for="tecnicoEncargado" class="col-sm-2 col-form-label">Tecnico Encargado</label>
-            
-
-
                     <?php $ListaTecnicoOT=json_decode($data['ListaTecnicoOT']) ;?>
                     <?php //var_dump($ListaTecnicoOT) ;?>
 					<div class="col-sm-4">
@@ -332,20 +332,17 @@ include "Views/templates/navbar.php";
 								<?php  endforeach;	 ?>            
 						</select>
 					</div>
-
-
-
-
-                    </div>
+                    
                 </div>
 				<div class="mb-3 row">
                     <label for="maquina" class="col-sm-2 col-form-label">Maquina</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="maquina" value="" placeholder="Serie">
+                        <input type="text" class="form-control" id="maquina" name="maquina" value="" placeholder="Serie">
                     </div>
                     <label for="moneda" class="col-sm-2 col-form-label">Moneda</label>
                     <div class="col-sm-4">
 						<select name="txtMoneda" id="txtMoneda" class="form-select">
+                            <option value="SELECCIONE">SELECCIONE</option>  
 							<option value="SOLES">SOLES</option>
                             <option value="DOLARES">DOLARES</option>
                             <option value="EUROS">EUROS</option>
@@ -391,6 +388,7 @@ include "Views/templates/navbar.php";
                     <label for="tipoDocumento" class="col-sm-2 col-form-label">Tipo Documento</label>
                     <div class="col-sm-4">
 						<select name="txtTipoDocumento" id="txtTipoDocumento" class="form-select">
+                            <option value="SELECCIONE">SELECCIONE</option>  
 							<option value="FACTURA">FACTURA</option>
                             <option value="RECIBO HONORARIO">RECIBO HONORARIO</option>
 						</select>

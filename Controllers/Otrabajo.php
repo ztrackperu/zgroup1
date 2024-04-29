@@ -177,15 +177,43 @@ class Otrabajo extends Controller
             die();
         }
     }
-
+// esto se usara para devolver la informacion de la API
     public function buscarCodigo($param)
+    {
+        if ($param!="") {
+            //$valor = $_GET['q'];
+            $data = $this->model->buscarCodigo($param);
+            //$resultado = json_decode($data[0]);
+            //$resultado = $resultado->c_idequipo;
+            //tratar la informacion de la API
+            //echo json_encode($data, JSON_UNESCAPED_UNICODE);
+            echo $data;
+            die();
+        }
+    }
+
+    
+    public function buscarCodigoAlquilerVenta($param)
     {
         if (isset($_GET['q'])) {
             $valor = $_GET['q'];
-            $data = $this->model->buscarCodigo($valor);
-            //$resultado = json_decode($data);
-            //$resultado = $resultado->data;
-            echo json_encode($data, JSON_UNESCAPED_UNICODE);
+            $data = $this->model->buscarCodigoAlquilerVenta($valor);
+            $resultado = json_decode($data);
+            $resultado = $resultado->data;
+            echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
+            die();
+        }
+    }
+
+    
+    public function buscarCodigoDisponible($param)
+    {
+        if (isset($_GET['q'])) {
+            $valor = $_GET['q'];
+            $data = $this->model->buscarCodigoDisponible($valor);
+            $resultado = json_decode($data);
+            $resultado = $resultado->data;
+            echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
             die();
         }
     }
