@@ -74,9 +74,13 @@ class Otrabajo extends Controller
 
     public function crear()
     {
-        $data['ListaUnidadMedida'] =  $this->model->ListaUnidadMedida();
+        //$data['ListaUnidadMedida'] =  $this->model->ListaUnidadMedida();
         $data['ListaSolicitanteOT'] =  $this->model->ListaSolicitanteOT();
         $data['ListaSupervisadoOT'] =  $this->model->ListaSupervisadoOT();
+
+        $data['ListaTecnicoOT'] =  $this->model->ListaTecnicoOT();
+        $data['ListaPlazoM'] =  $this->model->ListaPlazoM();
+        $data['ListaFormaPagoM'] =  $this->model->ListaFormaPagoM();
         $this->views->getView($this, "crear",$data);
     }
 
@@ -179,9 +183,9 @@ class Otrabajo extends Controller
         if (isset($_GET['q'])) {
             $valor = $_GET['q'];
             $data = $this->model->buscarCodigo($valor);
-            $resultado = json_decode($data);
-            $resultado = $resultado->data;
-            echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
+            //$resultado = json_decode($data);
+            //$resultado = $resultado->data;
+            echo json_encode($data, JSON_UNESCAPED_UNICODE);
             die();
         }
     }

@@ -10,14 +10,113 @@ function alertas(msg, icono) {
     })
 }
 
+async function fila(id){
+    id1=id-1000;
+    datafila =[];
+    let response = $.get(base_url + "ConceptosOT/nuevaSeleccion/" + id1, (data, status) => {    
+    });
+    return response;
+}
+
 $('#Proveedor').on('change', function (e) {
     variable = $('#Proveedor').select2('data');
     document.getElementById("ruc").value = variable[0].id;
     console.log(variable);
   });
   
+$('#ConceptoTrabajo').on('change', function (e) {
+        variable = $('#ConceptoTrabajo').select2('data');
+        console.log(variable);
+
+        id2 = variable[0].id;
+        id1=id2-1000;
+        datafila =[];
+        let res1 = $.get(base_url + "ConceptosOT/nuevaSeleccion/" + id1, (data, status) => {    
+        });
+        
+        res = JSON.parse(res1);
+        console.log(res);
+        tablaInsumosOT.destroy();
+        console.log("esta vacio");
+        tablaInsumosOT = $('#myTableInsumoOT').DataTable({
+            paging: false,
+            searching: true,
+            info: false,
+            data: res,
+            columns: [
+            { title: "Codigo", data: "IN_CODI" },
+            { title: "Descripcion", data: "IN_ARTI" },
+            { title: "Unidad", data: "IN_UVTA" },
+            { title: "Cantidad", data: "cantidad" },
+            { title: "Eliminar", data: "acciones" }
+            ]
+        });   
+  });
 
 document.addEventListener("DOMContentLoaded", function(){
+
+    tablaInsumosOT = $('#myTableInsumo').DataTable(
+        {
+            retrieve: true,
+            paging: false,
+            paging: false,
+            searching: false,
+            info: false,
+            
+        });
+    $("#insumosOT").select2({
+        //language:"es",
+        closeOnSelect: false,
+        //placeholder: 'Buscar Concepto',
+        minimumInputLength: 3,
+        //allowClear: true,
+        //delay: 250,
+        ajax: {
+            url: base_url + 'ConceptosOT/buscarInsumos',
+            dataType: 'json',
+            //delay: 250, 
+            data: function (params) {
+                
+                console.log(params);        
+                return {
+                    q: params.term
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: data
+                };
+            },
+            cache: true
+        }
+    });
+    $('#ConceptoTrabajo').select2({
+        //language:"es",
+        //closeOnSelect: false,
+        placeholder: 'Buscar Concepto',
+        minimumInputLength: 2,
+        //allowClear: true,
+        delay: 250,
+        ajax: {
+            url: base_url + 'ConceptosOT/buscarConcepto',
+            dataType: 'json',
+            //delay: 250, 
+            data: function (params) {
+                
+                console.log(params);        
+                return {
+                    q: params.term
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: data
+                };
+            },
+            cache: true
+        }
+    });
+  
     $('#refCotizacion').select2({
         placeholder: 'Buscar Cotizacion',
         minimumInputLength: 3,
@@ -103,8 +202,14 @@ document.addEventListener("DOMContentLoaded", function(){
                 };
             },
             processResults: function (data) {
+                
+                data1 = JSON.parse(data)
+                console.log(data1);
+
                 return {
-                    results: data
+                    //results: data
+                    id:data1.c_nserie,
+                    text:data1.c_nserie,
                 };
             },
             cache: true

@@ -169,7 +169,7 @@ include "Views/templates/navbar.php";
 	<div class="container-fluid">
     <div class="card m-3">
         <div class="card-header text-bg-primary">Registro de Orden de Trabajo Oka</div>
-		<?php  var_dump($data) ;?>
+		<?php  //var_dump($data) ;?>
 
         <div class="card-body">
 		<div class="form-group">
@@ -291,9 +291,11 @@ include "Views/templates/navbar.php";
                     </div>
                     <label for="conceptoTrabajo" class="col-sm-2 col-form-label">Concepto de Trabajo</label>
                     <div class="col-sm-4">
-						<select name="txtConceptoTrabajo" id="txtConceptoTrabajo" class="form-select">
-							<option value="">OTROS</option>
+
+                    <select name="ConceptoTrabajo" id="ConceptoTrabajo" class="form-select">
+							<option value="">SELECCIONE</option>          
 						</select>
+
                     </div>
                 </div>
 				<div class="mb-3 row">
@@ -317,10 +319,23 @@ include "Views/templates/navbar.php";
 						</select>
                     </div>
                     <label for="tecnicoEncargado" class="col-sm-2 col-form-label">Tecnico Encargado</label>
-                    <div class="col-sm-4">
-						<select name="txtTecnicoEncargado" id="txtTecnicoEncargado" class="form-select">
-							<option value="">OTROS</option>
+            
+
+
+                    <?php $ListaTecnicoOT=json_decode($data['ListaTecnicoOT']) ;?>
+                    <?php //var_dump($ListaTecnicoOT) ;?>
+					<div class="col-sm-4">
+						<select name="tecnicoEncargado" id="tecnicoEncargado" class="form-select">
+								<option value="SELECCIONE">SELECCIONE</option>  
+								<?php foreach($ListaTecnicoOT as $unid):	 ?>                                               
+								<option value="<?php echo $unid->C_DESITM; ?>"> <?php echo $unid->C_DESITM; ?> </option>
+								<?php  endforeach;	 ?>            
 						</select>
+					</div>
+
+
+
+
                     </div>
                 </div>
 				<div class="mb-3 row">
@@ -331,17 +346,25 @@ include "Views/templates/navbar.php";
                     <label for="moneda" class="col-sm-2 col-form-label">Moneda</label>
                     <div class="col-sm-4">
 						<select name="txtMoneda" id="txtMoneda" class="form-select">
-							<option value="">SOLES</option>
+							<option value="SOLES">SOLES</option>
+                            <option value="DOLARES">DOLARES</option>
+                            <option value="EUROS">EUROS</option>
 						</select>
 					</div>
                 </div>
 				<div class="mb-3 row">
                     <label for="tratoPago" class="col-sm-2 col-form-label">Trato Pago</label>
-                    <div class="col-sm-4">
-						<select name="txtTratoPago" id="txtTratoPago" class="form-select">
-							<option value="">SELECCIONE</option>
+                    <?php $ListaFormaPagoM=json_decode($data['ListaFormaPagoM']) ;?>
+                    <?php //var_dump($ListaFormaPagoM) ;?>
+					<div class="col-sm-4">
+						<select name="tratoPago" id="tratoPago" class="form-select">
+								<option value="SELECCIONE">SELECCIONE</option>  
+								<?php foreach($ListaFormaPagoM as $unid):	 ?>                                               
+								<option value="<?php echo $unid->C_DESITM; ?>"> <?php echo $unid->C_DESITM; ?> </option>
+								<?php  endforeach;	 ?>            
 						</select>
-                    </div>
+					</div>
+
                     <label for="precio" class="col-sm-2 col-form-label">Precio</label>
                     <div class="col-sm-4">
                         <input type="text" class="form-control" id="precio" value="1">
@@ -349,11 +372,16 @@ include "Views/templates/navbar.php";
                 </div>
 				<div class="mb-3 row">
                     <label for="facturaPago" class="col-sm-2 col-form-label">Factura Pago</label>
-                    <div class="col-sm-4">
-						<select name="txtFacturaPago" id="txtFacturaPago" class="form-select">
-							<option value="">SELECCIONE</option>
+                    <?php $ListaPlazoM=json_decode($data['ListaPlazoM']) ;?>
+                    <?php //var_dump($ListaPlazoM) ;?>
+					<div class="col-sm-4">
+						<select name="tratoPago" id="tratoPago" class="form-select">
+								<option value="SELECCIONE">SELECCIONE</option>  
+								<?php foreach($ListaPlazoM as $unid):	 ?>                                               
+								<option value="<?php echo $unid->TP_DESC; ?>"> <?php echo $unid->TP_DESC; ?> </option>
+								<?php  endforeach;	 ?>            
 						</select>
-                    </div>
+					</div>
                     <label for="cantidad" class="col-sm-2 col-form-label">Cantidad</label>
                     <div class="col-sm-4">
                         <input type="text" class="form-control" id="cantidad" value="1">
@@ -363,14 +391,24 @@ include "Views/templates/navbar.php";
                     <label for="tipoDocumento" class="col-sm-2 col-form-label">Tipo Documento</label>
                     <div class="col-sm-4">
 						<select name="txtTipoDocumento" id="txtTipoDocumento" class="form-select">
-							<option value="">FACTURA</option>
+							<option value="FACTURA">FACTURA</option>
+                            <option value="RECIBO HONORARIO">RECIBO HONORARIO</option>
 						</select>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="tipoDocumento" class="col-sm-2 col-form-label">Insumos</label>
+                    <div class="col-sm-4">
+                        <select id="insumosOT" class="js-example-basic-multiple"  name="insumosOT[]" multiple="multiple"  style="width: 100%;" ></select>
                     </div>
                 </div>
 				<button type="button" class="btn btn-danger" onclick="agregarDetalleTrabajo()">Añadir Detalle</button>
 
             </div>
 		</div>	
+        <div class="col-lg-12">
+            <table id="myTableInsumoOT" class="table table-striped table-bordered"></table>
+        </div>
         <div class="col-lg-12">
             <p id="comparador"><p>   
             <table id="myTableTrabajo" class="table table-striped table-bordered">

@@ -126,7 +126,40 @@ class OtrabajoModel extends Query
         curl_close($ch);   
         return $res;
     }
+    //$data['ListaTecnicoOT'] =  $this->model->ListaTecnicoOT();
+    //$data['ListaPlazoM'] =  $this->model->ListaPlazoM();
+    //$data['ListaFormaPagoM'] =  $this->model->ListaFormaPagoM();
     
+    public function ListaTecnicoOT()
+    {
+        //consulta externa 
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, urlapi."/concepto_ot/ListaTecnicoOT/");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    }
+    public function ListaPlazoM()
+    {
+        //consulta externa 
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, urlapi."/concepto_ot/ListaPlazoM/");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    }
+    public function ListaFormaPagoM()
+    {
+        //consulta externa 
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, urlapi."/concepto_ot/ListaFormaPagoM/");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    }
     
     
 }
