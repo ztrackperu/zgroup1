@@ -472,7 +472,6 @@ async function lista1(id){
                 ]
             });
         }
-    
 }
 async function asignarConcepto(){
     variable = $('#concepto2').select2('data');
@@ -484,31 +483,6 @@ async function asignarConcepto(){
         //console.log(descripcion_concepto);
         if(codigo_concepto!="" && descripcion_concepto!=""){
             conf = [] ;
-            /*
-              Swal.fire({
-                title: 'Esta seguro de reemplazar ?',
-                text: "Ya tiene selecciono el concepto :"+descripcion_concepto,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Reemplazar',
-                cancelButtonText: 'No'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById("codigo_concepto").value = variable[0].id;
-                    document.getElementById("descripcion_concepto").value = variable[0].text;
-                    //conf.push(1);
-                    //console.log(conf);
-                    //lista1(variable[0].id)
-                    // si reemplaza primero destruir la data 
-                    //$('#myTableInsumo').DataTable().destroy();
-                    //tablaInsumos.destroy(  
-                  
-
-                }
-            });
-            */
             document.getElementById("codigo_concepto").value = variable[0].id;
             document.getElementById("descripcion_concepto").value = variable[0].text;
             result1 = await fila(variable[0].id);
@@ -519,7 +493,6 @@ async function asignarConcepto(){
             if(res==null){
                 res=[];
             }
-
              tablaInsumos = $('#myTableInsumo').DataTable({
                 paging: false,
                 searching: true,
@@ -620,7 +593,7 @@ function procesarConceptoInsumo(){
                 objet['IN_CODI'] =datosya[i].IN_CODI ;
                 objet['IN_ARTI'] =datosya[i].IN_ARTI ;
                 objet['IN_UVTA'] =datosya[i].IN_UVTA ;
-                objet['cantidad'] =4 ;
+                /*objet['cantidad'] =4 ;*/
 
 
                 
