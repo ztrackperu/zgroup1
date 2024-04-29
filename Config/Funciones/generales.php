@@ -66,7 +66,9 @@
      
 
         $tablaContenido = '';
+        $contador = 0; //Iniciar contador
 
+        //Controlar secuancia de foreach
         foreach ($trato->NotaSalida as $notaSalida) {
             foreach ($notaSalida->NotaSalidaDetalle as $detalle) {
                 $nt_ndoc = isset($notaSalida->NT_NDOC) ? $notaSalida->NT_NDOC : null;
@@ -84,7 +86,7 @@
                 $motivo = isset($notaSalida->c_motivo) ? $notaSalida->c_motivo : null;
 
                 $tablaContenido .= "
-                <tr>
+                    <tr>
                     <td>{$nt_ndoc}</td>
                     <td>{$nt_cart}</td>
                     <td>{$c_desprd}</td>
@@ -97,9 +99,11 @@
                     <td>{$responsable}</td>
                     <td>{$fechaNS}</td>
                     <td>{$motivo}</td>
-                </tr>
-            ";
+                    </tr>
+                ";
+                
         }
+        
     }
         // <img src="data:image/jpeg;base64,' . $imagenBase64 . '" alt="" width="120" height="60">
         /*
@@ -122,6 +126,12 @@
             <head>
             <style>
             @import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap");
+            @page {
+                margin-left: 0;
+                margin-right: 0;
+                margin-top:0;
+                margin-bottom: 0;
+            }
             body {
                 font-family: "Roboto Slab", sans-serif;
                 font-size: 9px;
@@ -131,12 +141,12 @@
                 height: 297mm; /* Altura de una hoja A4 */
                 box-sizing: border-box; /* Incluye el padding y el borde en el tamaño total del elemento */
             }
-
             .container{
                 width: 85%;
                 height: 15%;
                 border: 1px solid black;
-                margin-top: 100px;
+                margin-top: 10px;
+                margin-left: 40px;
                 padding: 0 20px;
             }
             .container .columna{
@@ -144,37 +154,39 @@
                 height: 100%;
                 float: left;
             }
-
             .container .columna__respuesta{
                 width: 40%;
                 height: 100%;
                 float: left;
                 line-height: 1.5;
             }
-
             .container .columna2{
                 width: 40%;
                 float:right;
                 margin-bottom: 100px;
             }
-
             .container .columna2__respuesta{
                 width: 20%;
                 float:right;
                 line-height: 1.5;
             }
-
+            .tabla table{
+                padding-top:120px; 
+ 
+            }
 
             table {
                 width: 90%; /* Cambia el ancho de la tabla al 100% */
                 border-collapse: collapse;
                 margin: 30px 0 10px 0;
+                margin-left: 40px; 
+               
+            }
+            table + table{
+                margin-top: 20px;
                 
             }
-
-            table + table{
-                margin-top: 10px;
-            }
+            
             th, td {
                 border: 1px solid black;
                 padding: 8px;
@@ -185,202 +197,170 @@
                 background-color: #d9e5f4;
                 color: black;
             }
-
-            .contenido__fecha {
-                position: absolute; /* Se posiciona de forma absoluta */
-                bottom: 0;
-                left: 0;
-                padding: 10px;
-                color: #1d2d4d;
-                font-size: 12px;
-            }
-            .contenido__superior__derecho{
-                position: absolute;
-                top:0;
-                right:0;
-            }
-            .contenido__superior__izquierda{
-                position:absolute;
-                top:0;
-                left:0;
-                padding: 10px;
-                color: #1d2d4d;
-                font-size: 12px;
-                height: 50px;
-                text-align:right;
-                line-height: 5px;
-            }
-            
-            .contenido__inferior__derecho {
-                position: absolute; 
-                bottom: 0;
-                right: 0;
-                padding: 0px;
-                line-height:0;
-                color: #1d2d4d;
-                font-size: 12px;
-                text-align: right; 
-            }
-
             .contenido__firmas {
                 margin-top: 50px;
                 width: 100%;
                 overflow: auto; 
+                margin-left: 20px;
+
             }
             
             .contenido__firmas .firma {
                 width: 30%;
                 float: left;
                 text-align: center;
+                
             }
         
             .linea-firma {
                 border-top: 1px solid black;
-                width: 100px;
+                width: 140px;
                 margin: 0 auto; 
+                margin-left: 50px;
             }
+            .modelo {
+                position: relative;
+                background-image: url("data:image/jpeg;base64,' . $modeloPDFBase64 . '");
+                background-repeat: repeat-y;
+                background-size: cover;
+            }
+            .modelo img{
+                width: 100%;
+                height: 100%;
+                
+            }
+            .contenido-superpuesto {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+
+            .contenido-superpuesto h1{
+                font-size: 30px;
+                text-align: center;
+                margin-top: 120px;
+            }
+            
            
         </style>
             </head>
             <body>
-                <div class="contenido__superior__izquierda">
-                    <h3>SISTEMA INTRANET</h3>
-                    <h3>THERMO KING</h3>
-                    <p>REPRESENTANTE OFICIAL PERÚ</p>
-                </div>
-            
-                <div class="contenido__superior__derecho">
-                    <img src="data:image/jpeg;base64,' . $imagenBase64 . '" alt="" width="250" height="90">
-                </div>
-                <div class="container">
-                    <div class="columna">
-                        <h3>RUC</h3>
-                        <h3>Solicitante</h3>
-                        <h3>Otros Equipos</h3>
-                        <h3>Contenedor</h3>
-                        <h3>Cod. Contenedor</h3>
-                        <h3>Trabajo a realizar</h3>
-                        <h3>Refrigerante</h3>
+                <div class="modelo">
+                    <img src="data:image/jpeg;base64,' . $modeloPDFBase64 . '">
+                    <div class="contenido-superpuesto">
+                        <h1>O.T : 27589 | COTIZACION: 10022034777</h1>
+                        <div class="container">
+                            <div class="columna">
+                                <h3>RUC</h3>
+                                <h3>Solicitante</h3>
+                                <h3>Otros Equipos</h3>
+                                <h3>Contenedor</h3>
+                                <h3>Cod. Contenedor</h3>
+                                <h3>Trabajo a realizar</h3>
+                                <h3>Refrigerante</h3>
+                            </div>
+                            <div class="columna__respuesta">
+                                <p>:'. $c_rucprov .'</p>
+                                <p>:'. $c_ejecuta .'</p>
+                                <p>:Thermo King</p>
+                                <p>:Thermo King</p>
+                                <p>:'. $unidad .'</p>
+                                <p>:Thermo King</p>
+                                <p>:Thermo King</p>
+                            </div>
+                            <div class="columna2">
+                                <h3>RAZON SOCIAL</h3>
+                                <h3>PRODUCTO N°</h3>
+                                <h3>Marca</h3>
+                                <h3>Modelo</h3>
+                                <h3>N° Serie</h3>
+                                <h3>Controlador</h3>
+                            </div>
+                            <div class="columna2__respuesta">
+                                <p>:ZGROUP S.A.C</p>
+                                <p>:Thermo King</p>
+                                <p>:Thermo King</p>
+                                <p>:Thermo King</p>
+                                <p>:Thermo King</p>
+                                <p>:Thermo King</p>
+                            </div>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>N° Orden de Trabajo</th>
+                                    <th>RUC</th>
+                                    <th>Proveedor</th>
+                                    <th>Trabajo Realizado</th>
+                                    <th>Tecnico Encargado </th>
+                                    <th>Tipo Dcto</th>
+                                    <th>Monto Unitario</th>
+                                    <th>Cantidad Dcto</th>
+                                    <th>IGV</th>
+                                    <th>Total Dcto</th>
+                                    <th>Monto Unitario Pactado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>'.$c_numot.'</td>
+                                    <td>'.$c_rucprov.'</td>
+                                    <td>'.$c_nomprov.'</td>
+                                    <td>'.$c_asunto.'</td>
+                                    <td>'.$c_tecnico.'</td>
+                                    <td>'.$tdoc.'</td>
+                                    <td>'.$monto.'</td>
+                                    <td>'.$n_cant.'</td>
+                                    <td>'.$n_igvd.'</td>
+                                    <td>'.$n_totd.'</td>
+                                    <td>'.$montop.'</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="columna__respuesta">
-                        <p>:'. $c_rucprov .'</p>
-                        <p>:'. $c_ejecuta .'</p>
-                        <p>:Thermo King</p>
-                        <p>:Thermo King</p>
-                        <p>:'. $unidad .'</p>
-                        <p>:Thermo King</p>
-                        <p>:Thermo King</p>
+                    <div class="tabla">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nota Salida</th>
+                                <th>Cod producto</th>
+                                <th>Descripcion</th>
+                                <th>Moneda</th>
+                                <th>Cantidad</th>
+                                <th>Unidad Medida</th>
+                                <th>Precio UND. </th>
+                                <th>Precio Total </th>
+                                <th>Precio Total + IGV</th>
+                                <th>Responsable</th>
+                                <th>Fecha de NS</th>
+                                <th>Motivo</th
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>'.$contador.'</td></tr>
+                            '.$tablaContenido.'
+                        </tbody>
+                    </table>
                     </div>
-                    <div class="columna2">
-                        <h3>RAZON SOCIAL</h3>
-                        <h3>PRODUCTO N°</h3>
-                        <h3>Marca</h3>
-                        <h3>Modelo</h3>
-                        <h3>N° Serie</h3>
-                        <h3>Controlador</h3>
+                    <div class="contenido__firmas">
+                        <div class="firma">
+                            <div class="linea-firma"></div>
+                            <p>Firma</p>
+                            <p>Tecnico Asignado</p>
+                        </div>
+                        <div class="firma">
+                            <div class="linea-firma"></div>
+                            <p>Firma</p>
+                            <p>Verificacion de Componentes</p>
+                        </div>
+                        <div class="firma">
+                            <div class="linea-firma"></div>
+                            <p>Firma</p>
+                            <p>Derecho por Almacen</p>
+                        </div>
                     </div>
-                    <div class="columna2__respuesta">
-                        <p>:ZGROUP S.A.C</p>
-                        <p>:Thermo King</p>
-                        <p>:Thermo King</p>
-                        <p>:Thermo King</p>
-                        <p>:Thermo King</p>
-                        <p>:Thermo King</p>
-                    </div>
-                </div>
-                </div>
-
-                
-                <table>
-                    <thead>
-                        <tr>
-                            <th>N° Orden de Trabajo</th>
-                            <th>RUC</th>
-                            <th>Proveedor</th>
-                            <th>Trabajo Realizado</th>
-                            <th>Tecnico Encargado </th>
-                            <th>Tipo Dcto</th>
-                            <th>Monto Unitario</th>
-                            <th>Cantidad Dcto</th>
-                            <th>IGV</th>
-                            <th>Total Dcto</th>
-                            <th>Monto Unitario Pactado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>'.$c_numot.'</td>
-                        <td>'.$c_rucprov.'</td>
-                        <td>'.$c_nomprov.'</td>
-                        <td>'.$c_asunto.'</td>
-                        <td>'.$c_tecnico.'</td>
-                        <td>'.$tdoc.'</td>
-                        <td>'.$monto.'</td>
-                        <td>'.$n_cant.'</td>
-                        <td>'.$n_igvd.'</td>
-                        <td>'.$n_totd.'</td>
-                        <td>'.$montop.'</td>
-                    </tr>
-                    </tbody>
-                </table>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nota Salida</th>
-                            <th>Cod producto</th>
-                            <th>Descripcion</th>
-                            <th>Moneda</th>
-                            <th>Cantidad</th>
-                            <th>Unidad Medida</th>
-                            <th>Precio UND. </th>
-                            <th>Precio Total </th>
-                            <th>Precio Total + IGV</th>
-                            <th>Responsable</th>
-                            <th>Fecha de NS</th>
-                            <th>Motivo</th
-                        </tr>
-                    </thead>
-                    <tbody>
-                       '.$tablaContenido.'
-                    </tbody>
-                </table>
-                
-                <div class="contenido__firmas">
-                    <div class="firma">
-                        <div class="linea-firma"></div>
-                        <p>Firma</p>
-                        <p>Tecnico Asignado</p>
-                    </div>
-
-                    <div class="firma">
-                        <div class="linea-firma"></div>
-                        <p>Firma</p>
-                        <p>Verificacion de Componentes</p>
-                    </div>
-
-                    <div class="firma">
-                        <div class="linea-firma"></div>
-                        <p>Firma</p>
-                        <p>Derecho por Almacen</p>
-                    </div>
-
-                </div>
-
-                <div class="contenido__fecha">
-                    <h3>Fecha:'.$fechaHoy.'</h3>
-                </div>
-
-                <div class="contenido__inferior__derecho">
-                    <h3>ZGROUP S.A.C. RUC:20521180774</h3>
-                    <h3>SISTEMA INTRANET</h3>
-                    <h3>EMAIL: ZTRACK@ZGROUP.COM.PE</h3>
-                    <h3>WWW.ZGROUP.COM.PE</h3>
-                </div>
+                </div>            
             </body>
-            <script>
-                    let obtenerFechaHoy = new Date();
-                    document.getElementByiD("fechaHoy").textContent = obtenerFechaHoy;
-            </script>
         </html>';
         
         return $aspecto ;
