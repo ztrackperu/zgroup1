@@ -56,8 +56,10 @@
         $fechaHoy = date('d/m/Y H:i:s');
         // Obtén el contenido de la imagen
         $imagenContenido = file_get_contents('Assets/img/logo_pdf.png');
+        $modeloPDF = file_get_contents('Assets/img/modelo_pdf.jpg');
         // Codifica el contenido de la imagen a base64
         $imagenBase64 = base64_encode($imagenContenido);
+        $modeloPDFBase64 = base64_encode($modeloPDF);
         // Crea el diseño en html
 
         //SEGUNDA TABLA
@@ -246,6 +248,7 @@
                     <h3>THERMO KING</h3>
                     <p>REPRESENTANTE OFICIAL PERÚ</p>
                 </div>
+            
                 <div class="contenido__superior__derecho">
                     <img src="data:image/jpeg;base64,' . $imagenBase64 . '" alt="" width="250" height="90">
                 </div>

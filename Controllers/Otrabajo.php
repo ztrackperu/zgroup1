@@ -33,8 +33,6 @@ class Otrabajo extends Controller
     }
     // GENERAR PDF
     public function generarPDF($param){ 
-        
-
         $numot="";
         $data="";
         if($param!=""){
@@ -137,7 +135,7 @@ class Otrabajo extends Controller
         $this->views->getView($this, "pdf",$data);
     }
 
-    public function otConInsumos(){
+    public function rptaAreaCompras(){
         $data = array(
             "nroOrden" => "1001000001",
             "ruc" => "13059246643",
@@ -150,95 +148,27 @@ class Otrabajo extends Controller
                     "partNumber" => "INDND0173",
                     "descripcion" => "REMACHE DE ALUMINIO 3/16 X 1/2",
                     "cantidad" => 50,
-                    "unidadMedida" => "UND"
+                    "unidadMedida" => "UND",
+                    "subTotal" =>20,
+                    "preparado" => 2,
+                    "despachado" => 4,
+                    "notaSalida" => "insumo",
+                    "stock" => 100,
+                    "minimo" => 10
                 ),
                 "reefer" =>(object) array(
                     "partNumber" => "INDND2772",
                     "descripcion" => "CABLE FLEXIBLE AUTOMOTRIZ GPT 0.3KV 14 AWG",
                     "cantidad" => 6,
-                    "unidadMedida" => "M"
+                    "unidadMedida" => "M",
+                    "subTotal" =>10,
+                    "preparado" => 4,
+                    "despachado" => 5,
+                    "notaSalida" => "insumo2",
+                    "stock" => 50,
+                    "minimo" => 20
                 ),
             )
-            
-        
-                   
-
-            /*
-            "luminarias" => array(
-                (object) array(
-                    "concepto" => "descontables",
-                    "partNumber" => "INDND0173",
-                    "descripcion" => "REMACHE DE ALUMINIO 3/16 X 1/2",
-                    "cantidad" => 50,
-                    "unidadMedida" => "UND"
-                ),
-                (object) array(
-                    "concepto" => "descontables",
-                    "partNumber" => "INDND0171",
-                    "descripcion" => "REMACHE POP DE ALUMINIO 3/16X1",
-                    "cantidad" => 50,
-                    "unidadMedida" => "UND"
-                ),
-                (object) array(
-                    "concepto" => "descontables",
-                    "partNumber" => "INDND3242",
-                    "descripcion" => "BROCA DE COBALTO HSS 3/16",
-                    "cantidad" => 1,
-                    "unidadMedida" => "UND"
-                ),
-                (object) array(
-                    "concepto" => "descontables",
-                    "partNumber" => "INDND0134",
-                    "descripcion" => "BROCA DE COBALTO HSS 3/8",
-                    "cantidad" => 1,
-                    "unidadMedida" => "UND"
-                ),
-                (object) array(
-                    "concepto" => "descontables",
-                    "partNumber" => "INDND0406",
-                    "descripcion" => "ADHESIVO POLIURETANO 550 BLANCO - 600 ML",
-                    "cantidad" => 2,
-                    "unidadMedida" => "UND"
-                ),
-                (object) array(
-                    "concepto" => "descontables",
-                    "partNumber" => "INDND0405",
-                    "descripcion" => "ADHESIVO POLIURETANO 540 GRIS - 600 ML",
-                    "cantidad" => 2,
-                    "unidadMedida" => "UND"
-                )
-            ),
-
-            "notaSalida" => array(
-                (object) array(
-                    "NT_NDOC" => "D0026830",
-                    "insumos" => (object) array(
-                        "partNumber" => "INDND2772",
-                        "descripcion" => "CABLE FLEXIBLE AUTOMOTRIZ GPT 0.3KV 14 AWG",
-                        "cantidad" => 6,
-                        "unidadMedida" => "M"
-                    )
-                ),
-                (object) array(
-                    "NT_NDOC" => "D0026830",
-                    "insumos" => (object) array(
-                        "partNumber" => "INDND0843",
-                        "descripcion" => "ACCESORIO ANGULO INTERNO BLANCO 20X12 RH DXN11042HD",
-                        "cantidad" => 2,
-                        "unidadMedida" => "UND"
-                    )
-                ),
-                (object) array(
-                    "NT_NDOC" => "S0026830",
-                    "insumos" => (object) array(
-                        "partNumber" => "RNDND0264",
-                        "descripcion" => "ACCESORIO ANGULO PLANO 90 20X12 BLANCO DXN11043",
-                        "cantidad" => 2,
-                        "unidadMedida" => "UND"
-                )
-                ),
-                
-            )*/
         );
         
         
@@ -249,7 +179,7 @@ class Otrabajo extends Controller
         $proveedor = $trato->proveedor;
         $trabajoRealizado = $trato->trabajoRealizado;
         $tecnicoEncargado = $trato->tecnicoEncargado;
-        $fechaSolicitud = $trato->fechaSolicitud;
+        
 
         $tablaContenido = '';
   
@@ -257,37 +187,22 @@ class Otrabajo extends Controller
             
             $partNumber = isset($OTDESCRIPCION->partNumber) ? $OTDESCRIPCION->partNumber : null;
             $descripcion = isset($OTDESCRIPCION->descripcion) ? $OTDESCRIPCION->descripcion : null;
-            $cantidad = isset($OTDESCRIPCION->cantidad) ? $OTDESCRIPCION->cantidad : null;
             $unidadMedida = isset($OTDESCRIPCION->unidadMedida) ? $OTDESCRIPCION->unidadMedida : null;
+            $despachado = isset($OTDESCRIPCION->despachado) ? $OTDESCRIPCION->despachado : null;
+            $notaSalida = isset($OTDESCRIPCION->notaSalida) ? $OTDESCRIPCION->notaSalida : null;
+            $stock =  isset($OTDESCRIPCION->stock) ? $OTDESCRIPCION->stock : null;
+            $minimo =  isset($OTDESCRIPCION->minimo) ? $OTDESCRIPCION->minimo : null;
+            
             $tablaContenido .= "
             <tr>
                 <td>{$partNumber}</td>
                 <td>{$descripcion}</td>
-                <td>{$cantidad}</td>
                 <td>{$unidadMedida}</td>
+                <td>{$stock}</td>
+                <td>{$minimo}</td>
             </tr>";
 
         }
-
-        $tablaContenido2 = '';
-
-        foreach($OTDESCRIPCION->reefer as $REEF){
-            $partNumber = isset($REEF->partNumber) ? $REEF->partNumber : null;
-            $descripcion = isset($REEF->descripcion) ? $REEF->descripcion : null;
-            $cantidad = isset($REEF->cantidad) ? $REEF->cantidad : null;
-            $unidadMedida = isset($REEF->unidadMedida) ? $REEF->unidadMedida : null;
-            
-            $tablaContenido2 .= "
-            <tr>
-                <td>{$partNumber}</td>
-                <td>{$descripcion}</td>
-                <td>{$cantidad}</td>
-                <td>{$unidadMedida}</td>
-            </tr>";
-        }
-
-
-        
         //Fecha con zona horari de Lima- Perú
         date_default_timezone_set('America/Lima');
         $fechaHoy = date('d/m/Y H:i:s');
@@ -305,7 +220,7 @@ class Otrabajo extends Controller
          // Configuración del correo electrónico
          $mail->setFrom('zgroupsistemas@gmail.com', 'Nombre del remitente');
          $mail->addAddress('zgroupsistemas@gmail.com'); // Reemplaza con la dirección de correo electrónico del destinatario
-         $mail->Subject = 'Reporte';
+         $mail->Subject = 'URGENTE - Stock de materales bajos';
          $mail->isHTML(true);
          
          $mail->addEmbeddedImage('Assets/img/logo_pdf.png', 'logo_img');
@@ -328,14 +243,29 @@ class Otrabajo extends Controller
              margin-top: 50px;
          }
          .container{
-             width: 85%;
+             width: 100%;
              height: 15%;
              border: 1px solid black;
              margin-top: 10px;
              padding: 0 20px;
          }
+
+        .borde{
+            width: 100%;
+            height: 15%;
+            border: 1px solid black;
+            margin-top: 20px;
+            padding: 0 20px;
+
+         }
+         .centrado {      
+            margin-top: 200px;
+            text-align:center;
+            padding: 0 20px;
+
+        }
          .container .columna{
-             width: 20%;
+             width: 30%;
              height: 100%;
              float: left;
          }
@@ -344,24 +274,9 @@ class Otrabajo extends Controller
              width: 40%;
              height: 100%;
              float: left;
-             line-height: 2;
+             line-height: 1.8;
          }
- 
-         .container .columna2{
-             width: 18%;
-             float:right;
-             margin-bottom: 100px;
-             line-height:1.1;
-         }
- 
-         .container .columna2__respuesta{
-             margin-bottom: 100px;
-             width: 20%;
-             float:right;
-             line-height: 1;
-         }
- 
- 
+  
          table {
              width: 90%; /* Cambia el ancho de la tabla al 100% */
              border-collapse: collapse;
@@ -381,8 +296,7 @@ class Otrabajo extends Controller
          th {
              background-color: #d9e5f4;
              color: black;
-         }
- 
+         } 
          .contenido__fecha {
              position: absolute; /* Se posiciona de forma absoluta */
              bottom: 0;
@@ -391,23 +305,18 @@ class Otrabajo extends Controller
              color: #1d2d4d;
              font-size: 12px;
          }
-         .contenido__superior__derecho{
-             position: absolute;
-             top:0;
-             right:0;
+         .contenido__superior__derecha{
+            position:absolute;
+            top:0;
+            left:0;
+            padding: 10px;
+            color: #1d2d4d;
+            font-size: 12px;
+            height: 50px;
+            text-align:right;
+            line-height: 5px;
          }
-         .contenido__superior__izquierda{
-             position:absolute;
-             top:0;
-             left:0;
-             padding: 10px;
-             color: #1d2d4d;
-             font-size: 12px;
-             height: 50px;
-             text-align:right;
-             line-height: 5px;
-         }
-         
+
          .contenido__inferior__derecho {
              position: absolute; 
              bottom: 0;
@@ -417,39 +326,732 @@ class Otrabajo extends Controller
              color: #1d2d4d;
              font-size: 12px;
              text-align: right; 
+         }   
+        </style>
+         </head>
+         <body>
+             <div class="contenido__superior__derecha">
+                 <h3>Fecha de solicitud:'.$fechaHoy.'</h3>
+                 <h3>Nro Solicitud:'.$nroOrden.'</h3>
+             </div>
+             <h2>Sres. Área Compras,</h2>
+             <div class="titulo">
+                <p>Se ha detectado que los siguientes insumos están fuera del límite mínimo, se recomienda establecer las gestiones necesarias para reponer stock.</p>
+            </did>
+             <table>
+                 <thead>
+                     <tr>
+                         <th>CODIGO</th>
+                         <th>DESCRIPCION</th>
+                         <th>UNIDAD</th>
+                         <th>STOCK</th>
+                         <th>MÍNIMO</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                 <tr>
+                    '.$tablaContenido.'
+                 </tr>
+                 </tbody>
+             </table>
+                 <div class="contenido__inferior__derecho">
+                    <h3>Atte: ALMACEN</h3>
+                    <h3>ZGROUP S.A.C. RUC:20521180774</h3>
+                    <h3>SISTEMA INTRANET - SOPORTE</h3>
+                    <h3>EMAIL: ZTRACK@ZGROUP.COM.PE</h3>
+                    <h3>WWW.ZGROUP.COM.PE</h3>
+                </div>
+         </body>
+     </html>';
+         try {
+             $mail->send();
+             echo json_encode(['msg' => 'Correo enviado con éxito', 'icono' => 'success']);
+         } catch (Exception $e) {
+             echo json_encode(['msg' => 'Error al enviar el correo: ' . $mail->ErrorInfo, 'icono' => 'error']);
+         }
+
+
+
+    }
+
+    public function rptaZgroup(){
+        $data = array(
+            "nroOrden" => "1001000001",
+            "ruc" => "13059246643",
+            "proveedor" => "ZGROUP USA LLC",
+            "trabajoRealizado" => "OTROS PINTADO DE SOCALOS Y MARCOS EXTERNOS",
+            "tecnicoEncargado" => "ALCANTARA SAAVEDRA MILAGROS",
+            "fechaSolicitud" => "22/02/2024",            
+            "OtDescripcion" => (object) array(
+                "descontables" => (object) array(
+                    "partNumber" => "INDND0173",
+                    "descripcion" => "REMACHE DE ALUMINIO 3/16 X 1/2",
+                    "cantidad" => 50,
+                    "unidadMedida" => "UND",
+                    "subTotal" =>20,
+                    "preparado" => 2,
+                    "despachado" => 4,
+                    "notaSalida" => "insumo"
+                ),
+                "reefer" =>(object) array(
+                    "partNumber" => "INDND2772",
+                    "descripcion" => "CABLE FLEXIBLE AUTOMOTRIZ GPT 0.3KV 14 AWG",
+                    "cantidad" => 6,
+                    "unidadMedida" => "M",
+                    "subTotal" =>10,
+                    "preparado" => 4,
+                    "despachado" => 5,
+                    "notaSalida" => "insumo2"
+                ),
+            )
+        );
+        
+        
+        $trato = json_decode(json_encode($data));
+        echo var_dump($trato);
+        $nroOrden = $trato->nroOrden;
+        $ruc = $trato->ruc;
+        $proveedor = $trato->proveedor;
+        $trabajoRealizado = $trato->trabajoRealizado;
+        $tecnicoEncargado = $trato->tecnicoEncargado;
+        
+
+        $tablaContenido = '';
+  
+        foreach ($trato->OtDescripcion as $OTDESCRIPCION) {
+            
+            $partNumber = isset($OTDESCRIPCION->partNumber) ? $OTDESCRIPCION->partNumber : null;
+            $descripcion = isset($OTDESCRIPCION->descripcion) ? $OTDESCRIPCION->descripcion : null;
+            $unidadMedida = isset($OTDESCRIPCION->unidadMedida) ? $OTDESCRIPCION->unidadMedida : null;
+            $despachado = isset($OTDESCRIPCION->despachado) ? $OTDESCRIPCION->despachado : null;
+            $notaSalida = isset($OTDESCRIPCION->notaSalida) ? $OTDESCRIPCION->notaSalida : null;
+            
+            $tablaContenido .= "
+            <tr>
+                <td>{$partNumber}</td>
+                <td>{$descripcion}</td>
+                <td>{$unidadMedida}</td>
+                <td>{$despachado}</td>
+                <td>{$notaSalida}</td>
+            </tr>";
+
+        }
+        //Fecha con zona horari de Lima- Perú
+        date_default_timezone_set('America/Lima');
+        $fechaHoy = date('d/m/Y H:i:s');
+
+         // Configura y envía el correo
+         $mail = new PHPMailer(true);
+         $mail->isSMTP();
+         $mail->Host = 'smtp.gmail.com';
+         $mail->SMTPAuth = true;
+         $mail->Username = 'zgroupsistemas@gmail.com'; // Reemplaza con tu dirección de correo electrónico de Gmail
+         $mail->Password = 'bsfgahtiqboilexe'; // Reemplaza con tu contraseña de Gmail
+         $mail->SMTPSecure = 'ssl';
+         $mail->Port = 465;
+     
+         // Configuración del correo electrónico
+         $mail->setFrom('zgroupsistemas@gmail.com', 'Nombre del remitente');
+         $mail->addAddress('zgroupsistemas@gmail.com'); // Reemplaza con la dirección de correo electrónico del destinatario
+         $mail->Subject = 'NotaSalida '.$notaSalida.'- Nro OT - '.$nroOrden.' - Trabajo: '.$trabajoRealizado.'';
+         $mail->isHTML(true);
+         
+         $mail->addEmbeddedImage('Assets/img/logo_pdf.png', 'logo_img');
+        
+         $mail->Body = '<html>
+         
+         <head>
+         <style>
+         @import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap");
+         body {
+             font-family: "Roboto Slab", sans-serif;
+             font-size: 9px;
+             margin: 0;
+             padding: 0;
+            
+         }
+         .titulo h2{
+             text-align: center;
+             font-size: 20px;
+             margin-top: 50px;
+         }
+         .container{
+             width: 100%;
+             height: 15%;
+             border: 1px solid black;
+             margin-top: 10px;
+             padding: 0 20px;
+         }
+
+        .borde{
+            width: 100%;
+            height: 15%;
+            border: 1px solid black;
+            margin-top: 20px;
+            padding: 0 20px;
+
+         }
+         .centrado {      
+            margin-top: 200px;
+            text-align:center;
+            padding: 0 20px;
+
+        }
+         .container .columna{
+             width: 30%;
+             height: 100%;
+             float: left;
          }
  
-         .contenido__firmas {
-             margin-top: 50px;
-             width: 100%;
-             overflow: auto; 
-         }
-         
-         .contenido__firmas .firma {
-             width: 30%;
+         .container .columna__respuesta{
+             width: 40%;
+             height: 100%;
              float: left;
+             line-height: 1.8;
+         }
+  
+         table {
+             width: 90%; /* Cambia el ancho de la tabla al 100% */
+             border-collapse: collapse;
+             margin: 30px 0 10px 0;
+             
+         }
+ 
+         table + table{
+             margin-top: 10px;
+         }
+         th, td {
+             border: 1px solid black;
+             padding: 8px;
              text-align: center;
+             word-wrap: break-word; /* Asegura que las palabras largas se rompan y pasen a la siguiente línea */
          }
-     
-         .linea-firma {
-             border-top: 1px solid black;
-             width: 100px;
-             margin: 0 auto; 
+         th {
+             background-color: #d9e5f4;
+             color: black;
+         } 
+         .contenido__fecha {
+             position: absolute; /* Se posiciona de forma absoluta */
+             bottom: 0;
+             left: 0;
+             padding: 10px;
+             color: #1d2d4d;
+             font-size: 12px;
          }
+         .contenido__superior__derecha{
+            position:absolute;
+            top:0;
+            left:0;
+            padding: 10px;
+            color: #1d2d4d;
+            font-size: 12px;
+            height: 50px;
+            text-align:right;
+            line-height: 5px;
+         }
+
+         .contenido__inferior__derecho {
+             position: absolute; 
+             bottom: 0;
+             right: 0;
+             padding: 0px;
+             line-height:0;
+             color: #1d2d4d;
+             font-size: 12px;
+             text-align: right; 
+         }   
+        </style>
+         </head>
+         <body>
+             <div class="contenido__superior__derecha">
+                 <h3>Fecha de solicitud:'.$fechaHoy.'</h3>
+                 <h3>Nro Solicitud:'.$nroOrden.'</h3>
+             </div>
+             <h2>Sres. Zgroup,</h2>
+             <div class="titulo">
+                <p>Se confirma la atención y la entrega de los insumos a '.$tecnicoEncargado.' según la O.T. Nro '.$nroOrden.', correspondiente al trabajo '.$trabajoRealizado.'.</p>
+                <p>A continuación detallo lo despachado: </p>
+            </did>
+             <table>
+                 <thead>
+                     <tr>
+                         <th>CODIGO</th>
+                         <th>DESCRIPCION</th>
+                         <th>UNIDAD</th>
+                         <th>DESPACHADO</th>
+                         <th>NOTASALIDA</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                 <tr>
+                    '.$tablaContenido.'
+                 </tr>
+                 </tbody>
+             </table>
+                 <div class="contenido__inferior__derecho">
+                    <h3>Atte: ALMACEN</h3>
+                    <h3>ZGROUP S.A.C. RUC:20521180774</h3>
+                    <h3>SISTEMA INTRANET - SOPORTE</h3>
+                    <h3>EMAIL: ZTRACK@ZGROUP.COM.PE</h3>
+                    <h3>WWW.ZGROUP.COM.PE</h3>
+                </div>
+         </body>
+     </html>';
+         try {
+             $mail->send();
+             echo json_encode(['msg' => 'Correo enviado con éxito', 'icono' => 'success']);
+         } catch (Exception $e) {
+             echo json_encode(['msg' => 'Error al enviar el correo: ' . $mail->ErrorInfo, 'icono' => 'error']);
+         }
+
+    }
+
+    public function rptaAlmacen(){
+        $data = array(
+            "nroOrden" => "1001000001",
+            "ruc" => "13059246643",
+            "proveedor" => "ZGROUP USA LLC",
+            "trabajoRealizado" => "OTROS PINTADO DE SOCALOS Y MARCOS EXTERNOS",
+            "tecnicoEncargado" => "ALCANTARA SAAVEDRA MILAGROS",
+            "fechaSolicitud" => "22/02/2024",            
+            "OtDescripcion" => (object) array(
+                "descontables" => (object) array(
+                    "partNumber" => "INDND0173",
+                    "descripcion" => "REMACHE DE ALUMINIO 3/16 X 1/2",
+                    "cantidad" => 50,
+                    "unidadMedida" => "UND",
+                    "subTotal" =>20,
+                    "preparado" => 2
+                ),
+                "reefer" =>(object) array(
+                    "partNumber" => "INDND2772",
+                    "descripcion" => "CABLE FLEXIBLE AUTOMOTRIZ GPT 0.3KV 14 AWG",
+                    "cantidad" => 6,
+                    "unidadMedida" => "M",
+                    "subTotal" =>10,
+                    "preparado" => 4
+                ),
+            )
+        );
         
+        
+        $trato = json_decode(json_encode($data));
+        echo var_dump($trato);
+        $nroOrden = $trato->nroOrden;
+        $ruc = $trato->ruc;
+        $proveedor = $trato->proveedor;
+        $trabajoRealizado = $trato->trabajoRealizado;
+        $tecnicoEncargado = $trato->tecnicoEncargado;
+
+        $tablaContenido = '';
+  
+        foreach ($trato->OtDescripcion as $OTDESCRIPCION) {
+            
+            $partNumber = isset($OTDESCRIPCION->partNumber) ? $OTDESCRIPCION->partNumber : null;
+            $descripcion = isset($OTDESCRIPCION->descripcion) ? $OTDESCRIPCION->descripcion : null;
+            $unidadMedida = isset($OTDESCRIPCION->unidadMedida) ? $OTDESCRIPCION->unidadMedida : null;
+            $subTotal = isset($OTDESCRIPCION->subTotal) ? $OTDESCRIPCION->subTotal : null;
+            $preparado = isset($OTDESCRIPCION->preparado) ? $OTDESCRIPCION->preparado : null;
+            
+            $tablaContenido .= "
+            <tr>
+                <td>{$partNumber}</td>
+                <td>{$descripcion}</td>
+                <td>{$unidadMedida}</td>
+                <td>{$subTotal}</td>
+                <td>{$preparado}</td>
+            </tr>";
+
+        }
+        //Fecha con zona horari de Lima- Perú
+        date_default_timezone_set('America/Lima');
+        $fechaHoy = date('d/m/Y H:i:s');
+
+         // Configura y envía el correo
+         $mail = new PHPMailer(true);
+         $mail->isSMTP();
+         $mail->Host = 'smtp.gmail.com';
+         $mail->SMTPAuth = true;
+         $mail->Username = 'zgroupsistemas@gmail.com'; // Reemplaza con tu dirección de correo electrónico de Gmail
+         $mail->Password = 'bsfgahtiqboilexe'; // Reemplaza con tu contraseña de Gmail
+         $mail->SMTPSecure = 'ssl';
+         $mail->Port = 465;
+     
+         // Configuración del correo electrónico
+         $mail->setFrom('zgroupsistemas@gmail.com', 'Nombre del remitente');
+         $mail->addAddress('zgroupsistemas@gmail.com'); // Reemplaza con la dirección de correo electrónico del destinatario
+         $mail->Subject = 'Insumos preparados - Nro OT '.$nroOrden.'';
+         $mail->isHTML(true);
+         
+         $mail->addEmbeddedImage('Assets/img/logo_pdf.png', 'logo_img');
+        
+         $mail->Body = '<html>
+         
+         <head>
+         <style>
+         @import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap");
+         body {
+             font-family: "Roboto Slab", sans-serif;
+             font-size: 9px;
+             margin: 0;
+             padding: 0;
+            
+         }
+         .titulo h2{
+             text-align: center;
+             font-size: 20px;
+             margin-top: 50px;
+         }
+         .container{
+             width: 100%;
+             height: 15%;
+             border: 1px solid black;
+             margin-top: 10px;
+             padding: 0 20px;
+         }
+
+        .borde{
+            width: 100%;
+            height: 15%;
+            border: 1px solid black;
+            margin-top: 20px;
+            padding: 0 20px;
+
+         }
+         .centrado {      
+            margin-top: 200px;
+            text-align:center;
+            padding: 0 20px;
+
+        }
+         .container .columna{
+             width: 30%;
+             height: 100%;
+             float: left;
+         }
+ 
+         .container .columna__respuesta{
+             width: 40%;
+             height: 100%;
+             float: left;
+             line-height: 1.8;
+         }
+  
+         table {
+             width: 90%; /* Cambia el ancho de la tabla al 100% */
+             border-collapse: collapse;
+             margin: 30px 0 10px 0;
+             
+         }
+ 
+         table + table{
+             margin-top: 10px;
+         }
+         th, td {
+             border: 1px solid black;
+             padding: 8px;
+             text-align: center;
+             word-wrap: break-word; /* Asegura que las palabras largas se rompan y pasen a la siguiente línea */
+         }
+         th {
+             background-color: #d9e5f4;
+             color: black;
+         } 
+         .contenido__fecha {
+             position: absolute; /* Se posiciona de forma absoluta */
+             bottom: 0;
+             left: 0;
+             padding: 10px;
+             color: #1d2d4d;
+             font-size: 12px;
+         }
+         .contenido__superior__derecha{
+            position:absolute;
+            top:0;
+            left:0;
+            padding: 10px;
+            color: #1d2d4d;
+            font-size: 12px;
+            height: 50px;
+            text-align:right;
+            line-height: 5px;
+         }
+
+         .contenido__inferior__derecho {
+             position: absolute; 
+             bottom: 0;
+             right: 0;
+             padding: 0px;
+             line-height:0;
+             color: #1d2d4d;
+             font-size: 12px;
+             text-align: right; 
+         }   
+        </style>
+         </head>
+         <body>
+             <div class="contenido__superior__derecha">
+                 <h3>Fecha de solicitud:'.$fechaHoy.'</h3>
+                 <h3>Nro Solicitud:'.$nroOrden.'</h3>
+             </div>
+             <h2>Sres. Producción,</h2>
+             <div class="titulo">
+                <p>Atendemos a su solicitud, iniciada '.$fechaHoy.', le informarmos coordialmente, que sus requerimientos están preparados.</p>
+                <p>Sirvasé a informar al encargado del trabajo '.$tecnicoEncargado.' para que se acerque al área de almacen a recibir los materiales asignados.</p>
+                <p>A continuación detallo los insumos reservados y preparados para su despacho:</p>
+            </did>
+             <table>
+                 <thead>
+                     <tr>
+                         <th>CODIGO</th>
+                         <th>DESCRIPCION</th>
+                         <th>UNIDAD</th>
+                         <th>SUBTOTAL</th>
+                         <th>PREPARADO</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                 <tr>
+                    '.$tablaContenido.'
+                 </tr>
+                 </tbody>
+             </table>
+                <h2>Observaciones: </h2>
+                <p>NINGUNA</p>
+                 <div class="contenido__inferior__derecho">
+                    <h3>Atte: ALMACEN</h3>
+                    <h3>ZGROUP S.A.C. RUC:20521180774</h3>
+                    <h3>SISTEMA INTRANET - SOPORTE</h3>
+                    <h3>EMAIL: ZTRACK@ZGROUP.COM.PE</h3>
+                    <h3>WWW.ZGROUP.COM.PE</h3>
+                </div>
+         </body>
+     </html>';
+         try {
+             $mail->send();
+             echo json_encode(['msg' => 'Correo enviado con éxito', 'icono' => 'success']);
+         } catch (Exception $e) {
+             echo json_encode(['msg' => 'Error al enviar el correo: ' . $mail->ErrorInfo, 'icono' => 'error']);
+         }
+
+    }
+
+    public function otConInsumos(){
+        $data = array(
+            "nroOrden" => "1001000001",
+            "ruc" => "13059246643",
+            "proveedor" => "ZGROUP USA LLC",
+            "trabajoRealizado" => "OTROS PINTADO DE SOCALOS Y MARCOS EXTERNOS",
+            "tecnicoEncargado" => "ALCANTARA SAAVEDRA MILAGROS",
+            "fechaSolicitud" => "22/02/2024",            
+            "OtDescripcion" => (object) array(
+                "descontables" => (object) array(
+                    "partNumber" => "INDND0173",
+                    "descripcion" => "REMACHE DE ALUMINIO 3/16 X 1/2",
+                    "cantidad" => 50,
+                    "unidadMedida" => "UND",
+                    "lugar" =>'Base',
+                    "stock" => 2
+                ),
+                "reefer" =>(object) array(
+                    "partNumber" => "INDND2772",
+                    "descripcion" => "CABLE FLEXIBLE AUTOMOTRIZ GPT 0.3KV 14 AWG",
+                    "cantidad" => 6,
+                    "unidadMedida" => "M",
+                    "lugar" =>'Almacen 2',
+                    "stock" => 4
+                ),
+            )
+        );
+        
+        
+        $trato = json_decode(json_encode($data));
+        echo var_dump($trato);
+        $nroOrden = $trato->nroOrden;
+        $ruc = $trato->ruc;
+        $proveedor = $trato->proveedor;
+        $trabajoRealizado = $trato->trabajoRealizado;
+        $tecnicoEncargado = $trato->tecnicoEncargado;
+
+        $tablaContenido = '';
+  
+        foreach ($trato->OtDescripcion as $OTDESCRIPCION) {
+            
+            $partNumber = isset($OTDESCRIPCION->partNumber) ? $OTDESCRIPCION->partNumber : null;
+            $descripcion = isset($OTDESCRIPCION->descripcion) ? $OTDESCRIPCION->descripcion : null;
+            $unidadMedida = isset($OTDESCRIPCION->unidadMedida) ? $OTDESCRIPCION->unidadMedida : null;
+            $cantidad = isset($OTDESCRIPCION->cantidad) ? $OTDESCRIPCION->cantidad : null;
+            $lugar = isset($OTDESCRIPCION->lugar) ? $OTDESCRIPCION->lugar : null;
+            $stock = isset($OTDESCRIPCION->stock) ? $OTDESCRIPCION->stock : null;
+            $tablaContenido .= "
+            <tr>
+                <td>{$partNumber}</td>
+                <td>{$descripcion}</td>
+                <td>{$unidadMedida}</td>
+                <td>{$cantidad}</td>
+                <td>{$lugar}</td>
+                <td>{$stock}</td>
+
+            </tr>";
+
+        }
+
+        $tablaContenido2 = '';
+
+        foreach($OTDESCRIPCION->reefer as $REEF){
+            $partNumber = isset($REEF->partNumber) ? $REEF->partNumber : null;
+            $descripcion = isset($REEF->descripcion) ? $REEF->descripcion : null;
+            $unidadMedida = isset($REEF->unidadMedida) ? $REEF->unidadMedida : null;
+            $cantidad = isset($REEF->cantidad) ? $REEF->cantidad : null;
+            $lugar = isset($REEF->lugar) ? $REEF->lugar : null;
+            $stock = isset($REEF->stock) ? $REEF->stock : null;        
+            $tablaContenido2 .= "
+            <tr>
+                <td>{$partNumber}</td>
+                <td>{$descripcion}</td>
+                <td>{$unidadMedida}</td>
+                <td>{$cantidad}</td>
+                <td>{$lugar}</td>
+                <td>{$stock}</td>
+            </tr>";
+        }
+        //Fecha con zona horari de Lima- Perú
+        date_default_timezone_set('America/Lima');
+        $fechaHoy = date('d/m/Y H:i:s');
+
+         // Configura y envía el correo
+         $mail = new PHPMailer(true);
+         $mail->isSMTP();
+         $mail->Host = 'smtp.gmail.com';
+         $mail->SMTPAuth = true;
+         $mail->Username = 'zgroupsistemas@gmail.com'; // Reemplaza con tu dirección de correo electrónico de Gmail
+         $mail->Password = 'bsfgahtiqboilexe'; // Reemplaza con tu contraseña de Gmail
+         $mail->SMTPSecure = 'ssl';
+         $mail->Port = 465;
+     
+         // Configuración del correo electrónico
+         $mail->setFrom('zgroupsistemas@gmail.com', 'Nombre del remitente');
+         $mail->addAddress('zgroupsistemas@gmail.com'); // Reemplaza con la dirección de correo electrónico del destinatario
+         $mail->Subject = 'Nro OT'.$nroOrden.' - '.$trabajoRealizado.'';
+         $mail->isHTML(true);
+         
+         $mail->addEmbeddedImage('Assets/img/logo_pdf.png', 'logo_img');
+        
+         $mail->Body = '<html>
+         
+         <head>
+         <style>
+         @import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap");
+         body {
+             font-family: "Roboto Slab", sans-serif;
+             font-size: 9px;
+             margin: 0;
+             padding: 0;
+            
+         }
+         .titulo h2{
+             text-align: center;
+             font-size: 20px;
+             margin-top: 50px;
+         }
+         .container{
+             width: 100%;
+             height: 15%;
+             border: 1px solid black;
+             margin-top: 10px;
+             padding: 0 20px;
+         }
+
+        .borde{
+            width: 100%;
+            height: 15%;
+            border: 1px solid black;
+            margin-top: 20px;
+            padding: 0 20px;
+
+         }
+         .centrado {      
+            margin-top: 200px;
+            text-align:center;
+            padding: 0 20px;
+            margin-right: 200px;
+
+        }
+         .container .columna{
+             width: 30%;
+             height: 100%;
+             float: left;
+         }
+ 
+         .container .columna__respuesta{
+             width: 40%;
+             height: 100%;
+             float: left;
+             line-height: 1.8;
+         }
+  
+         table {
+             width: 90%; /* Cambia el ancho de la tabla al 100% */
+             border-collapse: collapse;
+             margin: 30px 0 10px 0;
+             
+         }
+ 
+         table + table{
+             margin-top: 10px;
+         }
+         th, td {
+             border: 1px solid black;
+             padding: 8px;
+             text-align: center;
+             word-wrap: break-word; /* Asegura que las palabras largas se rompan y pasen a la siguiente línea */
+         }
+         th {
+             background-color: #d9e5f4;
+             color: black;
+         } 
+         .contenido__fecha {
+             position: absolute; /* Se posiciona de forma absoluta */
+             bottom: 0;
+             left: 0;
+             padding: 10px;
+             color: #1d2d4d;
+             font-size: 12px;
+         }
+         .contenido__superior__derecha{
+            position:absolute;
+            top:0;
+            left:0;
+            padding: 10px;
+            color: #1d2d4d;
+            font-size: 12px;
+            height: 50px;
+            text-align:right;
+            line-height: 5px;
+         }
+
+         .contenido__inferior__derecho {
+             position: absolute; 
+             bottom: 0;
+             right: 0;
+             padding: 0px;
+             line-height:0;
+             color: #1d2d4d;
+             font-size: 12px;
+             text-align: right; 
+         }   
      </style>
          </head>
          <body>
-             <div class="contenido__superior__izquierda">
-                 <h3>Fecha de Impresión:'.$fechaHoy.'</h3>
-                 <h3>Nro Orden Trabajo:'.$nroOrden.'</h3>
-                 <h3>Generado Por: VANESA</h3>
-                 <h3>Aprobado/Cerrado Por: </h3>
+             <div class="contenido__superior__derecha">
+                 <h3>Fecha de solicitud:'.$fechaHoy.'</h3>
+                 <h3>Nro Solicitud:'.$nroOrden.'</h3>
              </div>
+             <h2>Sres. Almacen,</h2>
              <div class="titulo">
-                 <h2>ORDEN DE TRABAJO: '.$nroOrden.'</h2>
+                <p>Solicito insumos para el trabajo '.$trabajoRealizado.' según OT '.$nroOrden.'. A continuación el
+                detalle de los insumos solicitados. Pido celeridad y apoyo con este requerimiento:</p>
              </did>
-   
              <div class="container">
                  <div class="columna">
                      <h3>RUC</h3>
@@ -463,45 +1065,46 @@ class Otrabajo extends Controller
                      <p>:'.$proveedor.'</p>
                      <p>:'.$trabajoRealizado.'</p>
                      <p>:'.$tecnicoEncargado.'</p>
-                     <p>:'.$fechaSolicitud.'</p>
+                     <p>:'.$fechaHoy.'</p>
                  </div>
              </div>
+             <div class="centrado">
+                <h2>Insumos requeridos <a href="https://ztrack.app/zgroup/">(Atender Solicitud)</a></h2>
+             </div>
+             <div class="borde"></div>
              <table>
                  <thead>
                      <tr>
-                     
-                         <th>PART NUMBER</th>
+                         <th>CODIGO</th>
                          <th>DESCRIPCION</th>
+                         <th>UNIDAD</th>
                          <th>CANTIDAD</th>
-                         <th>Unidad de Medida</th>
+                         <th>LUGAR</th>
+                         <th>STOCK</th>
                      </tr>
                  </thead>
                  <tbody>
                  <tr>
                     '.$tablaContenido.'
                     '.$tablaContenido2.'
-                       
                  </tr>
                  </tbody>
              </table>
                  <div class="contenido__inferior__derecho">
-                 <h3>ZGROUP S.A.C. RUC:20521180774</h3>
-                 <h3>SISTEMA INTRANET</h3>
-                 <h3>EMAIL: ZTRACK@ZGROUP.COM.PE</h3>
-                 <h3>WWW.ZGROUP.COM.PE</h3>
-             </div>
+                    <h3>Atte: USUARIO</h3>
+                    <h3>ZGROUP S.A.C. RUC:20521180774</h3>
+                    <h3>SISTEMA INTRANET - SOPORTE</h3>
+                    <h3>EMAIL: ZTRACK@ZGROUP.COM.PE</h3>
+                    <h3>WWW.ZGROUP.COM.PE</h3>
+                </div>
          </body>
      </html>';
-     
          try {
              $mail->send();
              echo json_encode(['msg' => 'Correo enviado con éxito', 'icono' => 'success']);
          } catch (Exception $e) {
              echo json_encode(['msg' => 'Error al enviar el correo: ' . $mail->ErrorInfo, 'icono' => 'error']);
          }
- 
- 
-
     }
 
     public function otSinInsumos(){
