@@ -66,7 +66,7 @@
      
 
         $tablaContenido = '';
-        $contador = 0; //Iniciar contador
+        $contador = 1; //Iniciar contador
 
         //Controlar secuancia de foreach
         foreach ($trato->NotaSalida as $notaSalida) {
@@ -103,6 +103,7 @@
                 ";
                 
         }
+        $contador++;
         
     }
         // <img src="data:image/jpeg;base64,' . $imagenBase64 . '" alt="" width="120" height="60">
