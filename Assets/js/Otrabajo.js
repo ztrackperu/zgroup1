@@ -552,8 +552,6 @@ document.getElementById('checkOrdenTrabajo').addEventListener('change', function
 
 function agregarDetalleTrabajo(){
 
-
-
         var proveedor_trabajo = $('#Proveedor').val(); 
         var concepto_trabajo = $('#txtConceptoTrabajo').val(); 
         var tecnico_trabajo = $('#txtTecnicoEncargado').val(); 
