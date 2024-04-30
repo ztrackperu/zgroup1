@@ -31,7 +31,10 @@ $('#ConceptoTrabajo').on('change', function (e) {
         id2 = variable[0].id;
         id1=id2-1000;
         datafila =[];
-        let res1 = $.get(base_url + "ConceptosOT/nuevaSeleccion/" + id1, (data, status) => {    
+        let res1 = $.get(base_url + "ConceptosOT/nuevaSeleccion/" + id1, function(data, status) {
+            let res = JSON.parse(data);
+            console.log(res);
+            
         });
         
         res = JSON.parse(res1);
@@ -184,6 +187,7 @@ document.addEventListener("DOMContentLoaded", function(){
             cache: true
         }
     });
+    
     $('#ConceptoTrabajo').select2({
         //language:"es",
         //closeOnSelect: false,
@@ -534,6 +538,90 @@ $(document).ready(function() {
 
     });
 
+    $('#añadirDetalleTrabajo').click(function() {
+        if ($('#nroOrdenTrabajo').val() === '' ||
+        $('#ruc').val() === '' ||
+        $('#Proveedor').val() === null ||
+        $('#ConceptoTrabajo').val() === null ||
+        $('#tecnicoEncargado').val() === null ||
+        $('#txtTipoDocumento').val() === 'SELECCIONE' ||
+        $('#precio').val() === '' ||
+        $('#cantidad').val() === '' ||
+        $('#txtTipoDocumento').val() === 'SELECCIONE') {
+        // Muestra una alerta si alguno de los campos está vacío
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Por favor, completa todos los campos antes de añadir un detalle.',
+        });
+        } else {
+            var nroOrdenTrabajo = $('#nroOrdenTrabajo').val();
+            var ruc = $('#ruc').val(); 
+            var proveedor = $('#Proveedor').select2('data')[0].text;        
+            var trabajo_realizado = $('#ConceptoTrabajo').select2('data')[0].text;        
+            var tecnico_trabajo = $('#tecnicoEncargado').val();
+            var tipoDcto = $('#txtTipoDocumento').val();
+            var precio = $('#precio').val();
+            var cantidad = $('#cantidad').val();
+            var igv = $('#igv').val();
+            // Condición para calcular subTotal en función de tipoDcto
+            if (tipoDcto === 'FACTURA') {
+                igv = (precio * cantidad * 0.18).toFixed(2); 
+            } else if (tipoDcto === 'RECIBO HONORARIO') {
+                igv = 0;
+            }
+            console.log(trabajo_realizado);
+            var newRow = $('<tr/>').append(
+                $('<td/>').append(
+                    $('<input/>').addClass('form-control').val(nroOrdenTrabajo).attr('readonly', true),
+                ),
+                $('<td/>').append(
+                    $('<input/>').addClass('form-control').val(ruc).attr('readonly', true),
+                ),
+                $('<td/>').append(
+                    $('<input/>').addClass('form-control').val(proveedor),
+                ),
+                $('<td/>').append(
+                    $('<input/>').addClass('form-control').val(trabajo_realizado,),
+                ),
+                $('<td/>').append(
+                    $('<input/>').addClass('form-control').val(tecnico_trabajo),
+                ),
+                $('<td/>').append(
+                    $('<input/>').addClass('form-control').val(tipoDcto),
+                ),
+                $('<td/>').append(
+                    $('<input/>').addClass('form-control').val(precio),
+                ),
+                $('<td/>').append(
+                    $('<input/>').addClass('form-control').val(cantidad),
+                ),
+                $('<td/>').append(
+                    $('<input/>').addClass('form-control').val(igv),
+                ),
+                $('<td/>').append(
+                    $('<button/>').addClass('btn btn-danger').text('Eliminar').click(function() {
+                    $(this).parent().parent().remove();
+                    })
+            ));
+            $('#myTableTrabajo tbody').append(newRow);
+            // Limpia los campos de entrada
+            $('#ConceptoTrabajo').empty();
+            $('#ruc').val('');
+            $('#Proveedor').empty().val(null).trigger('change');
+            //$('#tecnicoEncargado').empty();   
+            //$('#txtTipoDocumento').empty();
+            $('#precio').val('');
+            $('#cantidad').val('');
+            $('#igv').val('');
+            
+       
+        }
+        
+       
+
+    });
+
 });
 
 document.getElementById('checkOrdenTrabajo').addEventListener('change', function() {
@@ -549,34 +637,50 @@ document.getElementById('checkOrdenTrabajo').addEventListener('change', function
         document.getElementById('nroTicket').value = "";
     }
 });
-
+/*
 function agregarDetalleTrabajo(){
-
-        var proveedor_trabajo = $('#Proveedor').val(); 
-        var concepto_trabajo = $('#txtConceptoTrabajo').val(); 
-        var tecnico_trabajo = $('#txtTecnicoEncargado').val(); 
-        var subTotal_trabajo = $('#precio').val();
-        var cantidad_trabajo = $('#cantidad').val();
-        var importe = $('#importe').val();
-
+        var nroOrdenTrabajo = $('#nroOrdenTrabajo').val();
+        var ruc = $('#ruc').val(); 
+        var proveedor = $('#Proveedor').select2('data')[0].text;        
+        var trabajo_realizado = $('#ConceptoTrabajo').select2('data')[0].text;        
+        var tecnico_trabajo = $('#tecnicoEncargado').val(); 
+        var tipoDcto = $('#txtTipoDocumento').val();
+        var precio = $('#precio').val();
+        var cantidad = $('#cantidad').val();
+        var igv = $('#igv').val();
+        // Condición para calcular subTotal en función de tipoDcto
+        if (tipoDcto === 'FACTURA') {
+            igv = precio * cantidad * 0.18; 
+        } else if (tipoDcto === 'RECIBO HONORARIO') {
+            igv = 0;
+        }
         var newRow = $('<tr/>').append(
             $('<td/>').append(
-                $('<input/>').addClass('form-control').val(proveedor_trabajo).attr('readonly', true),
+                $('<input/>').addClass('form-control').val(nroOrdenTrabajo).attr('readonly', true),
             ),
             $('<td/>').append(
-                $('<input/>').addClass('form-control').val(concepto_trabajo).attr('readonly', true),
+                $('<input/>').addClass('form-control').val(ruc).attr('readonly', true),
+            ),
+            $('<td/>').append(
+                $('<input/>').addClass('form-control').val(proveedor),
+            ),
+            $('<td/>').append(
+                $('<input/>').addClass('form-control').val(trabajo_realizado,),
             ),
             $('<td/>').append(
                 $('<input/>').addClass('form-control').val(tecnico_trabajo),
             ),
             $('<td/>').append(
-                $('<input/>').addClass('form-control').val(subTotal_trabajo),
+                $('<input/>').addClass('form-control').val(tipoDcto),
             ),
             $('<td/>').append(
-                $('<input/>').addClass('form-control').val(cantidad_trabajo),
+                $('<input/>').addClass('form-control').val(precio),
             ),
             $('<td/>').append(
-                $('<input/>').addClass('form-control').val(importe),
+                $('<input/>').addClass('form-control').val(cantidad),
+            ),
+            $('<td/>').append(
+                $('<input/>').addClass('form-control').val(igv),
             ),
             $('<td/>').append(
                 $('<button/>').addClass('btn btn-danger').text('Eliminar').click(function() {
@@ -584,7 +688,30 @@ function agregarDetalleTrabajo(){
                 })
         ));
         $('#myTableTrabajo tbody').append(newRow);
+        // Limpia los campos de entrada
+        $('#nroOrdenTrabajo').val('');
+        $('#ruc').val('');
+        $('#Proveedor').val(null).trigger('change');
+        $('#ConceptoTrabajo').val(null).trigger('change');
+        $('#tecnicoEncargado').val('');
+        $('#txtTipoDocumento').val('');
+        $('#precio').val('');
+        $('#cantidad').val('');
+        $('#igv').val('');
 }
+*/
 
 
-
+function limpiarDetalle(){
+    $('#nroOrdenTrabajo').val('');
+    $('#ruc').val('');
+    $('#Proveedor').val(null).trigger('change');
+    $('#ConceptoTrabajo').empty().val(null).trigger('change');
+    $('#tecnicoEncargado').val('');
+    
+    $('#txtTipoDocumento').val('SELECCIONE');
+    $('#precio').val('');
+    $('#cantidad').val('');
+    $('#igv').val('');
+    
+}

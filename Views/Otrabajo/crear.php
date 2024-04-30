@@ -176,7 +176,7 @@ include "Views/templates/navbar.php";
                 <div class="mb-3 row">
                     <label for="nroOrdenTrabajo" class="col-sm-2 col-form-label">Nro Orden Trabajo</label>
                     <div class="col-sm-2">
-						<input type="text" class="form-control" id="nroOrdenTrabajo" name="nroOrdenTrabajo" placeholder="AUTOGENERADO" value="" readonly >
+						<input type="text" class="form-control" id="nroOrdenTrabajo" name="nroOrdenTrabajo" value="23" readonly >
 						<input type="checkbox" id="checkOrdenTrabajo" name="checkOrdenTrabajo">
                     </div>
                     <label for="refCotizacion" class="col-sm-2 col-form-label">Ref. Cotizacion:</label>
@@ -382,6 +382,7 @@ include "Views/templates/navbar.php";
                     <label for="cantidad" class="col-sm-2 col-form-label">Cantidad</label>
                     <div class="col-sm-4">
                         <input type="text" class="form-control" id="cantidad" value="1">
+                        <input type="hidden" class="form-control" id="igv">
                     </div>
                 </div>
 				<div class="mb-3 row">
@@ -400,7 +401,7 @@ include "Views/templates/navbar.php";
                         <select id="insumosOT" class="js-example-basic-multiple"  name="insumosOT[]" multiple="multiple"  style="width: 100%;" ></select>
                     </div>
                 </div>
-				<button type="button" class="btn btn-danger" onclick="agregarDetalleTrabajo()">Añadir Detalle</button>
+				<button type="button" class="btn btn-danger" id="añadirDetalleTrabajo">Añadir Detalle</button>
 
             </div>
 		</div>	
@@ -412,12 +413,15 @@ include "Views/templates/navbar.php";
             <table id="myTableTrabajo" class="table table-striped table-bordered">
                 <thead>
                     <tr>
+                        <th>Nro Orden de Trabajo</th>
+                        <th>Ruc</th>
                         <th>Proveedor</th>
-                        <th>Concepto</th>
-                        <th>Encargado</th>
-                        <th>Subtotal</th>
+                        <th>Trabajo Realizado</th>
+                        <th>Tecnico Encargado</th>
+                        <th>Tipo Dcto</th>
                         <th>Precio</th>
-                        <th>Importe</th>
+                        <th>Cantidad</th>
+                        <th>Igv</th>
                         <th></th>
                     </tr>
                 </thead>
