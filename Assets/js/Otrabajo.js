@@ -1,5 +1,155 @@
 let tblMovimientos;
 
+function agregarInsumosOT(){
+    //var tablaInsumos = $('#myTableInsumo').DataTable({retrieve: true,paging: false});
+    variable = $('#insumosOT').select2('data');
+    console.log(variable);
+    if(variable.length!=0){
+        var http = new XMLHttpRequest();
+        var url = base_url + "Otrabajo/agregarInsumoOT";
+        //http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        http.open("POST", url, true);
+        http.send(JSON.stringify({data:variable}));
+        http.onreadystatechange = function() {
+            if(http.readyState == 4 && http.status == 200) { 
+                //limpiar select 2
+                $('#insumosOT').val(null).trigger('change');
+                //console.log(JSON.parse(http.responseText));
+                resul = JSON.parse(http.responseText);
+                console.log(resul);
+                //contra las filas 
+                contInsumos = tablaInsumosOT.rows().count();
+                console.log(contInsumos)
+                if(contInsumos==0){
+                    tablaInsumos.destroy();
+                    console.log("esta vacio");
+                     tablaInsumos = $('#myTableInsumo').DataTable({
+                        paging: false,
+                        searching: true,
+                        info: false,
+                        data: resul,
+                        columns: [
+                        { title: "Codigo", data: "IN_CODI" },
+                        { title: "Descripcion", data: "IN_ARTI" },
+                        { title: "Unidad", data: "IN_UVTA" },
+                        { title: "Cantidad", data: "cantidad" },
+                        { title: "Eliminar", data: "acciones" }
+                        ]
+                    });
+                    //canti = table.rows().count();
+                    //console.log(canti);
+                }else{
+                    //aqui debe agregar la data 
+                    //primero comparar con la ya agregada 
+                    //tomamos la agregada 
+                    datosya =[]
+                    let rows = tablaInsumosOT.rows(
+                        //(idx, data) => data.location === 'Edinburgh'
+                        (idx, data) => datosya.push(data.IN_CODI) 
+                        //(idx, data) => datosya.push(data) 
+
+                    );
+                    //datos ya contiene la informacion de los que ya existen
+                    //console.log(datosya)
+                    //comparamos con los datos que tenemos
+                    //console.log(resul);
+                    sinrepetiones=[];
+                    for(let i=0;i<resul.length;i++){
+                        let element = resul[i].IN_CODI;
+                        //console.log(element);
+                        if(datosya.includes(element)){
+                            //console.log(`coincide '${element}'`);
+                        }else{
+                            //console.log(`No coincide '${element}'`);
+                            sinrepetiones.push(resul[i]) ;
+                        }
+                    }
+                    //console.log("hay data");
+                    //aqui se guardan los elementos listo pa ser agregados 
+                    console.log(sinrepetiones);
+                    
+                    for(let i=0;i<sinrepetiones.length;i++){
+                        //agregar fila en datatable
+                        tablaInsumosOT.row.add(
+                            //{ tamano: tamano, nombre: nombre }
+                            {
+                                id : contInsumos+i+1,
+
+                                IN_CODI: sinrepetiones[i].IN_CODI,
+                                IN_ARTI: sinrepetiones[i].IN_ARTI,
+                                IN_UVTA: sinrepetiones[i].IN_UVTA,
+                                cantidad: sinrepetiones[i].cantidad,
+                                stock: sinrepetiones[i].stock,
+                                cantidadUsar: sinrepetiones[i].cantidadUsar,
+
+                                acciones: sinrepetiones[i].acciones, 
+                            }
+                        
+                        ).draw(false);
+                    }
+
+                    
+                }
+            }
+        }
+
+
+/*
+        { title: "#", data: "id" },
+        { title: "Codigo", data: "IN_CODI" },
+        { title: "Descripcion", data: "IN_ARTI" },
+        { title: "Unidad", data: "IN_UVTA" },
+        { title: "Plantilla", data: "cantidad" },
+        { title: "Stock", data: "stock" },
+        { title: "Cantidad", data: "cantidadUsar" },
+        { title: "Eliminar", data: "acciones" }
+*/
+    }else{
+        Swal.fire({
+            title: 'No se ha seleccionado ningun Insumo',
+            text: "Los insumos  deben ser seleccionado",
+            icon: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Entendido',
+            //cancelButtonText: false
+        })
+
+    }
+}
+
+function btnEliminarInsumo(cod){
+    //console.log(cod);
+    
+    Swal.fire({
+        title: 'Esta seguro de Eliminar Insumo ?',
+        text: "Insumo a Eliminar :"+cod,
+        icon: 'error',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Eliminar',
+        cancelButtonText: 'No'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            //identifico el elemento a eliminar 
+            //$('#myTableInsumo').DataTable();
+            /*
+            trama = $('#myTableInsumo').DataTable()
+            .row( 
+                (idx, data) => data.IN_CODI===cod
+             ).remove().draw();
+             */
+             
+             trama = tablaInsumosOT.row( 
+                 (idx, data) => data.IN_CODI===cod
+              ).remove().draw();
+              console.log(trama)
+        }
+    })
+}
+
 function alertas(msg, icono) {
     Swal.fire({
         position: 'top-end',
@@ -31,9 +181,37 @@ $('#ConceptoTrabajo').on('change', function (e) {
         id2 = variable[0].id;
         id1=id2-1000;
         datafila =[];
-        let res1 = $.get(base_url + "ConceptosOT/nuevaSeleccion/" + id1, (data, status) => {    
+        //.log(datafila);
+        let res1 = $.get(base_url + "Otrabajo/InsumosConsumir/" + id1, (data, status) => {  
+            //console.log(data);  
+            res = JSON.parse(data);
+            console.log(res);
+            tablaInsumosOT.destroy();
+            console.log("esta vacio");
+            tablaInsumosOT = $('#myTableInsumoOT').DataTable({
+                paging: false,
+                searching: true,
+                info: false,
+                data: res,
+                columns: [
+                { title: "#", data: "id" },
+                { title: "Codigo", data: "IN_CODI" },
+                { title: "Descripcion", data: "IN_ARTI" },
+                { title: "Unidad", data: "IN_UVTA" },
+                { title: "Plantilla", data: "cantidad" },
+                { title: "Stock", data: "stock" },
+                { title: "Cantidad", data: "cantidadUsar" },
+                { title: "Eliminar", data: "acciones" }
+                ]
+            });
+
+
+            //datafila.push(data);
         });
-        
+        //console.log(datafila);
+        //console.log(res1);
+        //console.log(res1.data);
+        /*
         res = JSON.parse(res1);
         console.log(res);
         tablaInsumosOT.destroy();
@@ -50,7 +228,8 @@ $('#ConceptoTrabajo').on('change', function (e) {
             { title: "Cantidad", data: "cantidad" },
             { title: "Eliminar", data: "acciones" }
             ]
-        });   
+        });  
+        */ 
   });
 
 

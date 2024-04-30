@@ -417,4 +417,6 @@ class ConceptosOT extends Controller
         $this->views->getView($this, "analisis");
 
     }
+
+
 }

@@ -217,6 +217,84 @@ class Otrabajo extends Controller
             die();
         }
     }
+
+    public function InsumosConsumir($id){
+        $data = $this->model->ConceptoStockValidado($id);
+        $resultado = json_decode($data);
+        $resultado = $resultado->data->insumos;
+        //aqui debemos tratar la informacion
+        if($resultado!=""){
+            $i=1;
+            foreach($resultado as $item){
+                //$cadena =  "('".  strtoupper($item->IN_CODI)."')"   ;
+                //$cadena ='"locura"';
+                $cadena ='"'.$item->IN_CODI.'"';
+                $item->id =$i ; 
+                $item->acciones= "<button class='btn btn-danger' type='button' onclick='btnEliminarInsumo(" . $cadena .")'><i class='fa fa-pencil-square-o'></i>X</button>";
+                //$item->acciones= "<button class='btn btn-danger' type='button' onclick='btnEliminarInsumo(" . $cadena .")'><i class='fa fa-pencil-square-o'></i>X</button>";
+                //.$item->cantidad. va internamente como cantidad 
+                //$item->stock ="10";
+                $readonly="";
+                if($item->stock=="0"){
+                    $readonly ='readonly';
+                }
+                $item->cantidadUsar="<div >
+                <input id='insumo_".$item->IN_CODI."' class='form-control' type='text' name='insumo_".$item->IN_CODI."' value='0' style='width: 80px;' " .$readonly." required>
+                </div>";
+                $i++;
+                
+            }
+        }else{
+            $resultado=="";
+        }
+
+        echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    public function agregarInsumoOT()
+    {
+        //recibir json desde js
+        $datosRecibidos = file_get_contents("php://input");
+        //$resultado = $_POST['data'];
+        //echo json_encode($datosRecibidos, JSON_UNESCAPED_UNICODE);
+        $resultado1 = json_decode($datosRecibidos);
+        $resultado = $resultado1->data;
+        //creo un objeto
+        $objetov =[
+            "data" =>$resultado
+        ];
+        $data = $this->model->validarInsumosOT($objetov);
+        $resultado2 = json_decode($data);
+        $resultado3 = $resultado2->data;
+        //aqui debemos pasar los datos 
+        if($resultado3!=""){
+
+            foreach($resultado3 as $item){
+                //$cadena =  "('".  strtoupper($item->IN_CODI)."')"   ;
+                //$cadena ='"locura"';
+                $cadena ='"'.$item->IN_CODI.'"';
+                $item->acciones= "<button class='btn btn-danger' type='button' onclick='btnEliminarInsumo(" . $cadena .")'><i class='fa fa-pencil-square-o'></i>X</button>";
+                //$item->acciones= "<button class='btn btn-danger' type='button' onclick='btnEliminarInsumo(" . $cadena .")'><i class='fa fa-pencil-square-o'></i>X</button>";
+                //.$item->cantidad. va internamente como cantidad 
+                //$item->stock ="10";
+                $item->cantidad ="-";
+                $readonly="";
+                if($item->stock=="0"){
+                    $readonly ='readonly';
+                }
+                $item->cantidadUsar="<div >
+                <input id='insumo_".$item->IN_CODI."' class='form-control' type='text' name='insumo_".$item->IN_CODI."' value='1' style='width: 80px;' " .$readonly." required>
+                </div>";
+
+                
+            }
+        }else{
+            $resultado3=="";
+        }
+        echo json_encode($resultado3, JSON_UNESCAPED_UNICODE);        
+        die();
+    }
     
     
    

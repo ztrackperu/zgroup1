@@ -394,19 +394,12 @@ include "Views/templates/navbar.php";
 						</select>
                     </div>
                 </div>
-                <div class="mb-3 row">
-                    <label for="tipoDocumento" class="col-sm-2 col-form-label">Insumos</label>
-                    <div class="col-sm-4">
-                        <select id="insumosOT" class="js-example-basic-multiple"  name="insumosOT[]" multiple="multiple"  style="width: 100%;" ></select>
-                    </div>
-                </div>
+
 				<button type="button" class="btn btn-danger" onclick="agregarDetalleTrabajo()">Añadir Detalle</button>
 
             </div>
 		</div>	
-        <div class="col-lg-12">
-            <table id="myTableInsumoOT" class="table table-striped table-bordered"></table>
-        </div>
+
         <div class="col-lg-12">
             <p id="comparador"><p>   
             <table id="myTableTrabajo" class="table table-striped table-bordered">
@@ -428,30 +421,31 @@ include "Views/templates/navbar.php";
 				
 	</div>
 			</div>
-		<div class="container-fluid">			
+<div class="card m-3">
+    <div class="card-header text-bg-success">
+        <div class="row">
+            <div class="col-lg-3">
+                <h2>Adicionar insumos : </h2>
+            </div>
+            <div class="col-lg-7">
+                <select id="insumosOT" class="js-example-basic-multiple"  name="insumosOT[]" multiple="multiple"  style="width: 100%;" ></select>
+            </div>
+            <div class="col-lg-2">
+                <button type="button" class="btn btn-danger" onclick="agregarInsumosOT()">Añadir Insumos</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+                      
+
+	<div class="container-fluid">	
 		<div class="card m-3">
 			<div class="card-header text-bg-success">Detalle Insumos y Repuestos a Utilizar</div>
 			<div class="card-body">
 				<div class="row">
 					<div class="box-body table-responsive no-padding">
-						<table id="detalle-Asignaciones" class="table table-bordered table-striped">        
-							<thead>
-								<tr>
-									<th>Codigo</th>
-									<th>Producto</th>
-									<th>UM</th>
-									<th>Tipo </th>    
-									<th>Asignado</th>
-									<th>Solicitar</th>
-									<th></th>
-								</tr>
-							</thead>
-							<tbody>	
-							
-							</tbody>
-							<tfoot>
-							</tfoot>
-						</table>
+                        <table id="myTableInsumoOT" class="table table-striped table-bordered"></table>
 					</div><!--box-body --> 
 				</div><!--box-body --> 
 			</div>
