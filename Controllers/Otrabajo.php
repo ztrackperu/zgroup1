@@ -218,8 +218,8 @@ class Otrabajo extends Controller
          $mail->Port = 465;
      
          // Configuración del correo electrónico
-         $mail->setFrom('zgroupsistemas@gmail.com', 'Nombre del remitente');
-         $mail->addAddress('zgroupsistemas@gmail.com'); // Reemplaza con la dirección de correo electrónico del destinatario
+         $mail->setFrom('zgroupsistemas@gmail.com', 'ZGROUPSISTEMAS');
+         $mail->addAddress('ztrack@zgroup.com.pe'); // Reemplaza con la dirección de correo electrónico del destinatario
          $mail->Subject = 'URGENTE - Stock de materales bajos';
          $mail->isHTML(true);
          
@@ -451,8 +451,8 @@ class Otrabajo extends Controller
          $mail->Port = 465;
      
          // Configuración del correo electrónico
-         $mail->setFrom('zgroupsistemas@gmail.com', 'Nombre del remitente');
-         $mail->addAddress('zgroupsistemas@gmail.com'); // Reemplaza con la dirección de correo electrónico del destinatario
+         $mail->setFrom('zgroupsistemas@gmail.com', 'ZGROUPSISTEMAS');
+         $mail->addAddress('ztrack@zgroup.com.pe'); // Reemplaza con la dirección de correo electrónico del destinatario
          $mail->Subject = 'NotaSalida '.$notaSalida.'- Nro OT - '.$nroOrden.' - Trabajo: '.$trabajoRealizado.'';
          $mail->isHTML(true);
          
@@ -678,8 +678,8 @@ class Otrabajo extends Controller
          $mail->Port = 465;
      
          // Configuración del correo electrónico
-         $mail->setFrom('zgroupsistemas@gmail.com', 'Nombre del remitente');
-         $mail->addAddress('zgroupsistemas@gmail.com'); // Reemplaza con la dirección de correo electrónico del destinatario
+         $mail->setFrom('zgroupsistemas@gmail.com', 'ZGROUPSISTEMAS');
+         $mail->addAddress('ztrack@zgroup.com.pe'); // Reemplaza con la dirección de correo electrónico del destinatario
          $mail->Subject = 'Insumos preparados - Nro OT '.$nroOrden.'';
          $mail->isHTML(true);
          
@@ -930,8 +930,8 @@ class Otrabajo extends Controller
          $mail->Port = 465;
      
          // Configuración del correo electrónico
-         $mail->setFrom('zgroupsistemas@gmail.com', 'Nombre del remitente');
-         $mail->addAddress('zgroupsistemas@gmail.com'); // Reemplaza con la dirección de correo electrónico del destinatario
+         $mail->setFrom('zgroupsistemas@gmail.com', 'ZGROUPSISTEMAS');
+         $mail->addAddress('ztrack@zgroup.com.pe'); // Reemplaza con la dirección de correo electrónico del destinatario
          $mail->Subject = 'Nro OT'.$nroOrden.' - '.$trabajoRealizado.'';
          $mail->isHTML(true);
          
