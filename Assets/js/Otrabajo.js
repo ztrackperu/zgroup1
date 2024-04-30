@@ -609,8 +609,11 @@ $(document).ready(function() {
             $('#ConceptoTrabajo').empty();
             $('#ruc').val('');
             $('#Proveedor').empty().val(null).trigger('change');
-            //$('#tecnicoEncargado').empty();   
-            //$('#txtTipoDocumento').empty();
+            //$('#Proveedor').prop('selectedIndex', 0).trigger('change');
+            //$('#selectName option').remove(); // clear all values 
+            //$('#tecnicoEncargado').val('SELECCIONE').trigger('change');
+            $('#tecnicoEncargado').select2("val","").trigger('change');
+            $('#txtTipoDocumento').val('SELECCIONE');
             $('#precio').val('');
             $('#cantidad').val('');
             $('#igv').val('');
