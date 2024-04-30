@@ -219,7 +219,7 @@ class Otrabajo extends Controller
      
          // Configuración del correo electrónico
          $mail->setFrom('zgroupsistemas@gmail.com', 'ZGROUPSISTEMAS');
-         $mail->addAddress('ztrack@zgroup.com.pe'); // Reemplaza con la dirección de correo electrónico del destinatario
+         $mail->addAddress('zgroupsistemas@gmail.com'); // Reemplaza con la dirección de correo electrónico del destinatario
          $mail->Subject = 'URGENTE - Stock de materales bajos';
          $mail->isHTML(true);
          
@@ -331,8 +331,8 @@ class Otrabajo extends Controller
          </head>
          <body>
              <div class="contenido__superior__derecha">
-                 <h3>Fecha de solicitud:'.$fechaHoy.'</h3>
-                 <h3>Nro Solicitud:'.$nroOrden.'</h3>
+                 <h3>Fecha de solicitud:<em>'.$fechaHoy.'</em></h3>
+                 <h3>Nro Solicitud:<em>'.$nroOrden.'</em></h3>
              </div>
              <h2>Sres. Área Compras,</h2>
              <div class="titulo">
@@ -452,7 +452,7 @@ class Otrabajo extends Controller
      
          // Configuración del correo electrónico
          $mail->setFrom('zgroupsistemas@gmail.com', 'ZGROUPSISTEMAS');
-         $mail->addAddress('ztrack@zgroup.com.pe'); // Reemplaza con la dirección de correo electrónico del destinatario
+         $mail->addAddress('zgroupsistemas@gmail.com'); // Reemplaza con la dirección de correo electrónico del destinatario
          $mail->Subject = 'NotaSalida '.$notaSalida.'- Nro OT - '.$nroOrden.' - Trabajo: '.$trabajoRealizado.'';
          $mail->isHTML(true);
          
@@ -564,12 +564,12 @@ class Otrabajo extends Controller
          </head>
          <body>
              <div class="contenido__superior__derecha">
-                 <h3>Fecha de solicitud:'.$fechaHoy.'</h3>
-                 <h3>Nro Solicitud:'.$nroOrden.'</h3>
+                 <h3>Fecha de solicitud:<em>'.$fechaHoy.'</em></h3>
+                 <h3>Nro Solicitud:<em>'.$nroOrden.'</em></h3>
              </div>
              <h2>Sres. Zgroup,</h2>
              <div class="titulo">
-                <p>Se confirma la atención y la entrega de los insumos a '.$tecnicoEncargado.' según la O.T. Nro '.$nroOrden.', correspondiente al trabajo '.$trabajoRealizado.'.</p>
+                <p>Se confirma la atención y la entrega de los insumos a <em>'.$tecnicoEncargado.'</em> según la O.T. Nro <em>'.$nroOrden.'</em>, correspondiente al trabajo <em>'.$trabajoRealizado.'</em>.</p>
                 <p>A continuación detallo lo despachado: </p>
             </did>
              <table>
@@ -679,7 +679,7 @@ class Otrabajo extends Controller
      
          // Configuración del correo electrónico
          $mail->setFrom('zgroupsistemas@gmail.com', 'ZGROUPSISTEMAS');
-         $mail->addAddress('ztrack@zgroup.com.pe'); // Reemplaza con la dirección de correo electrónico del destinatario
+         $mail->addAddress('zgroupsistemas@gmail.com'); // Reemplaza con la dirección de correo electrónico del destinatario
          $mail->Subject = 'Insumos preparados - Nro OT '.$nroOrden.'';
          $mail->isHTML(true);
          
@@ -791,13 +791,13 @@ class Otrabajo extends Controller
          </head>
          <body>
              <div class="contenido__superior__derecha">
-                 <h3>Fecha de solicitud:'.$fechaHoy.'</h3>
-                 <h3>Nro Solicitud:'.$nroOrden.'</h3>
+                 <h3>Fecha de solicitud:<em>'.$fechaHoy.'</em></h3>
+                 <h3>Nro Solicitud:<em>'.$nroOrden.'</em></h3>
              </div>
              <h2>Sres. Producción,</h2>
              <div class="titulo">
-                <p>Atendemos a su solicitud, iniciada '.$fechaHoy.', le informarmos coordialmente, que sus requerimientos están preparados.</p>
-                <p>Sirvasé a informar al encargado del trabajo '.$tecnicoEncargado.' para que se acerque al área de almacen a recibir los materiales asignados.</p>
+                <p>Atendemos a su solicitud, iniciada <em>'.$fechaHoy.'</em>, le informarmos coordialmente, que sus requerimientos están preparados.</p>
+                <p>Sirvasé a informar al encargado del trabajo <em>'.$tecnicoEncargado.'</em> para que se acerque al área de almacen a recibir los materiales asignados.</p>
                 <p>A continuación detallo los insumos reservados y preparados para su despacho:</p>
             </did>
              <table>
@@ -931,7 +931,7 @@ class Otrabajo extends Controller
      
          // Configuración del correo electrónico
          $mail->setFrom('zgroupsistemas@gmail.com', 'ZGROUPSISTEMAS');
-         $mail->addAddress('ztrack@zgroup.com.pe'); // Reemplaza con la dirección de correo electrónico del destinatario
+         $mail->addAddress('zgroupsistemas@gmail.com'); // Reemplaza con la dirección de correo electrónico del destinatario
          $mail->Subject = 'Nro OT'.$nroOrden.' - '.$trabajoRealizado.'';
          $mail->isHTML(true);
          
@@ -1044,12 +1044,12 @@ class Otrabajo extends Controller
          </head>
          <body>
              <div class="contenido__superior__derecha">
-                 <h3>Fecha de solicitud:'.$fechaHoy.'</h3>
-                 <h3>Nro Solicitud:'.$nroOrden.'</h3>
+                 <h3>Fecha de solicitud:<em>'.$fechaHoy.'</em></h3>
+                 <h3>Nro Solicitud:<em>'.$nroOrden.'</em></h3>
              </div>
              <h2>Sres. Almacen,</h2>
              <div class="titulo">
-                <p>Solicito insumos para el trabajo '.$trabajoRealizado.' según OT '.$nroOrden.'. A continuación el
+                <p>Solicito insumos para el trabajo <em>'.$trabajoRealizado.'</em> según OT <em>'.$nroOrden.'</em>. A continuación el
                 detalle de los insumos solicitados. Pido celeridad y apoyo con este requerimiento:</p>
              </did>
              <div class="container">
@@ -1061,12 +1061,13 @@ class Otrabajo extends Controller
                      <h3>FECHA SOLICITUD</h3>
                  </div>
                  <div class="columna__respuesta">
-                     <p>:'.$ruc.'</p>
-                     <p>:'.$proveedor.'</p>
-                     <p>:'.$trabajoRealizado.'</p>
-                     <p>:'.$tecnicoEncargado.'</p>
-                     <p>:'.$fechaHoy.'</p>
-                 </div>
+                 <p><em>:'.$ruc.'</em></p>
+                 <p><em>:'.$proveedor.'</em></p>
+                 <p><em>:'.$trabajoRealizado.'</em></p>
+                 <p><em>:'.$tecnicoEncargado.'</em></p>
+                 <p><em>:'.$fechaHoy.'</em></p>
+                </div>
+             
              </div>
              <div class="centrado">
                 <h2>Insumos requeridos <a href="https://ztrack.app/zgroup/">(Atender Solicitud)</a></h2>
