@@ -22,7 +22,9 @@ const language = {
 }
 document.addEventListener("DOMContentLoaded", function(){
     // hacemos un select a los datos que vienen del controlador 
-    $('#tecnicoEncargado').select2();
+    $('#tecnicoEncargado').select2({
+        laceholder: 'Buscar Técnico',
+    });
     $('#txtSupervisadoPor').select2();
     $('#SolicitadoPor').select2();
 
@@ -56,19 +58,6 @@ document.addEventListener("DOMContentLoaded", function(){
             paging: false,
             searching: false,
             info: false,
-            data: [],
-            columns: [
-            { title: "#", data: "id" },
-            { title: "RUC", data: "Ruc" },
-            { title: "Proveedor", data: "Proveedor" },
-            { title: "Trabajo Realizar", data: "Trabajo" },
-            { title: "Técnico Encargado", data: "Tecnico" },
-            { title: "Tipo Dcto", data: "Documento" },
-            { title: "Monto Unit", data: "Monto" },
-            { title: "Cant", data: "Cantidad" },
-            { title: "Subtotal", data: "Subtotal" },
-            { title: "Acciones", data: "acciones" }
-            ],
             language   
         });
     
@@ -79,7 +68,21 @@ document.addEventListener("DOMContentLoaded", function(){
             paging: false,
             searching: false,
             info: false,
-            language    
+            language ,
+            data: [],
+            columns: [
+            { title: "#", data: "id" },
+            { title: "RUC", data: "Ruc" },
+            { title: "Proveedor", data: "Proveedor" },
+            { title: "Trabajo Realizar", data: "Trabajo" },
+            { title: "Técnico Encargado", data: "Tecnico" },
+            { title: "Tipo Dcto", data: "Documento" },
+            { title: "Monto Unit", data: "Monto" },
+            { title: "Cant", data: "Cantidad" },
+            { title: "IGV", data: "Igv" },
+            { title: "Subtotal", data: "Subtotal" },
+            { title: "Acciones", data: "acciones" }
+            ],   
         });
 
     $("#insumosOT").select2({
@@ -297,6 +300,27 @@ function btnEliminarInsumo(cod){
         }
     })
 }
+
+function btnEliminarTrabajo(cod){
+    //console.log(cod);   
+    Swal.fire({
+        title: 'Esta seguro de Eliminar el Trabajo ?',
+        text: "Insumo a Eliminar :"+cod,
+        icon: 'error',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Eliminar',
+        cancelButtonText: 'No'
+    }).then((result) => {
+        if (result.isConfirmed) {          
+             trama = tablaDetalleTrabajo.row( 
+                 (idx, data) => data.id===cod
+              ).remove().draw();
+              console.log(trama)
+        }
+    })
+}
 function alertas(msg, icono) {
     Swal.fire({
         position: 'top-end',
@@ -317,49 +341,54 @@ async function fila(id){
 
 $('#Proveedor').on('change', function (e) {
     variable = $('#Proveedor').select2('data');
-    document.getElementById("ruc").value = variable[0].id;
-    console.log(variable);
+    if(variable.length!=0){
+        document.getElementById("ruc").value = variable[0].id;
+        console.log(variable);
+    }
+
   });
 //cada vez que se cambia de opcion se pide los datos relacionados de ese concepto
 $('#ConceptoTrabajo').on('change', function (e) {
         variable = $('#ConceptoTrabajo').select2('data');
         console.log(variable);
-        tablaInsumosOT.destroy();
-        id2 = variable[0].id;
-        id1=id2-1000;
-        let res1 = $.get(base_url + "Otrabajo/InsumosConsumir/" + id1, (data, status) => {  
-            //console.log(data);  
-            res = JSON.parse(data);
-            console.log(res);
-            if(res==null){
-                res =[];
-                console.log("esta en null");
-            }
-            tablaInsumosOT = $('#myTableInsumoOT1').DataTable({              
-                paging: false,
-                searching: true,
-                info: false,
-                data: res,
-                columns: [
-                { title: "#", data: "id" },
-                { title: "Codigo", data: "IN_CODI" },
-                { title: "Descripcion", data: "IN_ARTI" },
-                { title: "Unidad", data: "IN_UVTA" },
-                { title: "Plantilla", data: "cantidad" },
-                { title: "Stock", data: "stock" },
-                { title: "Cantidad", data: "cantidadUsar" },
-                { title: "Eliminar", data: "acciones" }
-                ],
-                language
+        if(variable.length!=0){
+            tablaInsumosOT.destroy();
+            id2 = variable[0].id;
+            id1=id2-1000;
+            let res1 = $.get(base_url + "Otrabajo/InsumosConsumir/" + id1, (data, status) => {  
+                //console.log(data);  
+                res = JSON.parse(data);
+                console.log(res);
+                if(res==null){
+                    res =[];
+                    console.log("esta en null");
+                }
+                tablaInsumosOT = $('#myTableInsumoOT1').DataTable({              
+                    paging: false,
+                    searching: true,
+                    info: false,
+                    data: res,
+                    columns: [
+                    { title: "#", data: "id" },
+                    { title: "Codigo", data: "IN_CODI" },
+                    { title: "Descripcion", data: "IN_ARTI" },
+                    { title: "Unidad", data: "IN_UVTA" },
+                    { title: "Plantilla", data: "cantidad" },
+                    { title: "Stock", data: "stock" },
+                    { title: "Cantidad", data: "cantidadUsar" },
+                    { title: "Eliminar", data: "acciones" }
+                    ],
+                    language
+                });
             });
-        });
+        }
   });
 $("#checkCodigo").change(function() {
     if (this.checked) {
-        alert('Seleccionado');
+        //alert('Seleccionado');
         urlC = base_url +'Otrabajo/buscarCodigoAlquilerVenta';
     }else{
-        alert('NO ESTA Seleccionado');
+        //alert('NO ESTA Seleccionado');
         urlC = base_url +'Otrabajo/buscarCodigoDisponible';
     }
     $('#codigoEquipo').select2({
@@ -389,8 +418,7 @@ $("#checkCodigo").change(function() {
 
 $('#codigoEquipo').on('change', function (e) {
     // obtenemos el valor y consultamos a la API
-    variable = $('#codigoEquipo').select2('data');
-    
+    variable = $('#codigoEquipo').select2('data'); 
     codBuscar= variable[0].text;
     console.log(codBuscar);
     let response = $.get(base_url + "Otrabajo/buscarCodigo/" + codBuscar, (data, status) => {
@@ -406,10 +434,9 @@ $('#codigoEquipo').on('change', function (e) {
             descripcionEquipoI = data1[0].des[0].IN_ARTI;
         }
         document.getElementById("descripcionEquipo").value = descripcionEquipoI;
-        document.getElementById("maquina").value = maquinaI;
-        
+        document.getElementById("maquina").value = maquinaI;      
     });
-    });
+});
 
 $(document).ready(function() {    
     $('#añadir').click(function() {
@@ -424,7 +451,6 @@ $(document).ready(function() {
         var igvDsc = $('#igvDscInput').val();
         var totalDcto = $('#totalDctoInput').val();
         var montoUnt = $('#montoUntPactadoInput').val();
-
         var newRow = $('<tr/>').append(
             $('<td/>').append(
                 $('<input/>').addClass('form-control').val(nroOrden).attr('readonly', true),
@@ -470,12 +496,10 @@ $(document).ready(function() {
         $('#busquedaInput').click(function() {
             //var num = $('#busqueda').val();
             var respuesta = $('#busqueda').val();
-
             var url = base_url+'Otrabajo/consultarOT/'+respuesta;
             //var url = 'http://192.168.1.166:7000/ot/' + respuesta;
             //var url = 'http://192.168.1.166:8000/testOT/' + respuesta;
             // Antes de hacer la nueva búsqueda, borra los valores de los inputs
-
             $.ajax({
                 url: url,
                 type: 'GET',
@@ -585,7 +609,6 @@ $(document).ready(function() {
         
     });
     $('#btnReporte').click(function() {
-
         var num = $('#busqueda').val();
         const http = new XMLHttpRequest();
         const url = base_url+'Otrabajo/generarPDF/'+num;
@@ -607,7 +630,6 @@ $(document).ready(function() {
             }
         }
 
-
     });
 
 });
@@ -626,7 +648,6 @@ document.getElementById('checkOrdenTrabajo').addEventListener('change', function
     }
 });
 
-
 //esto hace las veces de agregar detalle de trabajo , se puede definir un datatable 
 //al inicio con una estructura definida .
 function agregarDetalleTrabajo1(){
@@ -640,16 +661,7 @@ function agregarDetalleTrabajo1(){
     var subTotal_trabajo = $('#precio').val(); // NO APLICA
     var cantidad_trabajo = $('#cantidad').val(); //NO APLICA
     var moneda = $('#txtMoneda').val(); //"SELECCIONE"
-    console.log(proveedor_ot);
-    console.log(ruc_ot);
-    console.log(concepto_trabajo);
-    console.log(detalle_trabajo);
-    console.log(tipo_documento);
-    console.log(tecnico_encargado);
-    console.log(subTotal_trabajo);
-    console.log(cantidad_trabajo);
-    console.log(moneda);
-    if(moneda=="SELECCIONE" || tecnico_encargado== "SELECCIONE" || tipo_documento== "SELECCIONE" ){
+    if(moneda=="SELECCIONE" || tecnico_encargado== "SELECCIONE" || tipo_documento== "SELECCIONE"|| tecnico_encargado== null ){
         console.log("aqui falta moneda, tecnico o documento");
     }else{
         if(proveedor_ot==null){
@@ -671,46 +683,44 @@ function agregarDetalleTrabajo1(){
                 //tablaDetalleTrabajo
                 contDetrabajo = tablaDetalleTrabajo.rows().count();
                 console.log(contDetrabajo);
-                //if()
-
+                //aqui añadir detalle del trabajo 
+                igvDet=0;
+                if(tipo_documento=="FACTURA"){
+                    igvDet = (subTotal_trabajo*cantidad_trabajo)*0.18;
+                }
+                //crear estructura de boton para editar y eliminar 
+                opc ="<button class='btn btn-warning' type='button' onclick='btnEditarTrabajo(" + contDetrabajo+1 +")'><i class='fa fa-pencil-square-o'></i>E</button><button class='btn btn-danger' type='button' onclick='btnEliminarTrabajo(" + contDetrabajo+1 +")'><i class='fa fa-pencil-square-o'></i>X</button>";
+                tablaDetalleTrabajo.row.add(
+                    {
+                        id : contDetrabajo+1,
+                        Ruc: ruc_ot,
+                        Proveedor: proveedor_ot,
+                        Trabajo: concepto_trabajo+" - "+detalle_trabajo,
+                        Tecnico: tecnico_encargado,
+                        Documento: tipo_documento,
+                        Monto: subTotal_trabajo,
+                        Cantidad: cantidad_trabajo,
+                        Igv : igvDet,
+                        Subtotal: (subTotal_trabajo*cantidad_trabajo)+igvDet,                 
+                        //acciones: "ELIMINO-EDITO", 
+                        acciones: opc, 
+                    }     
+                ).draw(false);
+                //despues de depurar limpiar los campos 
+                $('#Proveedor').val(null).trigger('change');  //null
+                $('#ruc').val('');  //vacio ""
+                $('#ConceptoTrabajo').val(null).trigger('change'); //null
+                $('#detalleTrabajo').val(''); //vacio ""
+                $('#txtTipoDocumento').val('SELECCIONE'); //"SELECCIONE"
+                $('#tecnicoEncargado').val(null).trigger('change')
+                $('#precio').val('1'); // NO APLICA
+                $('#cantidad').val('1'); //NO APLICA
+                $('#txtMoneda').val('SELECCIONE'); //"SELECCIONE"
             }
         }
     }
-    
-
-
-
-
-
-    var newRow = $('<tr/>').append(
-        $('<td/>').append(
-            $('<input/>').addClass('form-control').val(proveedor_trabajo).attr('readonly', true),
-        ),
-        $('<td/>').append(
-            $('<input/>').addClass('form-control').val(concepto_trabajo).attr('readonly', true),
-        ),
-        $('<td/>').append(
-            $('<input/>').addClass('form-control').val(tecnico_trabajo),
-        ),
-        $('<td/>').append(
-            $('<input/>').addClass('form-control').val(subTotal_trabajo),
-        ),
-        $('<td/>').append(
-            $('<input/>').addClass('form-control').val(cantidad_trabajo),
-        ),
-        $('<td/>').append(
-            $('<input/>').addClass('form-control').val(importe),
-        ),
-        $('<td/>').append(
-            $('<button/>').addClass('btn btn-danger').text('Eliminar').click(function() {
-            $(this).parent().parent().remove();
-            })
-    ));
-    $('#myTableTrabajo tbody').append(newRow);
+ 
 }
-
-
-
 
 function agregarDetalleTrabajo(){
 
@@ -748,5 +758,71 @@ function agregarDetalleTrabajo(){
         $('#myTableTrabajo tbody').append(newRow);
 }
 
+function procesarOT(){
+    console.log("aqui empiezo a validar datos ");
+    //contra la tabla de insumos y la tabla de trabajo
+    contInsumos = tablaInsumosOT.rows().count();
+    contTrabajo = tablaDetalleTrabajo.rows().count();
+    console.log(contTrabajo);
+    console.log(contInsumos);
+    if(contTrabajo==0){
+        Swal.fire({
+            title: 'No ha especificado un detalle para la OT',
+            text: "No se puede procesar",
+            icon: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Entendido',
+            //cancelButtonText: false
+        })
+
+    }else{
+        //aqui validamos todos los campos  que hacen falta 
+        console.log("siguiente validacion");
+        //los 11 campos debe ser validados para pasar la prevsualizacion 
+        var refCotizacion = $('#refCotizacion').val();  //null
+        var nroGuiaOC = $('#nroGuiaOC').val();  //null
+        var nroReporte = $('#nroReporte').val();  //null
+        var serieEquipo = $('#serieEquipo').val();  //null
+        var nroTicket = $('#nroTicket').val();  //null
+        var SolicitadoPor = $('#SolicitadoPor').val();  //null
+        var txtSupervisadoPor = $('#txtSupervisadoPor').val();  //null
+        var codigoEquipo = $('#codigoEquipo').val();  //null
+        var maquina = $('#maquina').val();  //null
+        var descripcionEquipo = $('#descripcionEquipo').val();  //null
+        var Producto = $('#Producto').val();  //null
+        console.log(refCotizacion);
+        console.log(nroGuiaOC);
+        console.log(nroReporte);
+        console.log(serieEquipo);
+        console.log(nroTicket);
+        console.log(SolicitadoPor);
+        console.log(txtSupervisadoPor);
+        console.log(codigoEquipo);
+        console.log(maquina);
+        console.log(descripcionEquipo);
+        console.log(Producto);
+        if(refCotizacion==""||nroGuiaOC==""||Producto==""||nroReporte==""||serieEquipo==""||nroTicket==""||SolicitadoPor=="SELECCIONE"||txtSupervisadoPor=="SELECCIONE"||codigoEquipo==""||maquina==""||descripcionEquipo==""){
+            console.log("todos ,los campos (*) son obligatorios");
+        }else{
+            console.log("proceder con la visualizacion");
+            //aqui preguntarle si los insumos son 0 , la ot no va tener insumos
+            if(contTrabajo==0){
+
+            }else{
+                console.log("se refleja la previazualizacion  ");
+                //mostrar el modal 
+                
+            }
+        }
+
+
+        //refCotizacion
+    }
+
+
+
+}
 
 

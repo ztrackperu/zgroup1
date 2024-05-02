@@ -281,11 +281,13 @@ class Otrabajo extends Controller
                 //$item->stock ="10";
                 $item->cantidad ="-";
                 $readonly="";
+                $value =1 ;
                 if($item->stock=="0"){
                     $readonly ='readonly';
+                    $value=0;
                 }
                 $item->cantidadUsar="<div >
-                <input id='insumo_".$item->IN_CODI."' class='form-control' type='text' name='insumo_".$item->IN_CODI."' value='1' style='width: 80px;' " .$readonly." required>
+                <input id='insumo_".$item->IN_CODI."' class='form-control' type='text' name='insumo_".$item->IN_CODI."' value='".$value."' style='width: 80px;' " .$readonly." required>
                 </div>";
 
                 
