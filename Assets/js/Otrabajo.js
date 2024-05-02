@@ -823,17 +823,18 @@ function procesarOT(){
         var maquina = $('#maquina').val();  //null
         var descripcionEquipo = $('#descripcionEquipo').val();  //null
         var Producto = $('#Producto').val();  //null
-        console.log(refCotizacion);
-        console.log(nroGuiaOC);
-        console.log(nroReporte);
-        console.log(serieEquipo);
-        console.log(nroTicket);
-        console.log(SolicitadoPor);
-        console.log(txtSupervisadoPor);
-        console.log(codigoEquipo);
-        console.log(maquina);
-        console.log(descripcionEquipo);
-        console.log(Producto);
+        
+        //Contenido de tabla
+        var ruc = $('#ruc').val();  //null
+        var proveedor = $('#Proveedor').val();  //null
+        var trabajo = $('#ConceptoTrabajo').val();  //null
+        var tecnico = $('#tecnicoEncargado').val();  //null
+        var tipoDsc = $('#txtTipoDocumento').val();  //null
+        var montoUnitario = $('#precio').val();  //null
+        var cantidadDcto = $('#cantidad').val();  //null
+        var igvDsc = $('#igvDscInput').val();  //null
+
+
         if(refCotizacion==""||nroGuiaOC==""||Producto==""||nroReporte==""||serieEquipo==""||nroTicket==""||SolicitadoPor=="SELECCIONE"||txtSupervisadoPor=="SELECCIONE"||codigoEquipo==""||maquina==""||descripcionEquipo==""){
             //console.log("todos ,los campos (*) son obligatorios");
             Swal.fire({
@@ -849,14 +850,129 @@ function procesarOT(){
         }else{
             console.log("proceder con la visualizacion");
             //aqui preguntarle si los insumos son 0 , la ot no va tener insumos
-            if(contTrabajo==0){
-                console.log('faltan insumos, estas seguro de proceder?');
+            if(contInsumos==0){
+                Swal.fire({
+                    title: 'Faltan Insumos',
+                    text: "Estas seguro de proceder?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí',
+                    cancelButtonText: 'No'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        console.log("se refleja la previazualizacion  ");
+                        $('#refCotizacion').text(refCotizacion);
+                        $('#nroGuiaOC').text(nroGuiaOC);
+                        $('#nroReporte').text(nroReporte);
+                        $('#serieEquipo').text(serieEquipo); 
+                        $('#nroTicket').text(nroTicket);
+                        $('#SolicitadoPor').text(SolicitadoPor);
+                        $('#txtSupervisadoPor').text(txtSupervisadoPor);
+                        $('#codigoEquipo').text(codigoEquipo);
+                        $('#maquina').text(maquina);
+                        $('#descripcionEquipo').text(descripcionEquipo);
+                        $('#Producto').text(Producto);
+                        //ContenidoTabla
+                        $('#ruc').text(ruc);
+                        $('#proveedor').text(proveedor);
+                        $('#trabajo').text(trabajo);
+                        $('#tecnico').text(tecnico);
+                        $('#tipoDsc').text(tipoDsc);
+                        $('#montoUnitario').text(montoUnitario);
+                        $('#cantidadDcto').text(cantidadDcto);
+                        $('#igvDsc').text(igvDsc);
+                        //$('#totalDcto').text(totalDcto);
 
-
-            }else{
+                        /*<div class="container-fluid" style="border:1px solid #cecece;"     */
+                        var str = '<h1 class="text-center"> Nro OT -  | Ref. Cotizacion '+ refCotizacion+'</h1>' +'<div class="container-fluid" style="border: 1px solid #cecece;">'+ '<div class="mb-3 row">' +
+                        '<label for="" class="col-sm-2 col-form-label">Nro de Guia/OC</label>' +
+                        '<div class="col-sm-4">' +
+                            nroGuiaOC +
+                        '</div>' +
+                        '<label for="" class="col-sm-2 col-form-label">Nro de Reporte</label>' +
+                        '<div class="col-sm-4">' +
+                            nroReporte +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="mb-3 row">' +
+                        '<label for="" class="col-sm-2 col-form-label">Serie de Equipo</label>' +
+                        '<div class="col-sm-4">' +
+                            serieEquipo +
+                        '</div>' +
+                        '<label for="" class="col-sm-2 col-form-label">Nro de Ticket</label>' +
+                        '<div class="col-sm-4">' +
+                            nroTicket +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="mb-3 row">' +
+                        '<label for="" class="col-sm-2 col-form-label">Solicitado por</label>' +
+                        '<div class="col-sm-4">' +
+                            SolicitadoPor +
+                        '</div>' +
+                        '<label for="" class="col-sm-2 col-form-label">Supervisado por</label>' +
+                        '<div class="col-sm-4">' +
+                            txtSupervisadoPor +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="mb-3 row">' +
+                        '<label for="" class="col-sm-2 col-form-label">Codigo Equipo</label>' +
+                        '<div class="col-sm-4">' +
+                            codigoEquipo +
+                        '</div>' +
+                        '<label for="" class="col-sm-2 col-form-label">Producto</label>' +
+                        '<div class="col-sm-4">' +
+                            Producto +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="mb-3 row">' +
+                        '<label for="" class="col-sm-2 col-form-label">Maquina</label>' +
+                        '<div class="col-sm-4">' +
+                            maquina +
+                        '</div>' +
+                        '<label for="" class="col-sm-2 col-form-label">Descripcion Equipo</label>' +
+                        '<div class="col-sm-4">' +
+                            descripcionEquipo +
+                        '</div>' +
+                        '</div>'+
+                        '</div>'+ '<table class="table table-bordered table-responsive m-3 p-3">' +
+                        '<thead>' +
+                          '<tr>' +
+                            '<th scope="col">N° Orden de Trabajo</th>' +
+                            '<th scope="col">RUC</th>' +
+                            '<th scope="col">Proveedor</th>' +
+                            '<th scope="col">Trabajo Realizado</th>' +
+                            '<th scope="col">Tecnico Encargado</th>' +
+                            '<th scope="col">Tipo Dcto</th>' +
+                            '<th scope="col">Monto Unitario</th>' +
+                            '<th scope="col">Cantidad Dcto</th>' +
+                            '<th scope="col">IGV</th>' +
+                        
+                          '</tr>' +
+                        '</thead>' +
+                        '<tbody>' +
+                          '<tr>' +
+                            '<td>'+ +'</td>' +
+                            '<td>'+ ruc +'</th>' +
+                            '<td>'+ proveedor +'</td>' +
+                            '<td>'+ trabajo+'</td>' +
+                            '<td>'+ tecnico+'</td>' +
+                            '<td>'+ tipoDsc +'</td>' +
+                            '<td>'+ montoUnitario +'</td>' +
+                            '<td>'+ cantidadDcto+'</td>' +
+                            '<td>'+ igvDsc+'</td>' +
+                         
+                          '</tr>' +
+                        '</tbody>' +
+                      '</table>';
+                        $("#modal_body").html(str);
+                        $("#mostrarOT").modal("show"); // Muestra el modal
+                    }
+                })
+            } else {
                 console.log("se refleja la previazualizacion  ");
                 $("#mostrarOT").modal("show");
-                
             }
         }
 

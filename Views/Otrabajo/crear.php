@@ -332,9 +332,6 @@
 	
 </div>
 </form>
-
-
-
 <!--
 <div class="modal fade" id="myModalCodigos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog" role="document" id="mdialTamanio">
@@ -367,9 +364,31 @@
     </div>
 </div>
 -->
-<!---------------------------- MODAL PARA PREVISUALIZAR LOS DATOS QUE LE ASIGNÓ A LA OT----------------------------------->
+
+<div class="modal" tabindex="-1" role="dialog" id="mostrarOT">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Nueva Orden de Trabajo</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="modal_body">
+        <!-- Aquí irá el contenido de la variable str -->
+      </div>
+      <div class="modal-footer">
+            <button class="btn btn-primary" type="button" onclick="" id="">Registrar</button>
+            <button class="btn btn-danger" type="button" data-bs-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!---------------------------- MODAL PARA PREVISUALIZAR LOS DATOS QUE LE ASIGNÓ A LA OT----------------------------------
 <div class="modal fade" id="mostrarOT" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary">
                 <h5 class="modal-title text-white" id="title">Nueva Orden de Trabajo</h5>
@@ -378,14 +397,64 @@
                 </button>
             </div>
             <div class="modal-body m-3">
-                
+                <h1>O.T : - | Ref. Cotizacion: </h1>
+                <div class="mb-3 row">
+                    <label for="" class="col-sm-2 col-form-label">Nro de Guia/OC</label>
+                    <div class="col-sm-4">
+                        <p id="nroGuiaOC">:</p>
+                    </div>
+                    <label for="" class="col-sm-2 col-form-label">Nro de Reporte</label>
+                    <div class="col-sm-4">
+                        <p id="nroReporte">:</p>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="" class="col-sm-2 col-form-label">Serie de Equipo</label>
+                    <div class="col-sm-4">
+                        <p id="serieEquipo">:</p>
+                    </div>
+                    <label for="" class="col-sm-2 col-form-label">Nro de Ticket</label>
+                    <div class="col-sm-4">
+                        <p id="nroTicket">:</p>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="" class="col-sm-2 col-form-label">Solicitado por</label>
+                    <div class="col-sm-4">
+                        <p id="SolicitadoPor">:</p>
+                    </div>
+                    <label for="" class="col-sm-2 col-form-label">Supervisado por</label>
+                    <div class="col-sm-4">
+                        <p id="txtSupervisadoPor">:</p>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="" class="col-sm-2 col-form-label">Codigo Equipo</label>
+                    <div class="col-sm-4">
+                        <p id="codigoEquipo">:</p>
+                    </div>
+                    <label for="" class="col-sm-2 col-form-label">Producto</label>
+                    <div class="col-sm-4">
+                        <p id="Producto">:</p>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="" class="col-sm-2 col-form-label">Maquina</label>
+                    <div class="col-sm-4">
+                        <p id="maquina">:</p>
+                    </div>
+                    <label for="" class="col-sm-2 col-form-label">Descripcion Equipo</label>
+                    <div class="col-sm-4">
+                        <p id="descripcionEquipo">:</p>
+                    </div>
+                </div>
                 <button class="btn btn-primary" type="button" onclick="" id="">Registrar</button>
                 <button class="btn btn-danger" type="button" data-bs-dismiss="modal">Cancelar</button>
             </div>
         </div>
     </div>
-</div>
-
+</div>-->
+<!-----------------------------FIN MODAL PARA PREVISUALIZAR LOS DATOS QUE LE ASIGNÓ A LA OT --------------------------->
 <div class="modal fade" id="my_modalagregar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
