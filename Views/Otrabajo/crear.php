@@ -50,9 +50,11 @@
 		<div class="form-group">
                 <div class="mb-3 row">
                     <label for="nroOrdenTrabajo" class="col-sm-2 col-form-label">Nro Orden Trabajo (*)</label>
-                    <div class="col-sm-2">
-						<input type="text" class="form-control" id="nroOrdenTrabajo" name="nroOrdenTrabajo" placeholder="AUTOGENERADO" value="" readonly >
-						<input type="checkbox" id="checkOrdenTrabajo" name="checkOrdenTrabajo">
+                    <div class="col-sm-2 d-flex">
+                        <input type="text" class="form-control" id="nroOrdenTrabajo" name="nroOrdenTrabajo" placeholder="AUTOGENERADO" value="" readonly >
+                        <div class="form-check ml-4">
+                            <input class="form-check-input" type="checkbox" id="checkOrdenTrabajo" name="checkOrdenTrabajo">
+                        </div>
                     </div>
                     <label for="refCotizacion" class="col-sm-2 col-form-label">Ref. Cotizacion (*)</label>
                     <div class="col-sm-2">
@@ -196,6 +198,9 @@
                 <div class="col-sm-4">
                     <input type="text" class="form-control" id="descripcionEquipo" value="" placeholder="Descripcion Equipo...">
                 </div>      
+            </div>
+            <div class="mb-3 row">
+                <hr style="width: 95%; border: 1px solid black">
             </div>
             <div class="mb-3 row">
                 <label for="proveedor2" class="col-sm-2 col-form-label">Proveedor (*) </label>
@@ -362,7 +367,24 @@
     </div>
 </div>
 -->
-
+<!---------------------------- MODAL PARA PREVISUALIZAR LOS DATOS QUE LE ASIGNÓ A LA OT----------------------------------->
+<div class="modal fade" id="mostrarOT" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title text-white" id="title">Nueva Orden de Trabajo</h5>
+                <button class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body m-3">
+                
+                <button class="btn btn-primary" type="button" onclick="" id="">Registrar</button>
+                <button class="btn btn-danger" type="button" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="modal fade" id="my_modalagregar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog" role="document">

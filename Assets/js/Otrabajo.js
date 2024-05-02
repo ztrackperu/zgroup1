@@ -662,13 +662,43 @@ function agregarDetalleTrabajo1(){
     var cantidad_trabajo = $('#cantidad').val(); //NO APLICA
     var moneda = $('#txtMoneda').val(); //"SELECCIONE"
     if(moneda=="SELECCIONE" || tecnico_encargado== "SELECCIONE" || tipo_documento== "SELECCIONE"|| tecnico_encargado== null ){
-        console.log("aqui falta moneda, tecnico o documento");
+        //console.log("aqui falta moneda, tecnico o documento");
+        Swal.fire({
+            title: 'Verifica que hayas ingresado todos los datos',
+            text: "Falta Moneda, Técnico encargado o Tipo de Documento",
+            icon: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Entendido',
+            //cancelButtonText: false
+        })
     }else{
         if(proveedor_ot==null){
-            console.log("no ha seleccionado al proveedor");          
+            //console.log("no ha seleccionado al proveedor");
+            Swal.fire({
+                title: 'Verifica que hayas ingresado todos los datos',
+                text: "No ha seleccionado al Proveedor",
+                icon: 'warning',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Entendido',
+                //cancelButtonText: false
+            })          
         }else{
             if(concepto_trabajo==null ||detalle_trabajo==""){
-                console.log("verifica que hayas ingresado el concepto o el detalle de trabajo");          
+                //console.log("verifica que hayas ingresado el concepto o el detalle de trabajo");  
+                Swal.fire({
+                    title: 'Verifica que hayas ingresado todos los datos',
+                    text: "Falta Concepto de Trabajo o Detalle del Trabajo",
+                    icon: 'warning',
+                    showCancelButton: false,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Entendido',
+                    //cancelButtonText: false
+                })        
             }else{
                 variable = $('#Proveedor').select2('data');
                 console.log(variable);
@@ -721,7 +751,7 @@ function agregarDetalleTrabajo1(){
     }
  
 }
-
+/*
 function agregarDetalleTrabajo(){
 
         var proveedor_trabajo = $('#Proveedor').val(); 
@@ -757,6 +787,7 @@ function agregarDetalleTrabajo(){
         ));
         $('#myTableTrabajo tbody').append(newRow);
 }
+*/
 
 function procesarOT(){
     console.log("aqui empiezo a validar datos ");
@@ -804,15 +835,27 @@ function procesarOT(){
         console.log(descripcionEquipo);
         console.log(Producto);
         if(refCotizacion==""||nroGuiaOC==""||Producto==""||nroReporte==""||serieEquipo==""||nroTicket==""||SolicitadoPor=="SELECCIONE"||txtSupervisadoPor=="SELECCIONE"||codigoEquipo==""||maquina==""||descripcionEquipo==""){
-            console.log("todos ,los campos (*) son obligatorios");
+            //console.log("todos ,los campos (*) son obligatorios");
+            Swal.fire({
+                title: 'Verifica que hayas ingresado todos los datos',
+                text: "Todos los campos (*) son obligatorios",
+                icon: 'warning',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Entendido',
+                //cancelButtonText: false
+            })
         }else{
             console.log("proceder con la visualizacion");
             //aqui preguntarle si los insumos son 0 , la ot no va tener insumos
             if(contTrabajo==0){
+                console.log('faltan insumos, estas seguro de proceder?');
+
 
             }else{
                 console.log("se refleja la previazualizacion  ");
-                //mostrar el modal 
+                $("#mostrarOT").modal("show");
                 
             }
         }
