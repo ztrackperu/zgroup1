@@ -11,7 +11,7 @@
     <title>OT</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg bsb-navbar bsb-navbar-hover bsb-navbar-caret">
+<nav class="navbar navbar-expand-lg">
   <div class="container">
     <a class="navbar-brand" href="<?php echo base_url; ?>AdminPage"> <img src="<?php echo base_url;?>Assets/img/image.png" alt="logo__zgroup" width="135" height="44"></a>
     <button type="button" class="navbar-toggler" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
@@ -35,7 +35,7 @@
             </ul>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href= id="conceptoDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Conceptos OT</a>
+            <a class="nav-link dropdown-toggle" id="conceptoDropdown" role="button" data-bs-toggle="dropdown" aria-current="page">Conceptos OT</a>
             <ul class="dropdown-menu border-0 shadow bsb-zoomIn" aria-labelledby="conceptoDropdown">
               <li><a class="dropdown-item" href="<?php echo base_url; ?>ConceptosOT">Lista</a></li>
               <li><a class="dropdown-item" href="<?php echo base_url; ?>ConceptosOT/Asignar">Asignar</a></li>
@@ -44,7 +44,7 @@
           </li>
    
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href= id="conceptoDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Concepto</a>
+            <a class="nav-link dropdown-toggle" id="conceptoDropdown" role="button" data-bs-toggle="dropdown" aria-current="page">Concepto</a>
             <ul class="dropdown-menu border-0 shadow bsb-zoomIn" aria-labelledby="conceptoDropdown">
               <li><a class="dropdown-item" href="#!">Conceptos</a></li>
               <li><a class="dropdown-item" href="#!">Listar</a></li>
@@ -52,7 +52,7 @@
             </ul>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#!" id="otDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">O.T.</a>
+            <a class="nav-link dropdown-toggle"  id="otDropdown" role="button" data-bs-toggle="dropdown" aria-current="page">O.T.</a>
             <ul class="dropdown-menu border-0 shadow bsb-zoomIn" aria-labelledby="otDropdown">
               <li><a class="dropdown-item" href="#!">Listar</a></li>
               <li><a class="dropdown-item" href="<?php echo base_url; ?>Otrabajo/crear">Crear</a></li>
@@ -61,14 +61,14 @@
             </ul>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#!" id="pendientesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pendientes</a>
+            <a class="nav-link dropdown-toggle"  id="pendientesDropdown" role="button" data-bs-toggle="dropdown" aria-current="page">Pendientes</a>
             <ul class="dropdown-menu border-0 shadow bsb-zoomIn" aria-labelledby="pendientesDropdown">
               <li><a class="dropdown-item" href="#!">O.T.</a></li>
               <li><a class="dropdown-item" href="#!">Insumos</a></li>
             </ul>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#!" id="analisisDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Análisis</a>
+            <a class="nav-link dropdown-toggle"  id="analisisDropdown" role="button" data-bs-toggle="dropdown" aria-current="page">Análisis</a>
             <ul class="dropdown-menu border-0 shadow bsb-zoomIn" aria-labelledby="analisisDropdown">
               <li><a class="dropdown-item" href="#!">O.T.</a></li>
               <li><a class="dropdown-item" href="#!">Conceptos</a></li>
