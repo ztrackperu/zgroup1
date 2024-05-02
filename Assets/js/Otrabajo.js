@@ -1,300 +1,25 @@
 let tblMovimientos;
-
-function agregarInsumosOT(){
-    //var tablaInsumos = $('#myTableInsumo').DataTable({retrieve: true,paging: false});
-    variable = $('#insumosOT').select2('data');
-    console.log(variable);
-    if(variable.length!=0){
-        var http = new XMLHttpRequest();
-        var url = base_url + "Otrabajo/agregarInsumoOT";
-        //http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        http.open("POST", url, true);
-        http.send(JSON.stringify({data:variable}));
-        http.onreadystatechange = function() {
-            if(http.readyState == 4 && http.status == 200) { 
-                //limpiar select 2
-                $('#insumosOT').val(null).trigger('change');
-                //console.log(JSON.parse(http.responseText));
-                resul = JSON.parse(http.responseText);
-                console.log(resul);
-                //contra las filas 
-                contInsumos = tablaInsumosOT.rows().count();
-                console.log(contInsumos)
-                if(contInsumos==0){
-                    tablaInsumos.destroy();
-                    console.log("esta vacio");
-                     tablaInsumos = $('#myTableInsumo').DataTable({
-                        paging: false,
-                        searching: true,
-                        info: false,
-                        data: resul,
-                        columns: [
-                        { title: "Codigo", data: "IN_CODI" },
-                        { title: "Descripcion", data: "IN_ARTI" },
-                        { title: "Unidad", data: "IN_UVTA" },
-                        { title: "Cantidad", data: "cantidad" },
-                        { title: "Eliminar", data: "acciones" }
-                        ]
-                    });
-                    //canti = table.rows().count();
-                    //console.log(canti);
-                }else{
-                    //aqui debe agregar la data 
-                    //primero comparar con la ya agregada 
-                    //tomamos la agregada 
-                    datosya =[]
-                    let rows = tablaInsumosOT.rows(
-                        //(idx, data) => data.location === 'Edinburgh'
-                        (idx, data) => datosya.push(data.IN_CODI) 
-                        //(idx, data) => datosya.push(data) 
-
-                    );
-                    //datos ya contiene la informacion de los que ya existen
-                    //console.log(datosya)
-                    //comparamos con los datos que tenemos
-                    //console.log(resul);
-                    sinrepetiones=[];
-                    for(let i=0;i<resul.length;i++){
-                        let element = resul[i].IN_CODI;
-                        //console.log(element);
-                        if(datosya.includes(element)){
-                            //console.log(`coincide '${element}'`);
-                        }else{
-                            //console.log(`No coincide '${element}'`);
-                            sinrepetiones.push(resul[i]) ;
-                        }
-                    }
-                    //console.log("hay data");
-                    //aqui se guardan los elementos listo pa ser agregados 
-                    console.log(sinrepetiones);
-                    
-                    for(let i=0;i<sinrepetiones.length;i++){
-                        //agregar fila en datatable
-                        tablaInsumosOT.row.add(
-                            //{ tamano: tamano, nombre: nombre }
-                            {
-                                id : contInsumos+i+1,
-
-                                IN_CODI: sinrepetiones[i].IN_CODI,
-                                IN_ARTI: sinrepetiones[i].IN_ARTI,
-                                IN_UVTA: sinrepetiones[i].IN_UVTA,
-                                cantidad: sinrepetiones[i].cantidad,
-                                stock: sinrepetiones[i].stock,
-                                cantidadUsar: sinrepetiones[i].cantidadUsar,
-
-                                acciones: sinrepetiones[i].acciones, 
-                            }
-                        
-                        ).draw(false);
-                    }
-
-                    
-                }
-            }
-        }
-
-
-/*
-        { title: "#", data: "id" },
-        { title: "Codigo", data: "IN_CODI" },
-        { title: "Descripcion", data: "IN_ARTI" },
-        { title: "Unidad", data: "IN_UVTA" },
-        { title: "Plantilla", data: "cantidad" },
-        { title: "Stock", data: "stock" },
-        { title: "Cantidad", data: "cantidadUsar" },
-        { title: "Eliminar", data: "acciones" }
-*/
-    }else{
-        Swal.fire({
-            title: 'No se ha seleccionado ningun Insumo',
-            text: "Los insumos  deben ser seleccionado",
-            icon: 'warning',
-            showCancelButton: false,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Entendido',
-            //cancelButtonText: false
-        })
-
+const language = {
+    "decimal": "",
+    "emptyTable": "Sin datos asignados",
+    "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+    "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+    "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+    "infoPostFix": "",
+    "thousands": ",",
+    "lengthMenu": "Mostrar _MENU_ Entradas",
+    "loadingRecords": "Cargando...",
+    "processing": "Procesando...",
+    "search": "Buscar:",
+    "zeroRecords": "Sin resultados encontrados",
+    "paginate": {
+        "first": "Primero",
+        "last": "Ultimo",
+        "next": "Siguiente",
+        "previous": "Anterior"
     }
+
 }
-
-function btnEliminarInsumo(cod){
-    //console.log(cod);
-    
-    Swal.fire({
-        title: 'Esta seguro de Eliminar Insumo ?',
-        text: "Insumo a Eliminar :"+cod,
-        icon: 'error',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Eliminar',
-        cancelButtonText: 'No'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            //identifico el elemento a eliminar 
-            //$('#myTableInsumo').DataTable();
-            /*
-            trama = $('#myTableInsumo').DataTable()
-            .row( 
-                (idx, data) => data.IN_CODI===cod
-             ).remove().draw();
-             */
-             
-             trama = tablaInsumosOT.row( 
-                 (idx, data) => data.IN_CODI===cod
-              ).remove().draw();
-              console.log(trama)
-        }
-    })
-}
-
-function alertas(msg, icono) {
-    Swal.fire({
-        position: 'top-end',
-        icon: icono,
-        title: msg,
-        showConfirmButton: false,
-        timer: 3000
-    })
-}
-
-async function fila(id){
-    id1=id-1000;
-    datafila =[];
-    let response = $.get(base_url + "ConceptosOT/nuevaSeleccion/" + id1, (data, status) => {    
-    });
-    return response;
-}
-
-$('#Proveedor').on('change', function (e) {
-    variable = $('#Proveedor').select2('data');
-    document.getElementById("ruc").value = variable[0].id;
-    console.log(variable);
-  });
-  
-$('#ConceptoTrabajo').on('change', function (e) {
-        variable = $('#ConceptoTrabajo').select2('data');
-        console.log(variable);
-
-        id2 = variable[0].id;
-        id1=id2-1000;
-        datafila =[];
-        //.log(datafila);
-        let res1 = $.get(base_url + "Otrabajo/InsumosConsumir/" + id1, (data, status) => {  
-            //console.log(data);  
-            res = JSON.parse(data);
-            console.log(res);
-            tablaInsumosOT.destroy();
-            console.log("esta vacio");
-            tablaInsumosOT = $('#myTableInsumoOT').DataTable({
-                paging: false,
-                searching: true,
-                info: false,
-                data: res,
-                columns: [
-                { title: "#", data: "id" },
-                { title: "Codigo", data: "IN_CODI" },
-                { title: "Descripcion", data: "IN_ARTI" },
-                { title: "Unidad", data: "IN_UVTA" },
-                { title: "Plantilla", data: "cantidad" },
-                { title: "Stock", data: "stock" },
-                { title: "Cantidad", data: "cantidadUsar" },
-                { title: "Eliminar", data: "acciones" }
-                ]
-            });
-
-
-            //datafila.push(data);
-        });
-        //console.log(datafila);
-        //console.log(res1);
-        //console.log(res1.data);
-        /*
-        res = JSON.parse(res1);
-        console.log(res);
-        tablaInsumosOT.destroy();
-        console.log("esta vacio");
-        tablaInsumosOT = $('#myTableInsumoOT').DataTable({
-            paging: false,
-            searching: true,
-            info: false,
-            data: res,
-            columns: [
-            { title: "Codigo", data: "IN_CODI" },
-            { title: "Descripcion", data: "IN_ARTI" },
-            { title: "Unidad", data: "IN_UVTA" },
-            { title: "Cantidad", data: "cantidad" },
-            { title: "Eliminar", data: "acciones" }
-            ]
-        });  
-        */ 
-  });
-
-
-  $("#checkCodigo").change(function() {
-        if (this.checked) {
-            alert('Seleccionado');
-            urlC = base_url +'Otrabajo/buscarCodigoAlquilerVenta';
-        }else{
-            alert('NO ESTA Seleccionado');
-            urlC = base_url +'Otrabajo/buscarCodigoDisponible';
-        }
-        $('#codigoEquipo').select2({
-            //primero validar si se selecciono el checkbox checkCodigo
-            placeholder: 'Buscar Codigo Equipo',
-            minimumInputLength: 5,
-            delay: 250,
-            ajax: {
-                url: urlC,
-                dataType: 'json',
-                //delay: 250, 
-                data: function (params) {  
-                    console.log(params);        
-                    return {
-                        q: params.term
-                    };
-                },
-                processResults: function (data) {
-                    return {
-                        results: data
-                    };
-                },
-                cache: true
-            }    
-        });  
-
-    });
-
-    $('#codigoEquipo').on('change', function (e) {
-        // obtenemos el valor y consultamos a la API
-        variable = $('#codigoEquipo').select2('data');
-        codBuscar= variable[0].text;
-        console.log(codBuscar);
-        let response = $.get(base_url + "Otrabajo/buscarCodigo/" + codBuscar, (data, status) => {
-            data1 = JSON.parse(data);
-            console.log(data1[0]);
-            //aqui asignamos y autocompletamos los campos 
-            descripcionEquipoI ="S/N" ;
-            maquinaI = "SIN MÁQUINA";
-            if(data1[0].codigo.length!=0){
-                maquinaI = data1[0].codigo[0].id_equipo_asignado;
-            }
-            if(data1[0].des.length!=0){
-                descripcionEquipoI = data1[0].des[0].IN_ARTI;
-            }
-            document.getElementById("descripcionEquipo").value = descripcionEquipoI;
-            document.getElementById("maquina").value = maquinaI;
-            
-        });
-        //let userData = await response.json();
-
-      });
-
-
-
-
 document.addEventListener("DOMContentLoaded", function(){
     // hacemos un select a los datos que vienen del controlador 
     $('#tecnicoEncargado').select2();
@@ -326,17 +51,37 @@ document.addEventListener("DOMContentLoaded", function(){
         }    
     });  
 
-
-
-    tablaInsumosOT = $('#myTableInsumo').DataTable(
+    tablaInsumosOT = $('#myTableInsumoOT1').DataTable(
+        {
+            paging: false,
+            searching: false,
+            info: false,
+            data: [],
+            columns: [
+            { title: "#", data: "id" },
+            { title: "RUC", data: "Ruc" },
+            { title: "Proveedor", data: "Proveedor" },
+            { title: "Trabajo Realizar", data: "Trabajo" },
+            { title: "Técnico Encargado", data: "Tecnico" },
+            { title: "Tipo Dcto", data: "Documento" },
+            { title: "Monto Unit", data: "Monto" },
+            { title: "Cant", data: "Cantidad" },
+            { title: "Subtotal", data: "Subtotal" },
+            { title: "Acciones", data: "acciones" }
+            ],
+            language   
+        });
+    
+    tablaDetalleTrabajo = $('#myTableDetalleTrabajo').DataTable(
         {
             retrieve: true,
             paging: false,
             paging: false,
             searching: false,
             info: false,
-            
+            language    
         });
+
     $("#insumosOT").select2({
         //language:"es",
         closeOnSelect: false,
@@ -461,55 +206,210 @@ document.addEventListener("DOMContentLoaded", function(){
         }    
     });
 
-    const language = {
-        "decimal": "",
-        "emptyTable": "No hay información",
-        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
-        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-        "infoPostFix": "",
-        "thousands": ",",
-        "lengthMenu": "Mostrar _MENU_ Entradas",
-        "loadingRecords": "Cargando...",
-        "processing": "Procesando...",
-        "search": "Buscar:",
-        "zeroRecords": "Sin resultados encontrados",
-        "paginate": {
-            "first": "Primero",
-            "last": "Ultimo",
-            "next": "Siguiente",
-            "previous": "Anterior"
+})
+
+function agregarInsumosOT(){
+    //var tablaInsumos = $('#myTableInsumo').DataTable({retrieve: true,paging: false});
+    variable = $('#insumosOT').select2('data');
+    ConceptoTrabajo = $('#ConceptoTrabajo').select2('data');
+    console.log(variable);
+    console.log(ConceptoTrabajo);
+    if(variable.length!=0){
+        var http = new XMLHttpRequest();
+        var url = base_url + "Otrabajo/agregarInsumoOT";
+        //http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        http.open("POST", url, true);
+        http.send(JSON.stringify({data:variable}));
+        http.onreadystatechange = function() {
+            if(http.readyState == 4 && http.status == 200) { 
+                if(ConceptoTrabajo.length!=0){
+                    //aqui ya se selecciono al menos otro
+                    console.log("vamos a iniciar");
+                    //limpiar select 2
+                    $('#insumosOT').val(null).trigger('change');
+                    //console.log(JSON.parse(http.responseText));
+                    resul = JSON.parse(http.responseText);
+                    console.log(resul);
+                    //contra las filas 
+                    contInsumos = tablaInsumosOT.rows().count();
+                    console.log(contInsumos);
+                    for(let i=0;i<resul.length;i++){
+                        tablaInsumosOT.row.add(
+                            {
+                                id : contInsumos+i+1,
+                                IN_CODI: resul[i].IN_CODI,
+                                IN_ARTI: resul[i].IN_ARTI,
+                                IN_UVTA: resul[i].IN_UVTA,
+                                cantidad: resul[i].cantidad,
+                                stock: resul[i].stock,
+                                cantidadUsar: resul[i].cantidadUsar,
+                                acciones: resul[i].acciones, 
+                            }     
+                        ).draw(false);
+                    } 
+                }
+                else{
+                    Swal.fire({
+                        title: 'No se ha seleccionado ningun Concepto de Trabajo',
+                        text: "Si no tiene uno definido use OTROS",
+                        icon: 'warning',
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Entendido',
+                        //cancelButtonText: false
+                    })
+                }
+            }
         }
+    }else{
+        Swal.fire({
+            title: 'No se ha seleccionado ningun Insumo',
+            text: "Los insumos  deben ser seleccionado",
+            icon: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Entendido',
+            //cancelButtonText: false
+        })
 
     }
-    const  buttons = [{
-                //Botón para Excel
-                extend: 'excel',
-                footer: true,
-                title: 'Archivo',
-                filename: 'Export_File',
+}
 
-                //Aquí es donde generas el botón personalizado
-                text: '<button class="btn btn-success"><i class="fa fa-file-excel-o"></i></button>'
-            },
-            //Botón para PDF
-            {
-                extend: 'pdf',
-                footer: true,
-                title: 'Archivo PDF',
-                filename: 'reporte',
-                text: '<button class="btn btn-danger"><i class="fa fa-file-pdf-o"></i></button>'
-            },
-            //Botón para print
-            {
-                extend: 'print',
-                footer: true,
-                title: 'Reportes',
-                filename: 'Export_File_print',
-                text: '<button class="btn btn-info"><i class="fa fa-print"></i></button>'
+function btnEliminarInsumo(cod){
+    //console.log(cod);   
+    Swal.fire({
+        title: 'Esta seguro de Eliminar Insumo ?',
+        text: "Insumo a Eliminar :"+cod,
+        icon: 'error',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Eliminar',
+        cancelButtonText: 'No'
+    }).then((result) => {
+        if (result.isConfirmed) {          
+             trama = tablaInsumosOT.row( 
+                 (idx, data) => data.IN_CODI===cod
+              ).remove().draw();
+              console.log(trama)
+        }
+    })
+}
+function alertas(msg, icono) {
+    Swal.fire({
+        position: 'top-end',
+        icon: icono,
+        title: msg,
+        showConfirmButton: false,
+        timer: 3000
+    })
+}
+
+async function fila(id){
+    id1=id-1000;
+    datafila =[];
+    let response = $.get(base_url + "ConceptosOT/nuevaSeleccion/" + id1, (data, status) => {    
+    });
+    return response;
+}
+
+$('#Proveedor').on('change', function (e) {
+    variable = $('#Proveedor').select2('data');
+    document.getElementById("ruc").value = variable[0].id;
+    console.log(variable);
+  });
+//cada vez que se cambia de opcion se pide los datos relacionados de ese concepto
+$('#ConceptoTrabajo').on('change', function (e) {
+        variable = $('#ConceptoTrabajo').select2('data');
+        console.log(variable);
+        tablaInsumosOT.destroy();
+        id2 = variable[0].id;
+        id1=id2-1000;
+        let res1 = $.get(base_url + "Otrabajo/InsumosConsumir/" + id1, (data, status) => {  
+            //console.log(data);  
+            res = JSON.parse(data);
+            console.log(res);
+            if(res==null){
+                res =[];
+                console.log("esta en null");
             }
-        ]
-})
+            tablaInsumosOT = $('#myTableInsumoOT1').DataTable({              
+                paging: false,
+                searching: true,
+                info: false,
+                data: res,
+                columns: [
+                { title: "#", data: "id" },
+                { title: "Codigo", data: "IN_CODI" },
+                { title: "Descripcion", data: "IN_ARTI" },
+                { title: "Unidad", data: "IN_UVTA" },
+                { title: "Plantilla", data: "cantidad" },
+                { title: "Stock", data: "stock" },
+                { title: "Cantidad", data: "cantidadUsar" },
+                { title: "Eliminar", data: "acciones" }
+                ],
+                language
+            });
+        });
+  });
+$("#checkCodigo").change(function() {
+    if (this.checked) {
+        alert('Seleccionado');
+        urlC = base_url +'Otrabajo/buscarCodigoAlquilerVenta';
+    }else{
+        alert('NO ESTA Seleccionado');
+        urlC = base_url +'Otrabajo/buscarCodigoDisponible';
+    }
+    $('#codigoEquipo').select2({
+        //primero validar si se selecciono el checkbox checkCodigo
+        placeholder: 'Buscar Codigo Equipo',
+        minimumInputLength: 5,
+        delay: 250,
+        ajax: {
+            url: urlC,
+            dataType: 'json',
+            //delay: 250, 
+            data: function (params) {  
+                console.log(params);        
+                return {
+                    q: params.term
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: data
+                };
+            },
+            cache: true
+        }    
+    });  
+});
+
+$('#codigoEquipo').on('change', function (e) {
+    // obtenemos el valor y consultamos a la API
+    variable = $('#codigoEquipo').select2('data');
+    
+    codBuscar= variable[0].text;
+    console.log(codBuscar);
+    let response = $.get(base_url + "Otrabajo/buscarCodigo/" + codBuscar, (data, status) => {
+        data1 = JSON.parse(data);
+        console.log(data1[0]);
+        //aqui asignamos y autocompletamos los campos 
+        descripcionEquipoI ="S/N" ;
+        maquinaI = "SIN MÁQUINA";
+        if(data1[0].codigo.length!=0){
+            maquinaI = data1[0].codigo[0].id_equipo_asignado;
+        }
+        if(data1[0].des.length!=0){
+            descripcionEquipoI = data1[0].des[0].IN_ARTI;
+        }
+        document.getElementById("descripcionEquipo").value = descripcionEquipoI;
+        document.getElementById("maquina").value = maquinaI;
+        
+    });
+    });
 
 $(document).ready(function() {    
     $('#añadir').click(function() {
@@ -654,9 +554,6 @@ $(document).ready(function() {
         var nodo1 = nodo.outerHTML;
         //sector1 = toString(document.getElementById('cargarDetalle').innerHTML);
         //sector1 = document.getElementById('cargarDetalle');
-
-
-
         var data1 = {
             nroOrdenInput: $('#nrOrdenInput').val(),
             rucInput: $('#rucInput').val(),
@@ -728,6 +625,92 @@ document.getElementById('checkOrdenTrabajo').addEventListener('change', function
         document.getElementById('nroTicket').value = "";
     }
 });
+
+
+//esto hace las veces de agregar detalle de trabajo , se puede definir un datatable 
+//al inicio con una estructura definida .
+function agregarDetalleTrabajo1(){
+    //al lado valores en vacio
+    var proveedor_ot = $('#Proveedor').val();  //null
+    var ruc_ot = $('#ruc').val();  //vacio ""
+    var concepto_trabajo = $('#ConceptoTrabajo').val(); //null
+    var detalle_trabajo = $('#detalleTrabajo').val(); //vacio ""
+    var tipo_documento = $('#txtTipoDocumento').val(); //"SELECCIONE"
+    var tecnico_encargado = $('#tecnicoEncargado').val(); //"SELECCIONE"
+    var subTotal_trabajo = $('#precio').val(); // NO APLICA
+    var cantidad_trabajo = $('#cantidad').val(); //NO APLICA
+    var moneda = $('#txtMoneda').val(); //"SELECCIONE"
+    console.log(proveedor_ot);
+    console.log(ruc_ot);
+    console.log(concepto_trabajo);
+    console.log(detalle_trabajo);
+    console.log(tipo_documento);
+    console.log(tecnico_encargado);
+    console.log(subTotal_trabajo);
+    console.log(cantidad_trabajo);
+    console.log(moneda);
+    if(moneda=="SELECCIONE" || tecnico_encargado== "SELECCIONE" || tipo_documento== "SELECCIONE" ){
+        console.log("aqui falta moneda, tecnico o documento");
+    }else{
+        if(proveedor_ot==null){
+            console.log("no ha seleccionado al proveedor");          
+        }else{
+            if(concepto_trabajo==null ||detalle_trabajo==""){
+                console.log("verifica que hayas ingresado el concepto o el detalle de trabajo");          
+            }else{
+                variable = $('#Proveedor').select2('data');
+                console.log(variable);
+                console.log(variable[0].text);
+                proveedor_ot =variable[0].text; 
+                variable1 = $('#ConceptoTrabajo').select2('data');
+                console.log(variable1);
+                console.log(variable1[0].text);
+                concepto_trabajo =variable1[0].text;
+                console.log("procedemos a agregar");
+                //vamos a contra las filas pa decidir 
+                //tablaDetalleTrabajo
+                contDetrabajo = tablaDetalleTrabajo.rows().count();
+                console.log(contDetrabajo);
+                //if()
+
+            }
+        }
+    }
+    
+
+
+
+
+
+    var newRow = $('<tr/>').append(
+        $('<td/>').append(
+            $('<input/>').addClass('form-control').val(proveedor_trabajo).attr('readonly', true),
+        ),
+        $('<td/>').append(
+            $('<input/>').addClass('form-control').val(concepto_trabajo).attr('readonly', true),
+        ),
+        $('<td/>').append(
+            $('<input/>').addClass('form-control').val(tecnico_trabajo),
+        ),
+        $('<td/>').append(
+            $('<input/>').addClass('form-control').val(subTotal_trabajo),
+        ),
+        $('<td/>').append(
+            $('<input/>').addClass('form-control').val(cantidad_trabajo),
+        ),
+        $('<td/>').append(
+            $('<input/>').addClass('form-control').val(importe),
+        ),
+        $('<td/>').append(
+            $('<button/>').addClass('btn btn-danger').text('Eliminar').click(function() {
+            $(this).parent().parent().remove();
+            })
+    ));
+    $('#myTableTrabajo tbody').append(newRow);
+}
+
+
+
 
 function agregarDetalleTrabajo(){
 

@@ -68,8 +68,7 @@ document.addEventListener("DOMContentLoaded", function(){
             cache: true
         }
     });
-
-    
+   
     const language = {
         "decimal": "",
         "emptyTable": "sin registro",
@@ -157,21 +156,8 @@ document.addEventListener("DOMContentLoaded", function(){
             language
         });
         
-    //tablaInsumos =new DataTable('#myTableInsumo');
-
-
 })
-/*
-tablaInsumos = $('#myTableInsumo').DataTable(
-    {
-        retrieve: true,
-        paging: false,
-        paging: false,
-        searching: false,
-        info: false,
-        language
-    });
-*/
+
 // para borrar lo cargado de forma predefinada 
 $('.form-control-concepto').on('select2:open', function (e) { 
     $('.form-control-concepto').val(null).trigger('change');

@@ -220,6 +220,7 @@ class Otrabajo extends Controller
 
     public function InsumosConsumir($id){
         $data = $this->model->ConceptoStockValidado($id);
+        //var_dump($data);
         $resultado = json_decode($data);
         $resultado = $resultado->data->insumos;
         //aqui debemos tratar la informacion

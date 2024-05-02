@@ -293,7 +293,6 @@ include "Views/templates/navbar.php";
                     <div class="col-sm-4">
 
                     <select name="ConceptoTrabajo" id="ConceptoTrabajo" class="form-select">
-							<option value="">SELECCIONE</option>          
 						</select>
 
                     </div>
@@ -395,10 +394,26 @@ include "Views/templates/navbar.php";
                     </div>
                 </div>
 
-				<button type="button" class="btn btn-danger" onclick="agregarDetalleTrabajo()">Añadir Detalle</button>
+				<button type="button" class="btn btn-danger" onclick="agregarDetalleTrabajo1()">Añadir Detalle</button>
 
             </div>
 		</div>	
+		<div class="col-lg-12">
+			<div class="card m-3">
+				<div class="card-header text-bg-success">Detalle del Trabajo</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="box-body table-responsive no-padding">
+							<table id="myTableInsumoOT1" class="table table-striped table-bordered"></table>
+						</div><!--box-body --> 
+					</div><!--box-body --> 
+				</div>
+			</div>
+		</div>
+
+
+
+
 
         <div class="col-lg-12">
             <p id="comparador"><p>   
@@ -445,7 +460,7 @@ include "Views/templates/navbar.php";
 			<div class="card-body">
 				<div class="row">
 					<div class="box-body table-responsive no-padding">
-                        <table id="myTableInsumoOT" class="table table-striped table-bordered"></table>
+                        <table id="myTableInsumoOT1" class="table table-striped table-bordered"></table>
 					</div><!--box-body --> 
 				</div><!--box-body --> 
 			</div>
