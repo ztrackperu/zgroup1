@@ -364,93 +364,26 @@
 -->
 
 
-<div class="modal fade" id="my_modalagregar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-    <div class="modal-dialog" role="document">
+<div id="vistapreviaOT" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
-            <form id="AgregarConcepto" class="form-horizontal">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h5 class="modal-title" id="exampleModalLabel"> Agregar Nuevo Concepto Presupuesto</h5>
-                </div>
-                <div class="modal-body">
-					<div class="alert alert-primary" role="alert" id="mensaje2" style="display:none">
-						</div>
-					<div class="form-group">
-                        <label class="control-label col-xs-4">Codigo</label>
-                        <div class="col-xs-8">
-                           <input type="text" class="form-control" id="codigo" name="codigo"  placeholder="AUTOGENERADO" readonly/>
-                        </div>
-                    </div>
-					<div class="form-group">
-                        <label class="control-label col-xs-4">Descripcion</label>
-                        <div class="col-xs-8">
-                           <input type="text" class="form-control" id="descripcion" name="descripcion"  placeholder="Descripcion" required />
-                        </div>
-                    </div>  
-					<div class="form-group">
-                        <label class="control-label col-xs-4">Precio</label>
-                        <div class="col-xs-8">
-                           <input type="text" class="form-control" id="precio" name="precio"  placeholder="precio"  required />
-                        </div>
-                    </div> 
-					<div class="form-group">
-                        <label class="control-label col-xs-4">Part Number</label>
-                        <div class="col-xs-8">
-                           <input type="text" class="form-control" id="partNumber" name="partNumber"  placeholder="Part Number"  required />
-                        </div>
-                    </div>
-					<div class="form-group">
-                        <label class="control-label col-xs-4">Replace</label>
-                        <div class="col-xs-8">
-                           <input type="text" class="form-control" id="replace" name="replace"  placeholder="Replace"  required />
-                        </div>
-                    </div>
- 					<div class="form-group">
-                        <label class="control-label col-xs-4">Horas hombre</label>
-                        <div class="col-xs-8">
-                           <input type="text" class="form-control" id="hh" name="hh"  placeholder="Replace" value="0"  required />
-                        </div>
-                    </div>
-					<div class="form-group">
-                        <label class="control-label col-xs-4">Unidad de Medida</label>
-                        <div class="col-xs-8">
-							<?php //echo var_dump($data) ;?>
-							<?php $ListaUnidadMedida=json_decode($data['ListaUnidadMedida']) ;?>
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title text-white" id="title">Vista Previa OT</h5>
+                <button class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" id="frmConceptosOT">
+                    <div class="form-group">
+                    <div id="htmlextra"></div>
 
-						   <select name="medida" id="medida" class="select2 form-control">
-									<option value="SELECCIONE">SELECCIONE</option>  
-									<?php foreach($ListaUnidadMedida as $unid):	 ?>                                               
-									<option value="<?php echo $unid->TU_CODI; ?>"> <?php echo $unid->TU_DESC; ?> </option>
-									<?php  endforeach;	 ?>            
-							</select>
-                        </div>
-                    </div>
- 					<div class="form-group">
-                        <label class="control-label col-xs-4">Tipo</label>
-                        <div class="col-xs-8">
-						   <select class="select2 form-control" name="tipo" id="tipo" > 
-								<option value="SELECCIONE">SELECCIONE</option>
-								<option value="1">Repuesto</option>
-								<option value="2">Tarea a Realizar</option>						
-							</select>
-                        </div>
-                    </div>
-					<div class="form-group">
-                        <label class="control-label col-xs-4">Estado</label>
-                        <div class="col-xs-8">
-                           <select class="select2 form-control" name="tip_mm" id="tip_mm" > 
-								<option value="SELECCIONE">SELECCIONE</option>
-								<option value="1">Activo</option>
-								<option value="4">Inactivo</option>						
-							</select>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-success" >Agregar</button>
-                </div>
-            </form>
+                    <button class="btn btn-primary" type="button" onclick="registrarOTVALIDA(event);"
+                        id="btnAccion">Registrar</button>
+                    <button class="btn btn-danger" type="button" data-bs-dismiss="modal">Cancelar</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>

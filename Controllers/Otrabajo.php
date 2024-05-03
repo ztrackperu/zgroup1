@@ -304,14 +304,262 @@ class Otrabajo extends Controller
         $datosRecibidos = file_get_contents("php://input");
 
         $resultado1 = json_decode($datosRecibidos);
+        //$resultado1 = $resultado1->detalleOT;
+
+
+        $str = '<h1 class="text-center"> Nro OT - PREVIO  | Ref. Cotizacion '. $resultado1->refCotizacion.'</h1>' .'<div class="container-fluid" style="border: 1px solid #cecece;">'. '<br/><div class="mb-3 row">' .
+        '<label for="" class="col-sm-2 col-form-label">Nro de Guia/OC</label>' .
+        '<div class="col-sm-4">' .
+            $resultado1->nroGuiaOC .
+        '</div>' .
+        '<label for="" class="col-sm-2 col-form-label">Nro de Reporte</label>' .
+        '<div class="col-sm-4">' .
+            $resultado1->nroReporte .
+        '</div>' .
+        '</div>' .
+        '<div class="mb-3 row">' .
+        '<label for="" class="col-sm-2 col-form-label">Serie de Equipo</label>' .
+        '<div class="col-sm-4">' .
+            $resultado1->serieEquipo .
+        '</div>' .
+        '<label for="" class="col-sm-2 col-form-label">Nro de Ticket</label>' .
+        '<div class="col-sm-4">' .
+            $resultado1->nroTicket .
+        '</div>' .
+        '</div>' .
+        '<div class="mb-3 row">' .
+        '<label for="" class="col-sm-2 col-form-label">Solicitado por</label>' .
+        '<div class="col-sm-4">' .
+            $resultado1->SolicitadoPor .
+        '</div>' .
+        '<label for="" class="col-sm-2 col-form-label">Supervisado por</label>' .
+        '<div class="col-sm-4">' .
+            $resultado1->txtSupervisadoPor .
+        '</div>' .
+        '</div>' .
+        '<div class="mb-3 row">' .
+        '<label for="" class="col-sm-2 col-form-label">Codigo Equipo</label>' .
+        '<div class="col-sm-4">' .
+            $resultado1->codigoEquipo .
+        '</div>' .
+        '<label for="" class="col-sm-2 col-form-label">Usuario</label>' .
+        '<div class="col-sm-4">' .
+            $resultado1->usuario .
+        '</div>' .
+        '</div>' .
+        '<div class="mb-3 row">' .
+        '<label for="" class="col-sm-2 col-form-label">Lugar Trabajo</label>' .
+        '<div class="col-sm-4">' .
+            $resultado1->lugarTrabajo .
+        '</div>' .
+        '<label for="" class="col-sm-2 col-form-label">Descripcion Equipo</label>' .
+        '<div class="col-sm-4">' .
+            $resultado1->descripcionEquipo .
+        '</div>' .
+        '</div>'.
+        '</div></br>'. '<h2 class="text-center">Detalle de OT :</h2>' .'<table class="table table-bordered table-responsive m-3 p-3">' .
+        '<thead class="thead-dark">' .
+          '<tr>' .
+            '<th scope="col">N° Orden de Trabajo</th>' .
+            '<th scope="col">RUC</th>' .
+            '<th scope="col">Proveedor</th>' .
+            '<th scope="col">Trabajo Realizado</th>' .
+            '<th scope="col">Tecnico Encargado</th>' .
+            '<th scope="col">Documento</th>' .
+            '<th scope="col">Monto Unitario</th>' .
+            '<th scope="col">Cantidad </th>' .
+            '<th scope="col">IGV</th>' .
+            '<th scope="col">Subtotal</th>' .
+        
+          '</tr>' .
+        '</thead>' .
+        '<tbody>' ;
+        $detalleOT = $resultado1->detalleOT;
+        foreach($detalleOT as $det){
+            $str .=
+            '<tr>' .
+              '<td>'. '-</td>' .
+              '<td>'. $det->Ruc .'</th>' .
+              '<td>'. $det->Proveedor .'</td>' .
+              '<td>'. $det->Trabajo.'</td>' .
+              '<td>'. $det->Tecnico.'</td>' .
+              '<td>'. $det->Documento.'</td>' .
+              '<td>'. $det->Monto.'</td>' .
+              '<td>'. $det->Cantidad .'</td>' .
+              '<td>'. $det->Igv.'</td>' .
+              '<td>'. $det->Subtotal.'</td>' .
+           
+            '</tr>' ;
+
+        }
+        $str .=
+        '</tbody>' .
+      '</table>';
+      //añadir los insumos establecidos
+
+      $str.='<h2 class="text-center">Insumos/Herramientas Considerados :</h2>' .'<table class="table table-bordered  m-3 p-3 t-3">' .
+      '<thead class="thead-dark">' .
+        '<tr>' .
+          '<th scope="col">Codigo</th>' .
+          '<th scope="col">Descripcion</th>' .
+          '<th scope="col">Medida</th>' .
+          '<th scope="col">Stock</th>' .
+          '<th scope="col">Solicitada</th>' .
+        '</tr>' .
+      '</thead>' .
+      '<tbody>' ;
+      $solicitud= $resultado1->solicitud;
+    if(count($solicitud)!=0){   
+        foreach($solicitud as $det){
+            $str .=
+            '<tr>' .
+                '<td>'. $det->IN_CODI .'</th>' .
+                '<td>'. $det->IN_ARTI .'</td>' .
+                '<td>'. $det->IN_UVTA.'</td>' .
+                '<td>'. $det->stock.'</td>' .
+                '<td>'. $det->cantidadUsar.'</td>' .        
+            '</tr>' ;
+
+        }
+    }else{
+        $str .='<tr><h3 class="text-center">Sin datos asigandos</h3>' .'</tr>' ;
+    }
+      $str .=
+      '</tbody>' .
+    '</table>';
+
+
+        $res =array(
+            "data"=>$str
+        );
         //$resultado = $resultado1->data;
-        echo json_encode($resultado1, JSON_UNESCAPED_UNICODE);        
+        //echo json_encode($resultado1, JSON_UNESCAPED_UNICODE);   
+        echo json_encode($res, JSON_UNESCAPED_UNICODE);        
+     
         die();
 
     }
+    //registrarOT
+    public function registrarOT(){
+        $datosRecibidos = file_get_contents("php://input");
+        $resultado1 = json_decode($datosRecibidos);
+        $solicitud =$resultado1->solicitud;
+        //echo json_encode($resultado1, JSON_UNESCAPED_UNICODE);
+        //echo json_encode($solicitud, JSON_UNESCAPED_UNICODE);  
+        //consultar ultima OT
+        //el inicio 
+        //1001 000 001
+        //concepto_ot/UltimaOT/    ultimaOT
+        $data = $this->model->ultimaOT();
+        $resultado = json_decode($data);
+        //asi obtengo la ultima ot creada
+        $ultimaOT = $resultado[0]->c_numot;
+        if($ultimaOT<1001000001){
+            $numOT = 1001000001;
+        }else{
+            $numOT = $ultimaOT+1;
+        }
+
+        $data1 = $this->model->UltimaSolicitud();
+        $resultado1 = json_decode($data1);
+        //asi obtengo la ultima ot creada
+        $UltimaSolicitud = $resultado1[0]->solicitud_id;
+        $numSolicitud = $UltimaSolicitud+1;
+        
+        //crear objeto a agregar en solicitud
+
+        $objetoSolicitud =[
+            "c_numot" =>$numOT,
+            "numSolicitud"=>$numSolicitud,
+            "estadoS"=>1,
+            "fechaS"=>date("Y-m-d H:i:s"),
+            "solicitud"=>$solicitud,
+        ];
+        //enviar a guardar
+        $data2 = $this->model->GuardarSolicitud($objetoSolicitud);
+        
+        echo json_encode($objetoSolicitud, JSON_UNESCAPED_UNICODE);   
+        die();
+
+    }
+    //Solicitud
+    public function Solicitud($param){
+        //evaluar el parametro 
+        $numot="";
+        $data="";
+        if($param!=""){
+            $pros = explode("/",$param);
+            $numS=$pros[0];
+            $data = $this->model->BuscarSolicitud($numS);
+            $data=json_decode($data);
+            $resultado = $data->data;
+        }
+        //echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        $this->views->getView($this, "solicitud",$resultado);
     
+    }
     
    
 
 
 }
+
+/*
+
+
+{
+    "_id": {
+      "$oid": "662ab344999f7adfc92b90f4"
+    },
+    "Id": 28388,
+    "c_numot": 1000028288,
+    "c_desequipo": "CAJA ISOTERMICA 40 RH SEGUNDO USO",
+    "unidad": "ZGRU874730-8",
+    "d_fecdcto": "09/03/2024",
+    "c_codmon": 0,
+    "c_treal": "INSTALACIONES OTROS",
+    "c_asunto": "INSTALACION DE LUMINARIAS, CIRCULINA Y CORTINAS CAJA ISOTERMICA 40 RH SEGUNDO USO  ZGRU874730-8",
+    "c_supervisa": "MATUMAY GOMEZ MARIO ALBERTO BARUT",
+    "c_solicita": "MATUMAY GOMEZ MARIO ALBERTO BARUT",
+    "c_lugartab": "ALMACEN ZGROUP",
+    "c_ejecuta": "NIMA GONZA DARWIN ALEXANDER",
+    "d_fecentrega": "09/03/2024",
+    "c_usrcrea": "ACHIPANA",
+    "d_fcrea": "09/03/2024",
+    "c_estado": 1,
+    "c_refcot": {
+      "$numberLong": "10020240771"
+    },
+    "n_swtapr": 0,
+    "c_nroreporte": 28679,
+    "c_serieequipo": "S/N",
+    "add1": 0,
+    "add2": 0,
+    "h_inicio": "11:52:14",
+    "programado": 0,
+    "ejecutado": 0,
+    "nro_guia": "S/N",
+    "nro_ticket": "S/N",
+    "DetalleOt": [
+      {
+        "Id": 50172,
+        "c_numot": 1000028288,
+        "n_id": 1,
+        "c_rucprov": {
+          "$numberLong": "20521180774"
+        },
+        "c_nomprov": "ZGROUP S.A.C.",
+        "concepto": "INSTALACIONES OTROS INSTALACION DE LUMINARIAS, CIRCULINA Y CORTINAS CAJA ISOTERMICA 40 RH SEGUNDO USO  ZGRU874730-8",
+        "tdoc": "FACTURA",
+        "monto": 1,
+        "n_cant": 1,
+        "n_igvd": "0,17",
+        "n_totd": "1,18",
+        "montop": 1,
+        "c_tecnico": "NIMA GONZA DARWIN ALEXANDER"
+      }
+    ],
+    "Notas": []
+  }
+
+  */

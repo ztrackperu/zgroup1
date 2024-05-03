@@ -1,4 +1,5 @@
 let tblMovimientos;
+let jsonOTListo ="";
 const language = {
     "decimal": "",
     "emptyTable": "Sin datos asignados",
@@ -940,6 +941,11 @@ function procesarOT(){
                             window.location = base_url + "AdminPage";       
                         }, 1000);
                         */
+                        htmlextra = document.getElementById("htmlextra");
+                        //htmlextra
+                        htmlextra.innerHTML = res.data ;
+                        jsonOTListo =ObjetoGeneral;
+                        $("#vistapreviaOT").modal("show");
 
                     }
                 }
@@ -954,6 +960,41 @@ function procesarOT(){
     }
 
 
+
+}
+
+
+function registrarOTVALIDA(e){
+    e.preventDefault();
+   //consultar a la tabla 
+   if(jsonOTListo!=""){
+        const url = base_url + "Otrabajo/registrarOT";
+        const frm = document.getElementById("frmConceptosOT");
+        const http = new XMLHttpRequest();
+        http.open("POST", url, true);
+        http.send(JSON.stringify(jsonOTListo));
+        http.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                const res = JSON.parse(this.responseText);
+                console.log(res); 
+                solicitudx = res.numSolicitud
+
+                $("#vistapreviaOT").modal("hide");
+                window.location = base_url + "Otrabajo/Solicitud/"+solicitudx;       
+
+
+                /*
+                $("#nuevoConcepto").modal("hide");
+                frm.reset();
+                tblConceptosOT.ajax.reload();
+                alertas(res.msg, res.icono);
+                */
+            }
+        }
+   }
+   //dato = jsonOTListo.solicitud;
+   //enviamos el json para crear solicitud y OT
+   //console.log(dato);
 
 }
 

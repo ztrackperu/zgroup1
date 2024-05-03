@@ -205,6 +205,53 @@ class OtrabajoModel extends Query
         curl_close($ch);   
         return $res;
     }
+    public function ultimaOT()
+    {
+        //consulta externa 
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, urlapi."/concepto_ot/UltimaOT/");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    }
+    //UltimaSolicitud
+    public function UltimaSolicitud()
+    {
+        //consulta externa 
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, urlapi."/concepto_ot/UltimaSolicitud/");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    }
+    //GuardarSolicitud
+
+    public function GuardarSolicitud($data)
+    {
+        $ch = curl_init();
+        $data =json_encode($data);
+        curl_setopt($ch, CURLOPT_URL, urlapi."/concepto_ot/GuardarSolicitud/");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    }
+    //BuscarSolicitud
+    //http://161.132.206.104:8000/concepto_ot/BuscarSolicitud/1000001
+    public function BuscarSolicitud($valor)
+    {
+        $ch = curl_init();
+        $url_a =urlapi."/concepto_ot/BuscarSolicitud/".$valor;
+        curl_setopt($ch, CURLOPT_URL, $url_a);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    }
     
     
 }
