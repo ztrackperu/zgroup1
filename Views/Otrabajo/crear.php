@@ -124,7 +124,7 @@
                     </div>
 					<label for="usuario" class="col-sm-2 col-form-label">Usuario</label>
                     <div class="col-sm-2">
-						<input type="text" class="form-control" id="usuario" name="usuario" placeholder="VANESA | 46723322" value="" readonly >
+						<input type="text" class="form-control" id="usuario" name="usuario" placeholder="VANESA | 46723322" value="VANESA | 46723322" readonly >
                     </div>
                 </div>
             </div>
@@ -162,7 +162,7 @@
                 <?php $ListaPlazoM=json_decode($data['ListaPlazoM']) ;?>
                 <?php //var_dump($ListaPlazoM) ;?>
                 <div class="col-sm-4">
-                    <select name="tratoPago" id="tratoPago" class="form-select">
+                    <select name="facturaPago" id="facturaPago" class="form-select">
                             <option value="SELECCIONE">SELECCIONE</option>  
                             <?php foreach($ListaPlazoM as $unid):	 ?>                                               
                             <option value="<?php echo $unid->TP_DESC; ?>"> <?php echo $unid->TP_DESC; ?> </option>

@@ -715,7 +715,7 @@ function agregarDetalleTrabajo1(){
                 $('#tecnicoEncargado').val(null).trigger('change')
                 $('#precio').val('1'); // NO APLICA
                 $('#cantidad').val('1'); //NO APLICA
-                $('#txtMoneda').val('SELECCIONE'); //"SELECCIONE"
+                //$('#txtMoneda').val('SELECCIONE'); //"SELECCIONE"
             }
         }
     }
@@ -792,6 +792,16 @@ function procesarOT(){
         var maquina = $('#maquina').val();  //null
         var descripcionEquipo = $('#descripcionEquipo').val();  //null
         var Producto = $('#Producto').val();  //null
+        var Moneda = $('#txtMoneda').val();  //null
+        var lugarTrabajo = $('#LugarTrabajo').val();  //null
+        var fechaEntrega = $('#txtFechaEntrega').val();  //null
+        var refCotizacion = $('#refCotizacion').val();  //null
+        var Observacion = $('#txtObservacion').val();  //null 
+        var tratoPago = $('#tratoPago').val(); //
+        var facturaPago = $('#facturaPago').val(); 
+        var usuario = $('#usuario').val(); 
+
+
         console.log(refCotizacion);
         console.log(nroGuiaOC);
         console.log(nroReporte);
@@ -803,9 +813,18 @@ function procesarOT(){
         console.log(maquina);
         console.log(descripcionEquipo);
         console.log(Producto);
-        //if(refCotizacion==""||nroGuiaOC==""||Producto==""||nroReporte==""||serieEquipo==""||nroTicket==""||SolicitadoPor=="SELECCIONE"||txtSupervisadoPor=="SELECCIONE"||codigoEquipo==""||maquina==""||descripcionEquipo==""){
-            //console.log("todos ,los campos (*) son obligatorios");
-        //}else{
+
+        console.log(Moneda);
+        console.log(lugarTrabajo);
+        console.log(fechaEntrega);
+        console.log(Observacion);
+        console.log(tratoPago);
+        console.log(facturaPago);
+        console.log(usuario);
+
+        if(refCotizacion==""||nroGuiaOC==""||Producto==""||nroReporte==""||serieEquipo==""||nroTicket==""||SolicitadoPor=="SELECCIONE"||txtSupervisadoPor=="SELECCIONE"||codigoEquipo==""||maquina==""||descripcionEquipo==""){
+            console.log("todos ,los campos (*) son obligatorios");
+        }else{
             console.log("proceder con la visualizacion");
             //aqui preguntarle si los insumos son 0 , la ot no va tener insumos
             if(contTrabajo==0){
@@ -870,16 +889,65 @@ function procesarOT(){
                             Ruc: datosya1[i].Ruc,
                             Subtotal: datosya1[i].Subtotal,
                             Tecnico: datosya1[i].Tecnico,
-                            Trabajo: datosya1[i].Trabajo
+                            Trabajo: datosya1[i].Trabajo,
+                            Monto: datosya1[i].Monto
                         };
                          //AÑADO CADA UNO DE ESOS OBJETOS A UNA LISTA cuya cantidad sea diferenete de 0
                         nuevojson1.push(objetivo1) ;                    
                     }
                     console.log(nuevojson1);
                 }
+                var ObjetoGeneral = {
+                    nroGuiaOC:nroGuiaOC,
+                    nroTicket:nroTicket,
+                    nroReporte:nroReporte,
+                    serieEquipo:serieEquipo,
+                    descripcionEquipo:descripcionEquipo,
+                    codigoEquipo:codigoEquipo,
+                    Moneda:Moneda,
+                    txtSupervisadoPor:txtSupervisadoPor,
+                    SolicitadoPor:SolicitadoPor,
+                    lugarTrabajo:lugarTrabajo,
+                    fechaEntrega:fechaEntrega,
+                    usuario:usuario,
+                    refCotizacion:refCotizacion,
+                    Observacion:Observacion,
+                    tratoPago:tratoPago,
+                    facturaPago:facturaPago,
+                    detalleOT : nuevojson1,
+                    solicitud : nuevojson
+                }
+
+                console.log(ObjetoGeneral);  
+                //ya tenemos el json 
+                //lo pasamos al php 
+
+                //este enviar a actualizar en la base de datos
+                var http = new XMLHttpRequest();
+                var url = base_url + "Otrabajo/preVistaOT";
+                //http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                http.open("POST", url, true);
+                http.send(JSON.stringify(ObjetoGeneral));
+                http.onreadystatechange = function() {
+                    if(http.readyState == 4 && http.status == 200) { 
+
+                        
+                        const res = JSON.parse(this.responseText);
+                        console.log(res);
+                        /*
+                        alertas(res.msg, res.icono);
+                        setTimeout(function(){
+                            window.location = base_url + "AdminPage";       
+                        }, 1000);
+                        */
+
+                    }
+                }
                 
+                
+
             }
-        //}
+        }
 
 
         //refCotizacion

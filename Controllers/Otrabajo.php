@@ -298,6 +298,17 @@ class Otrabajo extends Controller
         echo json_encode($resultado3, JSON_UNESCAPED_UNICODE);        
         die();
     }
+    //preVistaOT
+    public function preVistaOT(){
+
+        $datosRecibidos = file_get_contents("php://input");
+
+        $resultado1 = json_decode($datosRecibidos);
+        //$resultado = $resultado1->data;
+        echo json_encode($resultado1, JSON_UNESCAPED_UNICODE);        
+        die();
+
+    }
     
     
    
