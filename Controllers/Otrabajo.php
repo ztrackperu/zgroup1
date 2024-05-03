@@ -111,7 +111,7 @@ class Otrabajo extends Controller
     }
     
     public function consultarOT($param)
-    {
+    {   
         //evaluar el parametro 
         $numot="";
         $data="";
@@ -216,6 +216,13 @@ class Otrabajo extends Controller
             echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
             die();
         }
+    }
+
+    public function testJSON()
+    {
+        $data = $this->model->testJSON();
+        echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        die();
     }
     
     

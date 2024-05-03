@@ -332,7 +332,79 @@ document.addEventListener("DOMContentLoaded", function(){
         ]
 })
 
-$(document).ready(function() {    
+$(document).ready(function() {  
+    $.ajax({
+        url: base_url+ '/Otrabajo/testJSON', 
+        type: 'GET',
+        dataType: 'json',
+        success: function(response1) {
+            //const response = JSON.parse(response1);
+
+            console.log(response1);
+            $('#nrOrdenInput').val(response1.c_numot);
+            $('#trabajoInput').val(response1.c_asunto);
+            response1.DetalleOt.forEach(function(detalle) {
+                //$('#rucInput').val(detalle.c_rucprov);
+                $('#rucInput').val(detalle.c_rucprov.numberLong);
+                $('#proveedorInput').val(detalle.c_nomprov);
+                $('#tecnicoInput').val(detalle.c_tecnico);
+                $('#tipoDscInput').val(detalle.tdoc);
+                $('#montoUnitarioInput').val(detalle.monto);
+                $('#cantDctoInput').val(detalle.n_cant);
+                $('#igvDscInput').val(detalle.n_igvd);
+                $('#totalDctoInput').val(detalle.n_totd);
+                $('#montoUntPactadoInput').val(detalle.montop);
+                var newRow = $('<tr/>').append(
+                    $('<td/>').text(response1.c_numot),
+                    $('<td/>').text(detalle.c_rucprov),
+                    $('<td/>').text(detalle.c_nomprov),
+                    $('<td/>').text(response1.c_asunto),
+                    $('<td/>').text(detalle.c_tecnico),
+                    $('<td/>').text(detalle.tdoc),
+                    $('<td/>').text(detalle.monto),
+                    $('<td/>').text(detalle.n_cant),
+                    $('<td/>').text(detalle.n_igvd),
+                    $('<td/>').text(detalle.n_totd),
+                    $('<td/>').text(detalle.montop),
+                    $('<td/>').append(
+                        $('<button/>').addClass('btn btn-danger').text('Eliminar').click(function() {
+                        $(this).parent().parent().remove();
+                    }))
+                );
+                $('#cargarDetalle tbody').append(newRow);
+              
+            });
+            response1.Notas.forEach(function(nota) {
+                nota.DetalleNota.forEach(function(detalleNota){
+                        //var monedaText = moneda.c_codmon === "1" ? "dolares" : "soles";
+                        //var calculoPTIGV = ((detaoc.n_preprd*detalleNota.NT_CANT*0.18)+ (detaoc.n_preprd*detalleNota.NT_CANT)).toFixed(2);
+                        //var calculoPU = detaoc.n_preprd;
+                        //var calculoPT = ((detaoc.n_preprd*detalleNota.NT_CANT)).toFixed(2);
+                        var newRow2 = $('<tr/>').append(
+                             $('<td/>').text(nota.NT_NDOC),
+                             $('<td/>').text(detalleNota.NT_CART),
+                             $('<td/>').text(''),
+                            $('<td/>').text(''),
+                             $('<td/>').text(detalleNota.NT_CANT),
+                             $('<td/>').text(detalleNota.NT_CUND),
+                             $('<td/>').text(''),
+                            $('<td/>').text(''),
+                             $('<td/>').text(''),
+                             $('<td/>').text(nota.NT_RESPO),
+                             $('<td/>').text(nota.NT_FDOC),
+                             $('<td/>').text(nota.c_motivo)
+                         );
+                         $('#añadirDetalleInsumo tbody').append(newRow2);
+                 });
+             });
+        },
+        error: function(jqXHR,textStatus, errorThrown) {
+            console.error(jqXHR,textStatus, errorThrown);
+        }
+        
+    });
+
+
     $('#añadir').click(function() {
         var nroOrden = $('#nrOrdenInput').val(); 
         var ruc = $('#rucInput').val(); 
@@ -407,7 +479,8 @@ $(document).ready(function() {
                     $('#nrOrdenInput').val(response.c_numot);
                     $('#trabajoInput').val(response.c_asunto);
                     response.DetalleOt.forEach(function(detalle) {
-                        $('#rucInput').val(detalle.c_rucprov);
+                        //$('#rucInput').val(detalle.c_rucprov);
+                        $('#rucInput').val(detalle.c_rucprov.$numberLong);
                         $('#proveedorInput').val(detalle.c_nomprov);
                         $('#tecnicoInput').val(detalle.c_tecnico);
                         $('#tipoDscInput').val(detalle.tdoc);
@@ -436,31 +509,27 @@ $(document).ready(function() {
                         $('#cargarDetalle tbody').append(newRow);
                       
                     });
-                    response.NotaSalida.forEach(function(nota) {
-                        nota.NotaSalidaDetalle.forEach(function(detalleNota){
-                             detalleNota.detaoc.forEach(function(detaoc){
-                                detaoc.moneda.forEach(function(moneda){
-                                var monedaText = moneda.c_codmon === "1" ? "dolares" : "soles";
-                                var calculoPTIGV = ((detaoc.n_preprd*detalleNota.NT_CANT*0.18)+ (detaoc.n_preprd*detalleNota.NT_CANT)).toFixed(2);
-                                var calculoPU = detaoc.n_preprd;
-                                var calculoPT = ((detaoc.n_preprd*detalleNota.NT_CANT)).toFixed(2);
+                    response.Notas.forEach(function(nota) {
+                        nota.DetalleNota.forEach(function(detalleNota){
+                                //var monedaText = moneda.c_codmon === "1" ? "dolares" : "soles";
+                                //var calculoPTIGV = ((detaoc.n_preprd*detalleNota.NT_CANT*0.18)+ (detaoc.n_preprd*detalleNota.NT_CANT)).toFixed(2);
+                                //var calculoPU = detaoc.n_preprd;
+                                //var calculoPT = ((detaoc.n_preprd*detalleNota.NT_CANT)).toFixed(2);
                                 var newRow2 = $('<tr/>').append(
                                      $('<td/>').text(nota.NT_NDOC),
                                      $('<td/>').text(detalleNota.NT_CART),
-                                     $('<td/>').text(detaoc.c_desprd),
-                                     $('<td/>').text(monedaText),
+                                     //$('<td/>').text(detaoc.c_desprd),
+                                    //$('<td/>').text(monedaText),
                                      $('<td/>').text(detalleNota.NT_CANT),
                                      $('<td/>').text(detalleNota.NT_CUND),
-                                     $('<td/>').text(calculoPU),
-                                     $('<td/>').text(calculoPT),
-                                     $('<td/>').text(calculoPTIGV),
+                                    // $('<td/>').text(calculoPU),
+                                    //$('<td/>').text(calculoPT),
+                                    // $('<td/>').text(calculoPTIGV),
                                      $('<td/>').text(nota.NT_RESPO),
                                      $('<td/>').text(nota.NT_FDOC),
                                      $('<td/>').text(nota.c_motivo)
                                  );
                                  $('#añadirDetalleInsumo tbody').append(newRow2);
-                                });
-                             });
                          });
                      });
                 },
