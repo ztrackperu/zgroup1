@@ -71,4 +71,62 @@ class AdminPageModel extends Query{
         return $res;
     }
 
+    public function notificacionesOT(){
+        
+        $arrayNotificaciones = array(
+        array(  
+            'ot' => 1000128181,
+            'trabajo' => "REEFER 20V LUMINARIA",
+            'idSolicitud' => 10012,
+            'user' =>  "Almacen",
+            'estado' => 0,
+            'hora' => '2024-05-03 11:47:00'
+        ), 
+        array(
+            'ot' => 1000128432,
+            'trabajo' => "REEFER 40V LUMINARIA",
+            'idSolicitud' => 10013,
+            'user' =>  "Almacen2",
+            'estado' => 1,
+            'hora' => '2024-05-03 14:30:00'
+        ), 
+        array(
+            'ot' => 1000158741,
+            'trabajo' => "REEFER 60V LUMINARIA",
+            'idSolicitud' => 10014,
+            'user' =>  "Almacen3",
+            'estado' => 0,
+            'hora' => '2024-05-03 09:30:00'
+        ), 
+        array(
+            'ot' => 1000123781,
+            'trabajo' => "REEFER 80V LUMINARIA",
+            'idSolicitud' => 10015,
+            'user' =>  "Almacen4",
+            'estado' => 0,
+            'hora' => '2024-05-03 09:32:00'
+        ), 
+        array(
+            'ot' => 1000124516,
+            'trabajo' => "REEFER 100V LUMINARIA",
+            'idSolicitud' => 10016,
+            'user' =>  "Almacen5",
+            'estado' => 0,
+            'hora' => '2024-05-03 09:35:00'
+        ),
+        array(
+            'ot' => 1000151478,
+            'trabajo' => "REEFER 120V LUMINARIA",
+            'idSolicitud' => 10017,
+            'user' =>  "Almacen6",
+            'estado' => 0,
+            'hora' => '2024-05-03 14:00:00'
+        )
+
+
+        );
+
+        return $arrayNotificaciones;
+    }
+
 }

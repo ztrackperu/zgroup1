@@ -100,5 +100,12 @@ class AdminPage extends Controller
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();
     }
+    public function notificacionesOT(){
+        $data = $this->model->notificacionesOT();
+        echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+
 
 }
