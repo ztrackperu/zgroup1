@@ -803,9 +803,9 @@ function procesarOT(){
         console.log(maquina);
         console.log(descripcionEquipo);
         console.log(Producto);
-        if(refCotizacion==""||nroGuiaOC==""||Producto==""||nroReporte==""||serieEquipo==""||nroTicket==""||SolicitadoPor=="SELECCIONE"||txtSupervisadoPor=="SELECCIONE"||codigoEquipo==""||maquina==""||descripcionEquipo==""){
-            console.log("todos ,los campos (*) son obligatorios");
-        }else{
+        //if(refCotizacion==""||nroGuiaOC==""||Producto==""||nroReporte==""||serieEquipo==""||nroTicket==""||SolicitadoPor=="SELECCIONE"||txtSupervisadoPor=="SELECCIONE"||codigoEquipo==""||maquina==""||descripcionEquipo==""){
+            //console.log("todos ,los campos (*) son obligatorios");
+        //}else{
             console.log("proceder con la visualizacion");
             //aqui preguntarle si los insumos son 0 , la ot no va tener insumos
             if(contTrabajo==0){
@@ -813,9 +813,73 @@ function procesarOT(){
             }else{
                 console.log("se refleja la previazualizacion  ");
                 //mostrar el modal 
+
+
+                if(contInsumos!=0){
+                    console.log("tenemos datos proceder");
+                    datosya=[];
+                    let rows = tablaInsumosOT.rows(
+                        (idx, data) => datosya.push(data)       
+                    );
+                    console.log(datosya);
+                    //crear el array 
+                    nuevojson =[];
+                    for(let i=0;i<datosya.length;i++){              
+                        //capturamos el valor de el input ingresado
+                        iden = "insumo_"+datosya[i].IN_CODI;
+                        console.log(iden);
+                        valinput = $("#"+iden).val();
+                        console.log(valinput);
+                        //creo el objeto pestandar de la API
+                        var objetivo = {
+                            IN_CODI: datosya[i].IN_CODI ,
+                            IN_ARTI: datosya[i].IN_ARTI,
+                            IN_UVTA: datosya[i].IN_UVTA,
+                            cantidad: datosya[i].cantidad,
+                            stock: datosya[i].stock,
+                            cantidadUsar: valinput
+                        };
+                         //AÑADO CADA UNO DE ESOS OBJETOS A UNA LISTA cuya cantidad sea diferenete de 0
+                        if(valinput!=0){
+                            //luego verificamos que no se sobrepase el stock
+                            if(valinput >parseInt(datosya[i].stock)){
+                                //alertar que pedido es mayor que stock
+                                window.alert("Sobrepasa el stock en : "+datosya[i].IN_ARTI);
+                            }else{
+                                nuevojson.push(objetivo) ;
+                            }
+                        }           
+                    }
+                    console.log(nuevojson);
+                }
+                if(contTrabajo!=0){
+                    console.log("tenemos  trabajo datos proceder");
+                    datosya1=[];
+                    let rows1 = tablaDetalleTrabajo.rows(
+                        (idx, data) => datosya1.push(data)       
+                    );
+                    console.log(datosya1);
+                    //crear el array 
+                    nuevojson1 =[];
+                    for(let i=0;i<datosya1.length;i++){              
+                        var objetivo1 = {
+                            Cantidad: datosya1[i].Cantidad ,
+                            Documento: datosya1[i].Documento,
+                            Igv: datosya1[i].Igv,
+                            Proveedor: datosya1[i].Proveedor,
+                            Ruc: datosya1[i].Ruc,
+                            Subtotal: datosya1[i].Subtotal,
+                            Tecnico: datosya1[i].Tecnico,
+                            Trabajo: datosya1[i].Trabajo
+                        };
+                         //AÑADO CADA UNO DE ESOS OBJETOS A UNA LISTA cuya cantidad sea diferenete de 0
+                        nuevojson1.push(objetivo1) ;                    
+                    }
+                    console.log(nuevojson1);
+                }
                 
             }
-        }
+        //}
 
 
         //refCotizacion
