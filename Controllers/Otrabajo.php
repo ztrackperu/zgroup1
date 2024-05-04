@@ -463,7 +463,7 @@ class Otrabajo extends Controller
         $data1 = $this->model->UltimaSolicitud();
         $resultado1 = json_decode($data1);
         //asi obtengo la ultima ot creada
-        $UltimaSolicitud = $resultado1[0]->solicitud_id;
+        $UltimaSolicitud = $resultado1[0]->numSolicitud;
         $numSolicitud = $UltimaSolicitud+1;
         
         //crear objeto a agregar en solicitud
@@ -475,6 +475,11 @@ class Otrabajo extends Controller
             "fechaS"=>date("Y-m-d H:i:s"),
             "solicitud"=>$solicitud,
         ];
+        //crear objeto OT
+        $objetoOT =[
+
+        ];
+
         //enviar a guardar
         $data2 = $this->model->GuardarSolicitud($objetoSolicitud);
         
