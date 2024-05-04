@@ -1,10 +1,12 @@
 <?php include "Views/templates/navbar.php"; ?>
-<div class="app-title">
+<div class="app-title m-3">
     <div>
         <h1><i class="fa fa-dashboard"></i> Usuarios</h1>
     </div>
 </div>
+<div class="m-3 p-2">
 <button class="btn btn-primary mb-2" type="button" onclick="frmUsuario();">+<i class="fa fa-plus"></i></button>
+<div>
 <div class="row">
     <div class="col-lg-12">
         <div class="tile">
@@ -63,6 +65,15 @@
                                 <label for="confirmar">Confirmar Contraseña</label>
                                 <input id="confirmar" class="form-control" type="password" name="confirmar"
                                     placeholder="Confirmar contraseña">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="estado">Estado Control</label>
+                                <select id="estado" class="form-select" name="estado">
+                                    <option value="1">1</option>
+                                    <option value="0">2</option>
+                                </select>
                             </div>
                         </div>
                     </div>

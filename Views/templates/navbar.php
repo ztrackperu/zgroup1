@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="<?php echo base_url; ?>Assets/css/stylenav.css" />
     <link rel="stylesheet" href="<?php echo base_url; ?>Assets/css/main.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.dataTables.min.css">
+    <!--remix icon-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <title>OT</title>
 </head>
@@ -75,6 +77,12 @@
               <li><a class="dropdown-item" href="<?php echo base_url; ?>ConceptosOT/Analisis">Conceptos</a></li>
               <li><a class="dropdown-item" href="#!">Insumo</a></li>
 
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#!" id="pendientesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Almacen</a>
+            <ul class="dropdown-menu border-0 shadow bsb-zoomIn" aria-labelledby="pendientesDropdown">
+              <li><a class="dropdown-item" href="<?php echo base_url; ?>Almacen/Solicitudes">Solicitudes</a></li>
             </ul>
           </li>
           <li class="nav-item dropdown">
