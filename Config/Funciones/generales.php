@@ -37,6 +37,24 @@
         
         return $aspecto ;
     }
+    //funciones que complementan la division de texto sin explode 
+    function strrevpos($instr, $needle)
+    {
+        $rev_pos = strpos (strrev($instr), strrev($needle));
+        if ($rev_pos===false) return false;
+        else return strlen($instr) - $rev_pos - strlen($needle);
+    };
+    function after_last ($this1, $inthat)
+    {
+        if (!is_bool(strrevpos($inthat, $this1)))
+        return substr($inthat, strrevpos($inthat, $this1)+strlen($this1));
+    };
+    function before_last ($this1, $inthat)
+    {
+        return substr($inthat, 0, strrevpos($inthat, $this1));
+    };
+    //fin de funciones que dividen texto 
+
     function envio_correo($remitente,$passRemitente,$destinatario)
     { 
         $mail = new PHPMailer(true);

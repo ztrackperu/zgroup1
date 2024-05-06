@@ -977,11 +977,13 @@ function registrarOTVALIDA(e){
             if (this.readyState == 4 && this.status == 200) {
                 const res = JSON.parse(this.responseText);
                 console.log(res); 
-                solicitudx = res.numSolicitud
+                // = res.numSolicitud
 
                 $("#vistapreviaOT").modal("hide");
-                window.location = base_url + "Otrabajo/Solicitud/"+solicitudx;       
-
+                alertas("OT generada Exitosamente", "success");
+                setTimeout(function(){
+                    window.location = base_url + "Otrabajo/Procesado/"+res;       
+                }, 1000);
 
                 /*
                 $("#nuevoConcepto").modal("hide");

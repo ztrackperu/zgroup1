@@ -444,6 +444,8 @@ class Otrabajo extends Controller
         $datosRecibidos = file_get_contents("php://input");
         $resultado1 = json_decode($datosRecibidos);
         $solicitud =$resultado1->solicitud;
+        $todo = $resultado1;
+        $detalleOT = $resultado1->detalleOT;
         //echo json_encode($resultado1, JSON_UNESCAPED_UNICODE);
         //echo json_encode($solicitud, JSON_UNESCAPED_UNICODE);  
         //consultar ultima OT
@@ -475,15 +477,95 @@ class Otrabajo extends Controller
             "fechaS"=>date("Y-m-d H:i:s"),
             "solicitud"=>$solicitud,
         ];
-        //crear objeto OT
+        // aqui ya tengo el detelale de la ot capturada  en $detalleOTPlus
+        $detalleOTPlus =[];
+        $c_treal ="";
+        $c_asunto ="";
+        $c_ejecuta="";
+        foreach($detalleOT as $clave =>$valor){
+            $objetoDetOT =[
+                "c_numot"=> $numOT,
+                "n_id"=> $clave+1,
+                "c_rucprov"=> $valor->Ruc,
+                "c_nomprov"=> $valor->Proveedor,
+                "concepto"=> $valor->Trabajo,
+                "tdoc"=> $valor->Documento,
+                "ndoc"=> "",
+                "fdoc"=> "",
+                "monto"=> $valor->Monto,
+                "n_cant"=> $valor->Cantidad,
+                "n_igvd"=> $valor->Igv,
+                "n_totd"=> $valor->Subtotal,
+                "montop"=>$valor->Monto,
+                "c_tecnico"=> $valor->Tecnico  
+    
+            ];
+            if($clave==0){
+                $parTrabajo = $valor->Trabajo;
+                //$frag =explode($parTrabajo)
+                $c_treal =before_last('-',$parTrabajo);
+                $c_asunto = after_last('-',$parTrabajo);
+                $c_ejecuta = $valor->Tecnico;
+
+            }
+            array_push($detalleOTPlus,$objetoDetOT);
+        }
+        //aqui tenemos capturada todo la ot generada 
+        //geberamos la fecha y la hora de crecaion de la ot 
+        $d_fecdcto = date("Y-m-d"); 
+        $h_inicio = date("H:i:s"); 
         $objetoOT =[
-
-        ];
-
-        //enviar a guardar
-        $data2 = $this->model->GuardarSolicitud($objetoSolicitud);
+            "c_numot"=>$numOT,
+            "c_desequipo"=>$todo->descripcionEquipo,
+            "unidad"=> $todo->codigoEquipo,
+            "d_fecdcto"=> $d_fecdcto,
+            "c_codmon"=>$todo->Moneda,
+            "c_treal"=> $c_treal,
+            "c_asunto"=> $c_asunto,
+            "c_supervisa"=>$todo->txtSupervisadoPor,
+            "c_solicita"=>$todo->SolicitadoPor,
+            "c_lugartab"=>$todo->lugarTrabajo,
+            "c_ejecuta"=> $c_ejecuta,
+            "c_cliente"=> "",
+            "d_fecentrega"=> $todo->fechaEntrega,
+            "c_usrcrea"=> $todo->usuario,
+            "d_fcrea"=> date("Y-m-d H:i:s"),
+            "c_estado"=> "1",
+            "c_refcot"=> $todo->refCotizacion,
+            "c_osb"=> $todo->Observacion, 
+            "c_numeroReporte"=> $todo->nroReporte,
+            "c_serieEquipo"=> $todo->serieEquipo,
+            "c_tratopag"=> $todo->tratoPago,
+            "c_codpgf"=> $todo->facturaPago,
+            "h_inicio"=>$h_inicio,
+            "nro_guia"=> $todo->nroGuiaOC,
+            "nro_ticket"=>$todo->nroTicket,
+            "DetalleOT"=>$detalleOTPlus
         
-        echo json_encode($objetoSolicitud, JSON_UNESCAPED_UNICODE);   
+        ];
+        //enviamos a guardar la ot con solicitud
+        $data3 = $this->model->GuardarOTGENERAL($objetoOT);
+        $resultado10 = json_decode($data3);
+        $resultadoOT = $resultado10->data;
+        $data2="";
+        if($resultadoOT=="se guardo"){
+            $data2 = $this->model->GuardarSolicitud($objetoSolicitud);
+            $resultado11 = json_decode($data2);
+            $resultadoS = $resultado11->data;
+            if($resultadoS=="se guardo"){
+                /*
+                $format = array(
+                    "ot"=>$objetoOT,
+                    "solicitud"=>$objetoSolicitud
+                );
+                */
+                $data2 ="ok";
+            }
+        }
+        
+        echo json_encode($numOT, JSON_UNESCAPED_UNICODE);   
+        
+        
         die();
 
     }
@@ -502,6 +584,20 @@ class Otrabajo extends Controller
         //echo json_encode($data, JSON_UNESCAPED_UNICODE);
         $this->views->getView($this, "solicitud",$resultado);
     
+    }
+    //Procesado
+    public function Procesado($param){
+        if($param!=""){
+            $pros = explode("/",$param);
+            $numS=$pros[0];
+            //buscar OT
+            //$data = $this->model->BuscarSolicitud($numS);
+            //$data=json_decode($data);
+            //$resultado = $data->data;
+            $this->views->getView($this, "procesado",$numS);
+
+        }
+
     }
     
    
