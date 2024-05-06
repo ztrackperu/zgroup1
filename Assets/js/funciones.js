@@ -73,7 +73,8 @@ document.addEventListener("DOMContentLoaded", function(){
         columns: [
             {'data' : 'id'},
             {'data': 'usuario'},
-            {'data': 'nombre'},
+            {'data': 'email'},
+            {'data': 'userCrea'},
             {'data': 'estado'},
             {'data': 'acciones'}
         ],
@@ -89,6 +90,7 @@ document.addEventListener("DOMContentLoaded", function(){
             "<'row'<'col-sm-5'i><'col-sm-7'p>>",
         buttons
     });
+    console.log(tblUsuarios.data());
     //Fin de la tabla usuarios
     tblEst = $('#tblEst').DataTable({
         ajax: {
@@ -435,6 +437,7 @@ function registrarUser(e) {
     e.preventDefault();
     const usuario = document.getElementById("usuario");
     const nombre = document.getElementById("nombre");
+    //const estadoC = document.getElementById("estadoC");
     const clave = document.getElementById("clave");
     const confirmar = document.getElementById("confirmar");
     if (usuario.value == "" || nombre.value == "") {
@@ -469,6 +472,7 @@ function btnEditarUser(id) {
             document.getElementById("id").value = res.id;
             document.getElementById("usuario").value = res.usuario;
             document.getElementById("nombre").value = res.nombre;
+           // document.getElementById("estadoC").value = res.estadoC;
             document.getElementById("claves").classList.add("d-none");
             $("#nuevo_usuario").modal("show");
         }

@@ -17,7 +17,8 @@
                             <tr>
                                 <th>Id</th>
                                 <th>Usuario</th>
-                                <th>Nombre</th>
+                                <th>Correo</th>
+                                <th>Creador</th>
                                 <th>Estado</th>
                                 <th></th>
                             </tr>
@@ -36,7 +37,7 @@
         <div class="modal-content">
             <div class="modal-header bg-primary">
                 <h5 class="modal-title text-white" id="title">Nuevo Usuario</h5>
-                <button class="close" data-dismiss="modal" aria-label="Close">
+                <button class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -45,6 +46,7 @@
                     <div class="form-group">
                         <label for="usuario">Usuario</label>
                         <input type="hidden" id="id" name="id">
+                        <input type="hidden" id="userCrea" name="userCrea">
                         <input id="usuario" class="form-control" type="text" name="usuario" placeholder="Usuario">
                     </div>
                     <div class="form-group">
@@ -52,6 +54,20 @@
                         <input id="nombre" class="form-control" type="text" name="nombre"
                             placeholder="Nombre del usuario">
                     </div>
+                    <!--
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label for="estadoC">Estado Control</label>
+                            <select id="estadoC" class="form-select" name="estadoC">
+                                <option value="2">TODO</option>
+                                <option value="3">Despacho1</option>
+                                <option value="4">Despacho2</option>
+                                <option value="5">Despacho3</option>
+                                <option value="6">Despacho4</option>
+                            </select>
+                        </div>
+                    </div>
+                    -->
                     <div class="row" id="claves">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -67,19 +83,10 @@
                                     placeholder="Confirmar contraseña">
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="estado">Estado Control</label>
-                                <select id="estado" class="form-select" name="estado">
-                                    <option value="1">1</option>
-                                    <option value="0">2</option>
-                                </select>
-                            </div>
-                        </div>
                     </div>
                     <button class="btn btn-primary" type="button" onclick="registrarUser(event);"
                         id="btnAccion">Registrar</button>
-                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-danger" type="button" data-bs-dismiss="modal">Cancelar</button>
                 </form>
             </div>
         </div>

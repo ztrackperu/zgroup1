@@ -70,4 +70,17 @@ UPDATE usuarios SET email ="ztrack@zgroup.com.pe",pass_email="Proyectoztrack2023
 --bsfgahtiqboilexe
 --zgroupsistemas@gmail.com
 
+/*
+CREATE TABLE `usuarios` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `usuario` varchar(50) NOT NULL,
+  `nombre` varchar(200) NOT NULL,
+  `clave` varchar(100) NOT NULL,
+  `estado` int(11) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+*/
+-- *************************************************NUEVAS MODIFIACIONES DE LA BD*****************************************************************
 
+--Añadiendo campo estadoC a la tabla usuarios
+ALTER TABLE `usuarios` ADD `estadoC` int(2) NOT NULL DEFAULT 1;

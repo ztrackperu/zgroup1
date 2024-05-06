@@ -1,6 +1,6 @@
 <?php
 class UsuariosModel extends Query{
-    private $usuario, $nombre, $clave, $id, $estado;
+    private $usuario, $nombre, $clave, $id, $estado,$estadoC,$userCrea;
     public function __construct()
     {
         parent::__construct();
@@ -11,23 +11,39 @@ class UsuariosModel extends Query{
         $data = $this->select($sql);
         return $data;
     }
-    public function getUsuarios()
+    public function getUsuarios($creador)
+    {
+        $sql = "SELECT * FROM usuarios WHERE userCrea = '$creador'";
+        $data = $this->selectAll($sql);
+        return $data;
+    }
+    public function getUsuariosAll()
     {
         $sql = "SELECT * FROM usuarios";
         $data = $this->selectAll($sql);
         return $data;
     }
-    public function registrarUsuario($usuario, $nombre, $clave)
+
+    /*
+    public function getUsuariosPorCreador($creador)
+    {
+        $sql = "SELECT * FROM usuarios WHERE userCrea = '$creador'";
+        $data = $this->select($sql);
+        return $data;
+    }*/
+    
+    public function registrarUsuario($usuario, $nombre, $clave, $userCrea)
     {
         $this->usuario = $usuario;
         $this->nombre = $nombre;
         $this->clave = $clave;
+        $this->userCrea = $userCrea;
         $vericar = "SELECT * FROM usuarios WHERE usuario = '$this->usuario'";
         $existe = $this->select($vericar);
         if (empty($existe)) {
             # code...
-            $sql = "INSERT INTO usuarios(usuario, nombre, clave) VALUES (?,?,?)";
-            $datos = array($this->usuario, $this->nombre, $this->clave);
+            $sql = "INSERT INTO usuarios(usuario, nombre, clave, userCrea) VALUES (?,?,?,?)";
+            $datos = array($this->usuario, $this->nombre, $this->clave, $this->userCrea);
             $data = $this->save($sql, $datos);
             if ($data == 1) {
                 $res = "ok";
@@ -44,8 +60,9 @@ class UsuariosModel extends Query{
         $this->usuario = $usuario;
         $this->nombre = $nombre;
         $this->id = $id;
+        //$this->estadoC = $estadoC;
         $sql = "UPDATE usuarios SET usuario = ?, nombre = ? WHERE id = ?";
-        $datos = array($this->usuario, $this->nombre, $this->id);
+        $datos = array($this->usuario, $this->nombre,$this->id);
         $data = $this->save($sql, $datos);
         if ($data == 1) {
             $res = "modificado";

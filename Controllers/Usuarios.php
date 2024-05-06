@@ -25,7 +25,21 @@ class Usuarios extends Controller{
         if (empty($_SESSION['activo'])) {
             header("location: " . base_url);
         }
-        $data = $this->model->getUsuarios();
+
+        /*
+          if($_SESSION['id_usuario'] == 1){
+            $data = $this->model->getUsuariosAll();
+        }else if($_SESSION['id_usuario'] != 1){
+            $data = $this->model->getUsuarios($_SESSION['id_usuario']);
+        }
+        }*/
+        if($_SESSION['usuario'] != "admin"){
+            $data = $this->model->getUsuarios($_SESSION['usuario']);
+        }else{
+            $data = $this->model->getUsuariosAll();
+        }
+       //$data = $this->model->getUsuarios($_SESSION['id_usuario']);
+    
         for ($i=0; $i < count($data); $i++) {  
             if ($data[$i]['estado'] == 1) {
                 if ($data[$i]['id'] != 1) {
@@ -48,6 +62,7 @@ class Usuarios extends Controller{
                 <div/>';
             }
         }
+        
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
         die();
     }
@@ -65,6 +80,7 @@ class Usuarios extends Controller{
                 $_SESSION['id_usuario'] = $data['id'];
                 $_SESSION['usuario'] = $data['usuario'];
                 $_SESSION['nombre'] = $data['nombre'];
+               // $_SESSION['estadoC'] = $data['estadoC'];
                 $_SESSION['activo'] = true;
                 $msg = array('msg' => 'Bienvenido a ZGROUP!', 'icono' => 'success');
             }else{
@@ -81,6 +97,8 @@ class Usuarios extends Controller{
         $clave = strClean($_POST['clave']);
         $confirmar = strClean($_POST['confirmar']);
         $id = strClean($_POST['id']);
+        $userCrea = $_SESSION['usuario']; // Obtener el id del usuario logueado
+       // $estadoC = strClean($_POST['estadoC']); // Obtener el estado de control del usuario logueado
         $hash = hash("SHA256", $clave);
         if (empty($usuario) || empty($nombre)) {
             $msg = array('msg' => 'Todo los campos son requeridos', 'icono' => 'warning');
@@ -90,7 +108,7 @@ class Usuarios extends Controller{
                     if ($clave != $confirmar) {
                         $msg = array('msg' => 'La contraseña es requerido', 'icono' => 'warning');
                     } else {
-                        $data = $this->model->registrarUsuario($usuario, $nombre, $hash);
+                        $data = $this->model->registrarUsuario($usuario, $nombre, $hash, $userCrea);
                         if ($data == "ok") {
                             $msg = array('msg' => 'Usuario registrado', 'icono' => 'success');
                         } else if ($data == "existe") {
