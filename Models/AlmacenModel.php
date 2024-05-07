@@ -18,7 +18,16 @@ class AlmacenModel extends Query
     }
     public function listarTareas()
     {
-        $arrayNotificaciones = array(
+        //conexion a la API
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, urlapi."/concepto_ot/ListarSolicitudesPendientes/");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+
+
+       /* $arrayNotificaciones = array(
             array(  
                 'ot' => 1000128181,
                 'trabajo' => "REEFER 20V LUMINARIA",
@@ -26,7 +35,7 @@ class AlmacenModel extends Query
                 'user' =>  "Almacen",
                 'estado' => 1,
                 'asignado_a' =>null,
-                'hora' => '2024-05-03 11:47:00'
+                'hora' => '2024-05-07 16:44:00'
             ), 
             array(
                 'ot' => 1000128432,
@@ -35,7 +44,7 @@ class AlmacenModel extends Query
                 'user' =>  "Almacen2",
                 'estado' => 1,
                 'asignado_a' =>null,
-                'hora' => '2024-05-03 14:30:00'
+                'hora' => '2024-05-07 14:50:00'
             ), 
             array(
                 'ot' => 1000158741,
@@ -44,7 +53,7 @@ class AlmacenModel extends Query
                 'user' =>  "Almacen3",
                 'estado' => 1,
                 'asignado_a' =>null,
-                'hora' => '2024-05-03 09:30:00'
+                'hora' => '2024-05-07 13:40:00'
             ), 
             array(
                 'ot' => 1000123781,
@@ -53,7 +62,7 @@ class AlmacenModel extends Query
                 'user' =>  "Almacen4",
                 'estado' => 1,
                 'asignado_a' =>null,
-                'hora' => '2024-05-03 09:32:00'
+                'hora' => '2024-05-07 09:32:00'
             ), 
             array(
                 'ot' => 1000124516,
@@ -62,7 +71,7 @@ class AlmacenModel extends Query
                 'user' =>  "Almacen5",
                 'estado' => 1,
                 'asignado_a' =>null,
-                'hora' => '2024-05-03 09:35:00'
+                'hora' => '2024-05-07 09:35:00'
             ),
             array(
                 'ot' => 1000151478,
@@ -71,10 +80,10 @@ class AlmacenModel extends Query
                 'user' =>  "Almacen6",
                 'estado' => 1,
                 'asignado_a' =>null,
-                'hora' => '2024-05-03 14:00:00'
+                'hora' => '2024-05-07 14:00:00'
             )
             );
-            return $arrayNotificaciones;
+            return $arrayNotificaciones;*/
     }
   
     public function obtenerUsuarios($creador){

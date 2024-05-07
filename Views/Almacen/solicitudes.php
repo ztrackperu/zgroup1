@@ -41,11 +41,11 @@
             </div>
             <div class="modal-body">
                 <form method="post" id="frmSolicitudes">
-                    <!--
+                    
                     <div class="form-group">
                         <label for="solicitud">Solicitud</label>
-                        <input type="text" class="form-control" id="solicitud" name="solicitud">
-                    </div> -->
+                        <input type="text" class="form-control" id="solicitud" name="solicitud" value="">
+                    </div> 
                   
                     <div class="form-group">
                         <label for="usuarioD">Delegar Trabajo a:</label>

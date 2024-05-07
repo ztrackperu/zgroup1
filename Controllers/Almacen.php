@@ -23,6 +23,8 @@ class Almacen extends Controller
     }*/
 
     public function Solicitudes(){
+        $data['ListarTareas'] = $this->model->listarTareas();
+    
         if($_SESSION['id_usuario']==1){
             $data['obtenerUsuarios'] =  $this->model->allUsuarios();
         }else{
@@ -30,66 +32,76 @@ class Almacen extends Controller
         }
         $this->views->getView($this, "solicitudes",$data);
     }
-    public function listarTareas(){
+    public function dataTareas(){
         $data = $this->model->listarTareas();
+        echo json_encode($data);
+    }
+    public function listarTareas(){
+        date_default_timezone_set('America/Lima');
+        $dataJson = $this->model->listarTareas();
+        $data = json_decode($dataJson); 
+        //$data1 = json_decode($dataJson);
+        //$datas = $data1->c_numot;
         $cards = '';
         if($_SESSION['estadoC']==1){
+            //$x = "";
+            //foreach($dataJson as $dat){
+            //    $x .= $dat->c_numot;
+           // }
+
+
+
             for ($i=0; $i < count($data); $i++) {  
+                $fechaActual = date('Y-m-d H:i:s'); 
+
+                $fechaTarea = strtotime($data[3]['fechaS']);
+                $diferencia = strtotime($fechaActual) -$fechaTarea;
+                $diferenciaEnMinutos = $diferencia / 60;
+                
+                $alertClass = '';
+                if($diferenciaEnMinutos >= 0 && $diferenciaEnMinutos <= 10) {
+                    $alertClass = 'alert-success';
+                } else if($diferenciaEnMinutos > 10 && $diferenciaEnMinutos <= 30) {
+                    $alertClass = 'alert-warning';
+                } else if($diferenciaEnMinutos > 30) {
+                    $alertClass = 'alert-danger';
+                }
+    
                 $cards .= '<div class="card mb-3 activo">
-                    <div class="card-header">
+                    <div class="card-header '.$alertClass.'">
                         Tarea
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">OT: '.$data[$i]['ot'].'</h5>
-                        <p class="card-text">SOLICITUD: '.$data[$i]['idSolicitud'].'</p>
-                        <p class="card-text">TRABAJO: '.$data[$i]['trabajo'].'</p>
-                        <p class="card-text">FECHA: '.$data[$i]['hora'].'</p>
+                        <h5 class="card-title">OT: '.$data[0]['c_numot'].'</h5>
+                        <p class="card-text">SOLICITUD: '.$data[1]['numSolicitud'].'</p>
+                        <p class="card-text">TRABAJO:</p>
+                        <p class="card-text">FECHA: '.$data[3]['fechaS'].'</p>
                         <button class="btn btn-primary mb-2" type="button" onclick="atenderTarea()">ATENDER</button>
-                        <button class="btn btn-primary mb-2" type="button" onclick="asignacionTarea()">ASIGNAR</button>
+                        <button class="btn btn-primary mb-2" type="button" onclick="asignacionTarea('.$data[$i]['numSolicitud'].')">ASIGNAR</button>
                     </div>
                 </div>';
+                $datos = $data[3]['fechaS'];
             }   
-        }else{
-            // VALIDAR POR ID
-            $cards .='<h2>No tienes tareas asignadas por el momento</h2>';
-            /*
-            for ($i=0; $i < count($data); $i++) {  
-                $cards .= '<div class="card mb-3 activo">
-                    <div class="card-header">
-                        Tarea
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">OT: '.$data[$i]['ot'].'</h5>
-                        <p class="card-text">SOLICITUD: '.$data[$i]['idSolicitud'].'</p>
-                        <p class="card-text">TRABAJO: '.$data[$i]['trabajo'].'</p>
-                        <p class="card-text">FECHA: '.$data[$i]['hora'].'</p>
-                        <button class="btn btn-primary mb-2" type="button" onclick="atenderTarea()">ATENDER</button>
-                    </div>
-                </div>';
-            }   */
+            
         }
-        echo $cards;
+        echo cards;
         die();
     }
     public function asignarTarea(){
         // Recuperar el ID del usuario desde la solicitud POST
         $usuarioD = $_POST['usuarioD'];
-    
+        $idSolicitud = $_POST['idSolicitud'];
         // Obtener las tareas
         $tareas = $this->model->listarTareas();
+        //array_push($tareas, "idSolicitud", $idSolicitud, "asignado_a", $usuarioD);
 
-        // Recorrer las tareas hasta encontrar una no asignada
-        foreach ($tareas as &$tarea) {
-            if ($tarea['asignado_a'] === null) {
-                // Asignar la tarea al usuario
-                $tarea['asignado_a'] = $usuarioD;
-
-                echo 'Tarea asignada con éxito';
-                
-                return;
+        // Buscar la tarea con el idSolicitud y asignarle el usuarioD
+        for ($i = 0; $i < count($tareas); $i++) {
+            if ($tareas[$i]['idSolicitud'] == $idSolicitud) {
+                $tareas[$i]['asignado_a'] = $usuarioD;
             }
         }
-
-        echo 'No hay tareas disponibles para asignar';
-        }
+        $_SESSION['tareas'] = $tareas;
+        return $tareas;
+    }
 }
