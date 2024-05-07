@@ -9,6 +9,7 @@
 <button class="btn btn-primary mb-2" type="button" onclick="asignacionEstadoC();"><i class="ri-add-line"></i></button>
 </div>
 -->
+<!--
 <div class="m-3 p-2">
     <div class="form-check form-check-inline">
         <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
@@ -22,20 +23,9 @@
         <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
         <label class="form-check-label" for="inlineCheckbox3">FINALIZADO</label>
     </div>
-</div>
-<div class="p-3">
-    <div class="card mb-3 activo">
-        <div class="card-header">
-            Tarea
-        </div>
-        <div class="card-body">
-            <h5 class="card-title" id="ot"></h5>
-            <p class="card-text" id="solicitud"></p>
-            <p class="card-text" id="trabajo"></p>
-            <button class="btn btn-primary mb-2" type="button" onclick="atenderTarea()">ATENDER</button>
-            <button class="btn btn-primary mb-2" type="button" onclick="asignacionTarea()">ASIGNAR</button>
-        </div>
-    </div>
+</div>-->
+<div class="p-3" id="tarjeta">
+    
 </div>
 
 <!-- MODAL PARA ASIGNACION DE TAREAS-->
@@ -51,18 +41,23 @@
             </div>
             <div class="modal-body">
                 <form method="post" id="frmSolicitudes">
+                    <!--
                     <div class="form-group">
-                        <label for="solicitud">Solcitud</label>
-                        <input type="text" class="form-control" id="solicutd" name="solicitud">
-                    </div> 
+                        <label for="solicitud">Solicitud</label>
+                        <input type="text" class="form-control" id="solicitud" name="solicitud">
+                    </div> -->
+                  
                     <div class="form-group">
                         <label for="usuarioD">Delegar Trabajo a:</label>
+                        <?php $usuarios = $data['obtenerUsuarios']; ?>
                         <select id="usuarioD" class="form-select" name="usuarioD">
-                            <option value="SELECCIONAR">SELECCIONAR</option>
+                            <option value="">SELECCIONAR</option>
+                            <?php foreach ($usuarios as $usuario): ?>
+                                <option value="<?php echo $usuario['id']; ?>"><?php echo $usuario['nombre']; ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>   
-                    <button class="btn btn-primary" type="button" onclick="cambiarEstadoC(event);"
-                        id="btnAccion">Guardar</button>
+                    <button class="btn btn-primary" type="button" onclick="asignarTarea(event);" id="btnAccion">Asignar</button>
                     <button class="btn btn-danger" type="button" data-bs-dismiss="modal">Cancelar</button>
                 </form>
             </div>

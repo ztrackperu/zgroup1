@@ -39,16 +39,19 @@ class Usuarios extends Controller{
             $data = $this->model->getUsuariosAll();
         }
        //$data = $this->model->getUsuarios($_SESSION['id_usuario']);
-    
+      //$_SESSION['id_usuario']
         for ($i=0; $i < count($data); $i++) {  
             if ($data[$i]['estado'] == 1) {
                 if ($data[$i]['id'] != 1) {
                     $data[$i]['estado'] = '<span class="badge badge-success">Activo</span>';
                     $data[$i]['acciones'] = '<div>
                     <button class="btn btn-dark" onclick="btnRolesUser(' . $data[$i]['id'] . ')"><i class="fa fa-key">A</i></button>
-                    <button class="btn btn-primary" type="button" onclick="btnEditarUser(' . $data[$i]['id'] . ');">E<i class="fa fa-pencil-square-o"></i></button>
-                    <button class="btn btn-danger" type="button" onclick="btnEliminarUser(' . $data[$i]['id'] . ');">D<i class="fa fa-trash-o"></i></button>
-                    <div/>';
+                    <button class="btn btn-primary" type="button" onclick="btnEditarUser(' . $data[$i]['id'] . ');">E<i class="fa fa-pencil-square-o"></i></button>';
+                    if($_SESSION['id_usuario']==1){
+                    $data[$i]['acciones'] .='<button class="btn btn-danger" type="button" onclick="btnEliminarUser(' . $data[$i]['id'] . ');">D<i class="fa fa-trash-o"></i></button>';
+                    }
+                    $data[$i]['acciones'] .='<div/>';
+                    
                 }else{
                     $data[$i]['estado'] = '<span class="badge badge-success">Activo</span>';
                     $data[$i]['acciones'] = '<div class"text-center">
@@ -80,7 +83,7 @@ class Usuarios extends Controller{
                 $_SESSION['id_usuario'] = $data['id'];
                 $_SESSION['usuario'] = $data['usuario'];
                 $_SESSION['nombre'] = $data['nombre'];
-               // $_SESSION['estadoC'] = $data['estadoC'];
+                $_SESSION['estadoC'] = $data['estadoC'];
                 $_SESSION['activo'] = true;
                 $msg = array('msg' => 'Bienvenido a ZGROUP!', 'icono' => 'success');
             }else{
@@ -108,7 +111,11 @@ class Usuarios extends Controller{
                     if ($clave != $confirmar) {
                         $msg = array('msg' => 'La contraseña es requerido', 'icono' => 'warning');
                     } else {
-                        $data = $this->model->registrarUsuario($usuario, $nombre, $hash, $userCrea);
+                        if($_SESSION['id_usuario']==1){
+                            $data = $this->model->registrarUsuario($usuario, $nombre, $hash, $userCrea);
+                        }else{
+                            $data = $this->model->registrarUsuario($usuario, $nombre, $hash, $userCrea,2);
+                        }
                         if ($data == "ok") {
                             $msg = array('msg' => 'Usuario registrado', 'icono' => 'success');
                         } else if ($data == "existe") {

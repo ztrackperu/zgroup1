@@ -31,8 +31,8 @@ class UsuariosModel extends Query{
         $data = $this->select($sql);
         return $data;
     }*/
-    
-    public function registrarUsuario($usuario, $nombre, $clave, $userCrea)
+
+    public function registrarUsuario($usuario, $nombre, $clave, $userCrea,$estadoC=1)
     {
         $this->usuario = $usuario;
         $this->nombre = $nombre;
@@ -42,8 +42,8 @@ class UsuariosModel extends Query{
         $existe = $this->select($vericar);
         if (empty($existe)) {
             # code...
-            $sql = "INSERT INTO usuarios(usuario, nombre, clave, userCrea) VALUES (?,?,?,?)";
-            $datos = array($this->usuario, $this->nombre, $this->clave, $this->userCrea);
+            $sql = "INSERT INTO usuarios(usuario, nombre, clave, userCrea,estadoC) VALUES (?,?,?,?,?)";
+            $datos = array($this->usuario, $this->nombre, $this->clave, $this->userCrea,$estadoC);
             $data = $this->save($sql, $datos);
             if ($data == 1) {
                 $res = "ok";
