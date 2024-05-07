@@ -932,7 +932,6 @@ function procesarOT(){
                 http.onreadystatechange = function() {
                     if(http.readyState == 4 && http.status == 200) { 
 
-                        
                         const res = JSON.parse(this.responseText);
                         console.log(res);
                         /*
@@ -946,23 +945,13 @@ function procesarOT(){
                         htmlextra.innerHTML = res.data ;
                         jsonOTListo =ObjetoGeneral;
                         $("#vistapreviaOT").modal("show");
-
                     }
                 }
-                
-                
-
             }
         }
-
-
         //refCotizacion
     }
-
-
-
 }
-
 
 function registrarOTVALIDA(e){
     e.preventDefault();
@@ -978,7 +967,6 @@ function registrarOTVALIDA(e){
                 const res = JSON.parse(this.responseText);
                 console.log(res); 
                 // = res.numSolicitud
-
                 $("#vistapreviaOT").modal("hide");
                 alertas("OT generada Exitosamente", "success");
                 setTimeout(function(){

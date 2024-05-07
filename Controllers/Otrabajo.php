@@ -369,8 +369,7 @@ class Otrabajo extends Controller
             '<th scope="col">Monto Unitario</th>' .
             '<th scope="col">Cantidad </th>' .
             '<th scope="col">IGV</th>' .
-            '<th scope="col">Subtotal</th>' .
-        
+            '<th scope="col">Subtotal</th>' .    
           '</tr>' .
         '</thead>' .
         '<tbody>' ;
@@ -387,16 +386,13 @@ class Otrabajo extends Controller
               '<td>'. $det->Monto.'</td>' .
               '<td>'. $det->Cantidad .'</td>' .
               '<td>'. $det->Igv.'</td>' .
-              '<td>'. $det->Subtotal.'</td>' .
-           
+              '<td>'. $det->Subtotal.'</td>' .     
             '</tr>' ;
-
         }
         $str .=
         '</tbody>' .
       '</table>';
       //añadir los insumos establecidos
-
       $str.='<h2 class="text-center">Insumos/Herramientas Considerados :</h2>' .'<table class="table table-bordered  m-3 p-3 t-3">' .
       '<thead class="thead-dark">' .
         '<tr>' .
@@ -427,15 +423,12 @@ class Otrabajo extends Controller
       $str .=
       '</tbody>' .
     '</table>';
-
-
         $res =array(
             "data"=>$str
         );
         //$resultado = $resultado1->data;
         //echo json_encode($resultado1, JSON_UNESCAPED_UNICODE);   
-        echo json_encode($res, JSON_UNESCAPED_UNICODE);        
-     
+        echo json_encode($res, JSON_UNESCAPED_UNICODE);           
         die();
 
     }
@@ -461,15 +454,12 @@ class Otrabajo extends Controller
         }else{
             $numOT = $ultimaOT+1;
         }
-
         $data1 = $this->model->UltimaSolicitud();
         $resultado1 = json_decode($data1);
         //asi obtengo la ultima ot creada
         $UltimaSolicitud = $resultado1[0]->numSolicitud;
-        $numSolicitud = $UltimaSolicitud+1;
-        
+        $numSolicitud = $UltimaSolicitud+1;     
         //crear objeto a agregar en solicitud
-
         $objetoSolicitud =[
             "c_numot" =>$numOT,
             "numSolicitud"=>$numSolicitud,
@@ -561,13 +551,9 @@ class Otrabajo extends Controller
                 */
                 $data2 ="ok";
             }
-        }
-        
-        echo json_encode($numOT, JSON_UNESCAPED_UNICODE);   
-        
-        
+        } 
+        echo json_encode($numOT, JSON_UNESCAPED_UNICODE);    
         die();
-
     }
     //Solicitud
     public function Solicitud($param){
