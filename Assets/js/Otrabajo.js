@@ -760,6 +760,7 @@ function agregarDetalleTrabajo(){
 }
 
 function procesarOT(){
+    $("#btnAccionOTVALIDA").prop('enabled', true);
     console.log("aqui empiezo a validar datos ");
     //contra la tabla de insumos y la tabla de trabajo
     contInsumos = tablaInsumosOT.rows().count();
@@ -955,6 +956,10 @@ function procesarOT(){
 
 function registrarOTVALIDA(e){
     e.preventDefault();
+    //BLOQUEAR BOTON DE AGREGAR OT
+    //#btnAccionOTVALIDA
+    //$("#btnAccionOTVALIDA").prop('disabled', true);
+    $("#vistapreviaOT").modal("hide");
    //consultar a la tabla 
    if(jsonOTListo!=""){
         const url = base_url + "Otrabajo/registrarOT";
@@ -967,7 +972,7 @@ function registrarOTVALIDA(e){
                 const res = JSON.parse(this.responseText);
                 console.log(res); 
                 // = res.numSolicitud
-                $("#vistapreviaOT").modal("hide");
+                //$("#vistapreviaOT").modal("hide");
                 alertas("OT generada Exitosamente", "success");
                 setTimeout(function(){
                     window.location = base_url + "Otrabajo/Procesado/"+res;       

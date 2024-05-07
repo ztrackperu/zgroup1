@@ -266,6 +266,17 @@ class OtrabajoModel extends Query
         curl_close($ch);   
         return $res;
     }
+    //http://161.132.206.104:8000/concepto_ot/MostrarOT/1001000046
+    public function MostrarOT($valor)
+    {
+        $ch = curl_init();
+        $url_a =urlapi."/concepto_ot/MostrarOT/".$valor;
+        curl_setopt($ch, CURLOPT_URL, $url_a);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    }
     
     
 }

@@ -459,16 +459,10 @@ class Otrabajo extends Controller
         //asi obtengo la ultima ot creada
         $UltimaSolicitud = $resultado1[0]->numSolicitud;
         $numSolicitud = $UltimaSolicitud+1;     
-        //crear objeto a agregar en solicitud
-        $objetoSolicitud =[
-            "c_numot" =>$numOT,
-            "numSolicitud"=>$numSolicitud,
-            "estadoS"=>1,
-            "fechaS"=>date("Y-m-d H:i:s"),
-            "solicitud"=>$solicitud,
-        ];
         // aqui ya tengo el detelale de la ot capturada  en $detalleOTPlus
         $detalleOTPlus =[];
+        $prov ="";
+        $rucp ="";
         $c_treal ="";
         $c_asunto ="";
         $c_ejecuta="";
@@ -496,6 +490,8 @@ class Otrabajo extends Controller
                 $c_treal =before_last('-',$parTrabajo);
                 $c_asunto = after_last('-',$parTrabajo);
                 $c_ejecuta = $valor->Tecnico;
+                $prov =$valor->Proveedor;
+                $rucp =$valor->Ruc;
 
             }
             array_push($detalleOTPlus,$objetoDetOT);
@@ -533,6 +529,18 @@ class Otrabajo extends Controller
             "DetalleOT"=>$detalleOTPlus
         
         ];
+        //crear objeto a agregar en solicitud
+        $objetoSolicitud =[
+            "c_numot" =>$numOT,
+            "numSolicitud"=>$numSolicitud,
+            "estadoS"=>1,
+            "fechaS"=>date("Y-m-d H:i:s"),
+            "Trabajo"=>$c_treal ,
+            "TecnicoEncargado"=>$c_ejecuta,
+            "Proveedor"=>$prov,
+            "RUC"=>$rucp, 
+            "solicitud"=>$solicitud,
+        ];
         //enviamos a guardar la ot con solicitud
         $data3 = $this->model->GuardarOTGENERAL($objetoOT);
         $resultado10 = json_decode($data3);
@@ -543,13 +551,9 @@ class Otrabajo extends Controller
             $resultado11 = json_decode($data2);
             $resultadoS = $resultado11->data;
             if($resultadoS=="se guardo"){
-                /*
-                $format = array(
-                    "ot"=>$objetoOT,
-                    "solicitud"=>$objetoSolicitud
-                );
-                */
                 $data2 ="ok";
+                //enviar correo        
+                $resCorreo = CorreoOTConInsumos($objetoSolicitud,"","","");
             }
         } 
         echo json_encode($numOT, JSON_UNESCAPED_UNICODE);    
@@ -576,11 +580,17 @@ class Otrabajo extends Controller
         if($param!=""){
             $pros = explode("/",$param);
             $numS=$pros[0];
+            //PEDIR DETALLE DE OT Y SOLCITUD 
+            $data = $this->model->MostrarOT($numS);
+            $data=json_decode($data);
+            $resultado = $data->data;
+
+
             //buscar OT
             //$data = $this->model->BuscarSolicitud($numS);
             //$data=json_decode($data);
             //$resultado = $data->data;
-            $this->views->getView($this, "procesado",$numS);
+            $this->views->getView($this, "procesado",$resultado[0]);
 
         }
 

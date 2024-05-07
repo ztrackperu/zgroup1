@@ -1,16 +1,21 @@
 <?php include "Views/templates/navbar.php";  ?>
-<?php echo $data;?>
+<?php //var_dump($data);
+//echo $data->numOT;
+?>
 
-<?php $resultado1=json_decode($data['ot']);?>
+<?php $resultado=json_encode($data);
+//echo $resultado;
+$resultado1=json_decode($resultado);
+//$resultado1=json_decode($data);
+?>
 
 <?php 
 //$resultado2=json_decode($resultado1);
-echo $resultado1->numOT;
+//echo $resultado1->c_numot;
 ?>
-<?php $solicitud=json_encode($data['solicitud']) ;?>
 <?php
 
-$str = '<h1 class="text-center"> Nro OT - '. $resultado1->numOT.' | Ref. Cotizacion '. $resultado1->c_refcot.'</h1>' .'<div class="container-fluid" style="border: 1px solid #cecece;">'. '<br/><div class="mb-3 row">' .
+$str = '<br/><div class="container"><h1 class="text-center"> Nro OT - '. $resultado1->c_numot.' | Ref. Cotizacion '. $resultado1->c_refcot.'</h1>' .'<div class="container-fluid" style="border: 1px solid #cecece;">'. '<br/><div class="mb-3 row">' .
         '<label for="" class="col-sm-2 col-form-label">Nro de Guia/OC</label>' .
         '<div class="col-sm-4">' .$resultado1->nro_guia.'</div>' .
         '<label for="" class="col-sm-2 col-form-label">Nro de Reporte</label>' .
@@ -40,8 +45,8 @@ $str = '<h1 class="text-center"> Nro OT - '. $resultado1->numOT.' | Ref. Cotizac
         '<label for="" class="col-sm-2 col-form-label">Descripcion Equipo</label>' .
         '<div class="col-sm-4">'.$resultado1->c_desequipo.'</div>' .
         '</div>'.
-        '</div></br>'. '<h2 class="text-center">Detalle de OT :</h2>' .'<table class="table table-bordered table-responsive m-3 p-3">' .
-        '<thead cl  a   s   s   =                                                                                                                   "thead-dark">' .
+        '</div></br>'. '<h2 class="text-center">Detalle de OT :</h2>' .'<table class="table table-bordered  m-3 p-3 t-3">' .
+        '<thead class="thead-dark">' .
           '<tr>'.
             '<th scope="col">#</th>'.
             '<th scope="col">N° Orden de Trabajo</th>'.
@@ -57,8 +62,8 @@ $str = '<h1 class="text-center"> Nro OT - '. $resultado1->numOT.' | Ref. Cotizac
           '</tr>' .
         '</thead>' .
         '<tbody>' ;
-        $detalleOT = $resultado1->detalleOT;
-        foreach($detalleOT as $det){
+        $DetalleOT = $resultado1->DetalleOT;
+        foreach($DetalleOT as $det){
             $str .=
             '<tr>' .
               '<td>'.$det->n_id.'</td>'.
@@ -89,7 +94,7 @@ $str = '<h1 class="text-center"> Nro OT - '. $resultado1->numOT.' | Ref. Cotizac
         '</tr>' .
       '</thead>' .
       '<tbody>' ;
-      $solicitud= $solicitud->solicitud;
+      $solicitud= $resultado1->solicitudes[0]->solicitud;
     if(count($solicitud)!=0){   
         foreach($solicitud as $det){
             $str .=
@@ -106,8 +111,8 @@ $str = '<h1 class="text-center"> Nro OT - '. $resultado1->numOT.' | Ref. Cotizac
     }
       $str .=
       '</tbody>' .
-    '</table>';
-
+    '</table></div>';
+echo $str ;
 ?>
 
 <?php include "Views/templates/footer.php"; ?>
