@@ -541,6 +541,20 @@ class Otrabajo extends Controller
             "RUC"=>$rucp, 
             "solicitud"=>$solicitud,
         ];
+        $dataN = $this->model->UltimaNotificacion();
+        $resultadoN = json_decode($dataN);
+        $resultadoN1 = $resultadoN->data;
+
+        $objetoNotificacion =[
+            "numNotificacion" =>$resultadoN1->numNotificacion+1,
+            "asunto"=>"ENTREGA",
+            "numOT"=>$numOT,
+            "numSolicitud"=>$numSolicitud,
+            "fechaN"=>date("Y-m-d H:i:s"),
+            "trabajo"=>$c_treal,
+            "perfil"=>1,
+        ];
+        $data4 = $this->model->GuardarNotificacion($objetoNotificacion);
         //enviamos a guardar la ot con solicitud
         $data3 = $this->model->GuardarOTGENERAL($objetoOT);
         $resultado10 = json_decode($data3);
@@ -595,68 +609,25 @@ class Otrabajo extends Controller
         }
 
     }
+
+    public function ListaSolicitudes(){
+        $data1 = $this->model->ListarSolicitudesPendientes();
+        $data=json_decode($data1);
+        $num ="";
+        foreach($data as $det){
+            //$num.=$det->numSolicitud.",";
+            $resultado = isset($det->estadoS) ? $det->estadoS : '';
+            //$num.=$det->estadoS.",";
+            $num.=$resultado.",";
+
+        }
+        //echo $num ;
+        echo $num ;
+
+
+    }
     
    
 
 
 }
-
-/*
-
-
-{
-    "_id": {
-      "$oid": "662ab344999f7adfc92b90f4"
-    },
-    "Id": 28388,
-    "c_numot": 1000028288,
-    "c_desequipo": "CAJA ISOTERMICA 40 RH SEGUNDO USO",
-    "unidad": "ZGRU874730-8",
-    "d_fecdcto": "09/03/2024",
-    "c_codmon": 0,
-    "c_treal": "INSTALACIONES OTROS",
-    "c_asunto": "INSTALACION DE LUMINARIAS, CIRCULINA Y CORTINAS CAJA ISOTERMICA 40 RH SEGUNDO USO  ZGRU874730-8",
-    "c_supervisa": "MATUMAY GOMEZ MARIO ALBERTO BARUT",
-    "c_solicita": "MATUMAY GOMEZ MARIO ALBERTO BARUT",
-    "c_lugartab": "ALMACEN ZGROUP",
-    "c_ejecuta": "NIMA GONZA DARWIN ALEXANDER",
-    "d_fecentrega": "09/03/2024",
-    "c_usrcrea": "ACHIPANA",
-    "d_fcrea": "09/03/2024",
-    "c_estado": 1,
-    "c_refcot": {
-      "$numberLong": "10020240771"
-    },
-    "n_swtapr": 0,
-    "c_nroreporte": 28679,
-    "c_serieequipo": "S/N",
-    "add1": 0,
-    "add2": 0,
-    "h_inicio": "11:52:14",
-    "programado": 0,
-    "ejecutado": 0,
-    "nro_guia": "S/N",
-    "nro_ticket": "S/N",
-    "DetalleOt": [
-      {
-        "Id": 50172,
-        "c_numot": 1000028288,
-        "n_id": 1,
-        "c_rucprov": {
-          "$numberLong": "20521180774"
-        },
-        "c_nomprov": "ZGROUP S.A.C.",
-        "concepto": "INSTALACIONES OTROS INSTALACION DE LUMINARIAS, CIRCULINA Y CORTINAS CAJA ISOTERMICA 40 RH SEGUNDO USO  ZGRU874730-8",
-        "tdoc": "FACTURA",
-        "monto": 1,
-        "n_cant": 1,
-        "n_igvd": "0,17",
-        "n_totd": "1,18",
-        "montop": 1,
-        "c_tecnico": "NIMA GONZA DARWIN ALEXANDER"
-      }
-    ],
-    "Notas": []
-  }
-
-  */

@@ -277,6 +277,45 @@ class OtrabajoModel extends Query
         curl_close($ch);   
         return $res;
     }
+//http://161.132.206.104:8000/concepto_ot/ListarSolicitudesPendientes/
+    public function ListarSolicitudesPendientes()
+    {
+        //consulta externa 
+        $ch = curl_init(); 
+        curl_setopt($ch, CURLOPT_URL, urlapi."/concepto_ot/ListarSolicitudesPendientes/");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    }
+    #UltimaNotificacion
+    public function UltimaNotificacion()
+    {
+        //consulta externa 
+        $ch = curl_init(); 
+        curl_setopt($ch, CURLOPT_URL, urlapi."/notificaciones/maximo/");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    }
+    //GuardarNotificacion
+    public function GuardarNotificacion($data)
+    {
+        //consulta externa 
+        $ch = curl_init();
+        $data =json_encode($data);
+        curl_setopt($ch, CURLOPT_URL, urlapi."/notificaciones/");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    }  
+
     
+
+
     
 }

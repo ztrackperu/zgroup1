@@ -100,5 +100,23 @@ class AdminPage extends Controller
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();
     }
+    //ListaNotificaciones
+    public function ListaNotificaciones()
+    {
+        $data = $this->model->ListaNotificaciones();
+        $resultado = json_decode($data);
+        $resultado1 = $resultado->data;
+        $par="";
+        foreach($resultado1 as $det){
+            //$par.=$det->numOT.",";
+            $par .= '<div class="alert alert-success alert-dismissible fade show">
+            <strong>'.$det->asunto.'</strong> Solicitud: '.$det->numSolicitud.' /  OT: '.$det->numOT.' / Trabajo: '.$det->trabajo.' / Inicio: '.$det->fechaN.'
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>' ; 
+        }
+        //echo json_encode($resultado1);
+        echo $par;
+
+    }
 
 }

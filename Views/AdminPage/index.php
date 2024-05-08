@@ -20,7 +20,8 @@
             </div>
 
 
-           <!-- Success Alert -->        
+           <!-- Success Alert -->
+           <div id="noti"></div>        
            <div class="alert alert-success alert-dismissible fade show">
                 <strong>Success!</strong> Your message has been sent successfully.
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
