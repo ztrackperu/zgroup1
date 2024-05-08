@@ -27,6 +27,72 @@
 <div class="p-3" id="tarjeta">
     
 </div>
+<!-- MODAL PARA ATENDER TAREA -->
+<div id="atenderTarea" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title text-white" id="title">ATENDER TAREA</h5>
+                <button class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" id="frmAtender">
+                <div class="mb-3 row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="ot">N° OT</label>
+                            <input type="text" class="form-control" id="ot" name="ot" value="" readonly>
+                        </div>
+                    </div>
+                    <div class="col-sm-6"> 
+                        <div class="form-group">
+                            <label for="numSolicitud">Solicitud</label>
+                            <input type="text" class="form-control" id="numSolicitud" name="numSolicitud" value="" readonly>
+                        </div> 
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="fechaS">Fecha Solicitud</label>
+                            <input type="text" class="form-control" id="fechaS" name="fechaS" value="" readonly>
+                        </div> 
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="Trabajo">Trabajo</label>
+                            <input type="text" class="form-control" id="Trabajo" name="Trabajo" value="" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="TecnicoEncargado">Tecnico Encargado</label>
+                            <input type="text" class="form-control" id="TecnicoEncargado" name="TecnicoEncargado" value="" readonly>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="Proveedor">Proveedor</label>
+                            <input type="text" class="form-control" id="Proveedor" name="Proveedor" value="" readonly>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="RUC">RUC</label>
+                            <input type="text" class="form-control" id="RUC" name="RUC" value="" reaodnly>
+                        </div>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- FINAL MODAL PARA ATENDER TAREA-->
 
 <!-- MODAL PARA ASIGNACION DE TAREAS-->
 <div id="asignacionTarea" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title"

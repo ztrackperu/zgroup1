@@ -34,30 +34,29 @@ class Almacen extends Controller
     }
     public function dataTareas(){
         $data = $this->model->listarTareas();
-        echo json_encode($data);
+        echo $data;
+        die();
     }
     public function listarTareas(){
         date_default_timezone_set('America/Lima');
         $dataJson = $this->model->listarTareas();
-        $data = json_decode($dataJson); 
-        //$data1 = json_decode($dataJson);
-        //$datas = $data1->c_numot;
+        $data = json_decode($dataJson);
         $cards = '';
+        /*
+        foreach($data as $detalle){
+            $solicitud .= $detalle->numSolicitud;
+        }
+        */
         if($_SESSION['estadoC']==1){
-            //$x = "";
-            //foreach($dataJson as $dat){
-            //    $x .= $dat->c_numot;
-           // }
-
-
-
-            for ($i=0; $i < count($data); $i++) {  
+            foreach ($data as $i => $detalle) {  
                 $fechaActual = date('Y-m-d H:i:s'); 
-
-                $fechaTarea = strtotime($data[3]['fechaS']);
+                $fecha = isset($detalle->fechaS) ? $detalle->fechaS : '0000-00-00 00:00:00';
+                $cnumot = isset($detalle->c_numot) ? $detalle->c_numot : '000000';
+                $trabajo = isset($detalle->Trabajo) ? $detalle->Trabajo : 'generico';
+        
+                $fechaTarea = strtotime($fecha);
                 $diferencia = strtotime($fechaActual) -$fechaTarea;
                 $diferenciaEnMinutos = $diferencia / 60;
-                
                 $alertClass = '';
                 if($diferenciaEnMinutos >= 0 && $diferenciaEnMinutos <= 10) {
                     $alertClass = 'alert-success';
@@ -66,31 +65,30 @@ class Almacen extends Controller
                 } else if($diferenciaEnMinutos > 30) {
                     $alertClass = 'alert-danger';
                 }
-    
+        
                 $cards .= '<div class="card mb-3 activo">
                     <div class="card-header '.$alertClass.'">
                         Tarea
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">OT: '.$data[0]['c_numot'].'</h5>
-                        <p class="card-text">SOLICITUD: '.$data[1]['numSolicitud'].'</p>
-                        <p class="card-text">TRABAJO:</p>
-                        <p class="card-text">FECHA: '.$data[3]['fechaS'].'</p>
+                        <h5 class="card-title">OT: '.$cnumot.'</h5>
+                        <p class="card-text">SOLICITUD: '.$detalle->numSolicitud.'</p>
+                        <p class="card-text">TRABAJO: '.$trabajo.'</p>
+                        <p class="card-text">FECHA: '.$fecha.'</p>
                         <button class="btn btn-primary mb-2" type="button" onclick="atenderTarea()">ATENDER</button>
-                        <button class="btn btn-primary mb-2" type="button" onclick="asignacionTarea('.$data[$i]['numSolicitud'].')">ASIGNAR</button>
+                        <button class="btn btn-primary mb-2" type="button" onclick="asignacionTarea('.$detalle->numSolicitud.')">ASIGNAR</button>
                     </div>
                 </div>';
-                $datos = $data[3]['fechaS'];
             }   
-            
         }
-        echo cards;
+        echo $cards;
         die();
     }
     public function asignarTarea(){
         // Recuperar el ID del usuario desde la solicitud POST
         $usuarioD = $_POST['usuarioD'];
         $idSolicitud = $_POST['idSolicitud'];
+        /*
         // Obtener las tareas
         $tareas = $this->model->listarTareas();
         //array_push($tareas, "idSolicitud", $idSolicitud, "asignado_a", $usuarioD);
@@ -102,6 +100,10 @@ class Almacen extends Controller
             }
         }
         $_SESSION['tareas'] = $tareas;
+        
         return $tareas;
+        */
+        echo $usuarioD;
+        echo $idSolicitud;
     }
 }

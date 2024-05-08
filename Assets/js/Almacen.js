@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 });
 //ABRE MODAL
-function asignacionTarea(idSolicitud) {
+function asignacionTarea(numSolicitud) {
     const http = new XMLHttpRequest();
     const url = base_url+'Almacen/dataTareas';
     http.open("GET", url);
@@ -19,17 +19,10 @@ function asignacionTarea(idSolicitud) {
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             const data = JSON.parse(this.responseText);
-            console.log(data);
-            // Busca la tarea con el idSolicitud correspondiente en el array de tareas
-            var tarea = data.find(function(tarea) {
-                return tarea.idSolicitud == idSolicitud;
-            });
-
-            // Si se encontró la tarea, asigna el idSolicitud al campo en el modal
-            if (tarea) {
-                document.getElementById('solicitud').value = tarea.idSolicitud;
-                $('#asignacionTarea').modal('show');
-            }
+            //console.log(data);
+            $('#asignacionTarea').modal('show');
+            let input = document.getElementById('solicitud');
+            input.value = numSolicitud;
         }
     }
 }
@@ -60,4 +53,17 @@ function asignarTarea(event) {
 
 function atenderTarea() {
     console.log('Atendiendo tarea...');
+    const http = new XMLHttpRequest();
+    const url = base_url+'Almacen/dataTareas';
+    http.open("GET", url);
+    http.send();
+    http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            const data = JSON.parse(this.responseText);
+            console.log(data);  // Imprime el objeto data en la consola
+            $('#atenderTarea').modal('show');
+            let input = document.getElementById('numSolicitud');
+            input.value = numSolicitud;
+        }
+    }
 }

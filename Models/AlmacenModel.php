@@ -16,6 +16,8 @@ class AlmacenModel extends Query
         }
         return $tiene;
     }
+
+    
     public function listarTareas()
     {
         //conexion a la API
