@@ -82,4 +82,15 @@ class AdminPageModel extends Query{
         return $res;
     }
 
+    public function ListaNotificacionesMaximo()
+    {
+        //conexion a la API
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, urlapi."/notificaciones/maximo/");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);   
+        return $res;
+    }
+
 }

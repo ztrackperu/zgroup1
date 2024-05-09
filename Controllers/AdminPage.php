@@ -109,26 +109,29 @@ class AdminPage extends Controller
         date_default_timezone_set('America/Lima');
         $fechaActual = date('Y-m-d H:i:s');
         // "perfil": 0, 1, 2, 3 y 4 | campo del json que devuelve la consulta
-        $par="";
+        //Array para almacenar los objetos que se creen
+        $par=[];
+        $html = '';
+        $maximo = $this->ListaNotificacionesMaximo();
         foreach($resultado1 as $det){
             $fecha = isset($det->fechaN) ? $det->fechaN : '0000-00-00 00:00:00'; 
             $fechaTarea = strtotime($fecha);
             $diferencia = strtotime($fechaActual) -$fechaTarea;
             $diferenciaEnMinutos = $diferencia / 60;
             $alertClass = '';
-            $id = '';
+            $class = '';
             if ($det->perfil == 0) {
-                $id = 'admin';
+                $class = 'admin';
             } else if ($det->perfil == 1) {
-                $id = 'almacen';
+                $class = 'almacen';
             } else if ($det->perfil == 2) {
-                $id = 'produccion';
+                $class = 'produccion';
             } else if ($det->perfil == 3) {
-                $id = 'compras';
+                $class = 'compras';
             } else if ($det->perfil == 4) {
-                $id = 'otros';
+                $class = 'otros';
             } else {
-                $id = '';
+                $class = '';
             }
             
             if($diferenciaEnMinutos >= 0 && $diferenciaEnMinutos <= 10) {
@@ -139,12 +142,32 @@ class AdminPage extends Controller
                 $alertClass = 'alert-danger';
             }
             //$par.=$det->numOT.",";
-            $par .= '<div id="'.$id.'" class="alert '.$alertClass.' alert-dismissible fade show">
+            $html .= '<div class="'.$class.' alert '.$alertClass.' alert-dismissible fade show">
             <strong>'.$det->asunto.'</strong> Solicitud: '.$det->numSolicitud.' /  OT: '.$det->numOT.' / Trabajo: '.$det->trabajo.' / Inicio: '.$det->fechaN.'
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>' ; 
+            //Se crea un objeto para almacenar el html y el maximo de notificaciones
+            $obj = new stdClass();
+            $obj->html = $html;
+            $obj->maximo = $maximo;
+            //Se añade el objeto al array
+            $par[] = $obj;
         }
-        //echo json_encode($resultado1);
-        echo $par;
+        $objeto = array('html' => $html,
+                        'maximo' => $maximo                
+        );
+
+        echo json_encode($objeto);
+        //echo $par;
+    }
+
+    //Maximo Lista Notificaciones
+    public function ListaNotificacionesMaximo(){
+        $data = $this->model->ListaNotificacionesMaximo();
+        $resultado = json_decode($data);
+        $resultado1 = $resultado->data;
+        foreach($resultado1 as $maximo){
+            return intval($maximo);
+        }
     }
 }
