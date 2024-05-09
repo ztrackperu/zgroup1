@@ -106,17 +106,45 @@ class AdminPage extends Controller
         $data = $this->model->ListaNotificaciones();
         $resultado = json_decode($data);
         $resultado1 = $resultado->data;
+        date_default_timezone_set('America/Lima');
+        $fechaActual = date('Y-m-d H:i:s');
+        // "perfil": 0, 1, 2, 3 y 4 | campo del json que devuelve la consulta
         $par="";
         foreach($resultado1 as $det){
+            $fecha = isset($det->fechaN) ? $det->fechaN : '0000-00-00 00:00:00'; 
+            $fechaTarea = strtotime($fecha);
+            $diferencia = strtotime($fechaActual) -$fechaTarea;
+            $diferenciaEnMinutos = $diferencia / 60;
+            $alertClass = '';
+            $id = '';
+            if ($det->perfil == 0) {
+                $id = 'admin';
+            } else if ($det->perfil == 1) {
+                $id = 'almacen';
+            } else if ($det->perfil == 2) {
+                $id = 'produccion';
+            } else if ($det->perfil == 3) {
+                $id = 'compras';
+            } else if ($det->perfil == 4) {
+                $id = 'otros';
+            } else {
+                $id = '';
+            }
+            
+            if($diferenciaEnMinutos >= 0 && $diferenciaEnMinutos <= 10) {
+                $alertClass = 'alert-success';
+            } else if($diferenciaEnMinutos > 10 && $diferenciaEnMinutos <= 30) {
+                $alertClass = 'alert-warning';
+            } else if($diferenciaEnMinutos > 30) {
+                $alertClass = 'alert-danger';
+            }
             //$par.=$det->numOT.",";
-            $par .= '<div class="alert alert-success alert-dismissible fade show">
+            $par .= '<div id="'.$id.'" class="alert '.$alertClass.' alert-dismissible fade show">
             <strong>'.$det->asunto.'</strong> Solicitud: '.$det->numSolicitud.' /  OT: '.$det->numOT.' / Trabajo: '.$det->trabajo.' / Inicio: '.$det->fechaN.'
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>' ; 
         }
         //echo json_encode($resultado1);
         echo $par;
-
     }
-
 }

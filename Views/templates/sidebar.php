@@ -7,10 +7,31 @@
                 </a>
                 <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                     <li class="nav-item">
-                        <a href="#" class="nav-link align-middle px-0">
+                        <a href="#" class="nav-link align-middle px-0" onclick="todos()">
                             <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Todos</span>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link align-middle px-0" onclick="almacen()">
+                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Almacen</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link align-middle px-0" onclick="produccion()">
+                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Produccion</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link align-middle px-0" onclick="compras()">
+                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Compras</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link align-middle px-0" onclick="otros()">
+                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Otros</span>
+                        </a>
+                    </li>
+                    <!--
                     <li>
                         <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
                             <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">Almacén</span> </a>
@@ -26,6 +47,7 @@
                             </li>
                         </ul>
                     </li>
+                    -->
                 </ul>
                 <hr>
             </div>

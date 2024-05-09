@@ -9,7 +9,6 @@ function alertas(msg, icono) {
 }
 //noti
 noti = document.getElementById("noti");
-
 document.addEventListener("DOMContentLoaded", function(){
     $(document).ready(function () {
         //registrarRespuesta();
@@ -19,18 +18,10 @@ document.addEventListener("DOMContentLoaded", function(){
         http.onreadystatechange = function () {
             if (this.readyState == 4) {
                 if (this.status == 200) {
-                    //const datos = JSON.parse(this.responseText);
-                    //console.log(datos);
+                    //const res = JSON.parse(this.responseText);
+                    //console.log(res);
                     const datos = this.responseText;
                     noti.innerHTML = datos;
-                    /*
-                    if(datos === true){
-                        $('#emailModal').modal('show'); // Muestra el modal
-                    }else{
-                        $('#emailModal').modal('hide'); // Oculta el modal
-                    }
-                    console.log(datos);
-                    */
                 } else {
                     console.error("Error al obtener datos:", this.status);
                 }
@@ -41,9 +32,50 @@ document.addEventListener("DOMContentLoaded", function(){
         };
         http.send();
     });
-
 })
 
+function todos(){
+    document.querySelectorAll('.alert').forEach(elemento => {
+        elemento.style.display = '';
+    });
+}
+
+function almacen(){
+    // Oculta todos los elementos
+    document.querySelectorAll('.alert').forEach(elemento => {
+        elemento.style.display = 'none';
+    });
+    // Muestra solo los elementos con id='almacen'
+    document.querySelectorAll('#almacen').forEach(elemento => {
+        elemento.style.display = '';
+    });
+}
+
+function produccion(){
+    document.querySelectorAll('.alert').forEach(elemento => {
+        elemento.style.display = 'none';
+    });
+    document.querySelectorAll('#produccion').forEach(elemento => {
+        elemento.style.display = '';
+    });
+}
+function compras(){
+    document.querySelectorAll('.alert').forEach(elemento => {
+        elemento.style.display = 'none';
+    });
+    document.querySelectorAll('#compras').forEach(elemento => {
+        elemento.style.display = '';
+    });
+}
+
+function otros(){
+    document.querySelectorAll('.alert').forEach(elemento => {
+        elemento.style.display = 'none';
+    });
+    document.querySelectorAll('#otros').forEach(elemento => {
+        elemento.style.display = '';
+    });
+}
 $(document).ready(function () {
         //registrarRespuesta();
         const url = base_url + "AdminPage/validarCamposCorreoYClave";
